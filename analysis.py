@@ -6,10 +6,6 @@ import pickle as pkl
 import os
 import numpy as np
 import logging
-import matplotlib
-# avoid xWindows errors in plotting
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 
 #PROCESSEDPATH='processed/'
 DATAPATH='/data/users/sarthak/comcast-data/'
@@ -58,7 +54,7 @@ def dat2csv_by_deviceNum(datasetname):
     separate huge csv into multiple deviceNumber.csv
     also store peakBytesPerUser
     """
-    peakBytesPerUser = defaultdict(int)
+    peakBytesPerUser = {'up':defaultdict(int), 'dw':defaultdict(int)}
     folder = datasetname.split('.')[0]
     if not os.path.exists(PROCESSEDPATH + folder):
         os.makedirs(PROCESSEDPATH + folder)
@@ -77,9 +73,13 @@ def dat2csv_by_deviceNum(datasetname):
             # Device_number, end_time, cmts_inet, service_direction,
             # octets_passed
             writer.writerow( (row[0], row[1], row[4], row[5], row[7]) )
-            # get max of the file
-            peakBytesPerUser[deviceNum] = max(peakBytesPerUser[deviceNum],
-                                              int(row[7]))
+            # get max of the file upstream or downstream
+            if int(row[5])== 2:
+                peakBytesPerUser['up'][deviceNum] = max(peakBytesPerUser[deviceNum],
+                                                        int(row[7]))
+            else:
+                peakBytesPerUser['dw'][deviceNum] = max(peakBytesPerUser[deviceNum],
+                                                        int(row[7]))
             f.close()
             #print every 100,000th row in the dataset
             count += 1
@@ -159,23 +159,13 @@ def save_hists(folder):
         #if (int(filename.split('.')[0]) % 100 == 0): logger.debug("Counter " + str(log_counter) + ": " + filename)
         if (log_counter % DEBUG_LOG_COUNTER_DISPLAY == 0): logger.debug("Counter " + str(log_counter) + ": " + filename)
 
+    logger.info("Done updating CDF variables. Now save hists in pkl")
     # pickle hist series data
     pkl.dump(noZeroHist, open(OUTPUTPATH+folder+"/"+'noZeroCounter.pkl', 'w'))
     pkl.dump(peakHist, open(OUTPUTPATH+folder+"/"+'peakCounter.pkl', 'w'))
     logger.info("Done saving hists in pkl")
     return
 
-
-# CDF plotter
-def plotCDF(data, ax, c='blue'):
-    '''
-    data = list for which we need to plot cdf
-    ax = axis
-    '''
-    sorted_data=np.sort( data )
-    yvals=np.arange(len(sorted_data))/float(len(sorted_data))
-    ax.plot( sorted_data, yvals, color=c )
-    return
 
 if __name__ == "__main__":
 
@@ -192,36 +182,3 @@ if __name__ == "__main__":
 
         # save pkls nonzero and peak
         save_hists(folder)
-
-
-    # load pickles for plotting cdf
-    # Load Data
-    noZeroHist = pkl.load(open(OUTPUTPATH+DATASET+"/"+'noZeroCounter.pkl', 'r'))
-    peakHist = pkl.load(open(OUTPUTPATH+DATASET+"/"+'peakCounter.pkl', 'r'))
-    noZeroHist_control = pkl.load(open(OUTPUTPATH+CONTROLSET+"/"+'noZeroCounter.pkl', 'r'))
-    peakHist_control = pkl.load(open(OUTPUTPATH+CONTROLSET+"/"+'peakCounter.pkl', 'r'))
-
-    # plot double subplot CDFs for upstream and downstream
-    logger.info("Plotting...")
-
-    fig1, ax1 = plt.subplots(2, 1)
-
-    plotCDF(noZeroHist['up'], ax1[0])
-    plotCDF(noZeroHist_control['up'], ax1[0], 'g')
-
-    plotCDF(noZeroHist['dw'], ax1[1])
-    plotCDF(noZeroHist_control['dw'], ax1[1], 'g')
-
-    fig1.savefig(OUTPUTPATH + "noZeroCDF")
-    #fig1.show()
-
-    fig2, ax2 = plt.subplots(2, 1)
-
-    plotCDF(peakHist['up'], ax2[0])
-    plotCDF(peakHist_control['up'], ax2[0], 'g')
-
-    plotCDF(peakHist['dw'], ax2[1])
-    plotCDF(peakHist_control['dw'], ax2[1], 'g')
-
-    fig2.savefig(OUTPUTPATH + "peakCDF")
-    #fig2.show()
