@@ -179,8 +179,9 @@ def plotCDF(data, ax, c='blue'):
 
 if __name__ == "__main__":
 
-    for datasetname in ['test-data-set.dat', 'test-control-set.dat']:
-    #for datasetname in ['250-test.dat', 'control1.dat', 'control2.dat']:
+    #for datasetname in ['test-data-set.dat', 'test-control-set.dat']:
+    datasets = [x+'.dat' for x in [DATASET, CONTROLSET]]
+    for datasetname in datasets:
         folder = datasetname.split('.')[0]
         create_csv(datasetname)
 
