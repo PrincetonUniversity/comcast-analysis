@@ -22,8 +22,8 @@ head -300 control1.dat > test-control-set.dat
 tail -300 control1.dat >> test-control-set.dat
 '''
 
-DATASET='test-data-set' #'250-test'
-CONTROLSET='test-control-set'#'control1'
+DATASET='250-test'
+CONTROLSET='control1'
 
 keys = ['Device_number',
          'end_time',
@@ -44,8 +44,8 @@ header_row = ['Device_number',
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 logger = logging.getLogger()
 logger.setLevel('DEBUG')
-DEBUG_ROW_DISPLAY = 100 #100000      #display every 100,000th row in original data
-DEBUG_LOG_COUNTER_DISPLAY = 1 #100     #display every 100th device number
+DEBUG_ROW_DISPLAY = 100000      #display every 100,000th row in original data
+DEBUG_LOG_COUNTER_DISPLAY = 100     #display every 100th device number
 
 # DATA SPLITTING
 
