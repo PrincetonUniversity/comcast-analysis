@@ -84,7 +84,7 @@ def dat2csv_by_deviceNum(datasetname):
             #print every 100,000th row in the dataset
             count += 1
             if count % DEBUG_ROW_DISPLAY == 0:
-                logger.debug(row[0] + ' ' + row[1])
+                logger.debug(datasetname + ' ' + row[0] + ' ' + row[1])
         logger.info("Done converting to individual csv")
     return peakBytesPerUser
 
