@@ -26,8 +26,8 @@ head -300 control1.dat > test-control-set.dat
 tail -300 control1.dat >> test-control-set.dat
 '''
 
-DATASET='test-data-set'
-CONTROLSET='test-control-set'
+DATASET='250-test'
+CONTROLSET='control1'
 
 keys = ['Device_number',
          'end_time',
