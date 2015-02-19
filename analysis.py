@@ -48,8 +48,8 @@ header_row = ['Device_number',
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 logger = logging.getLogger()
 logger.setLevel('DEBUG')
-DEBUG_ROW_DISPLAY = 100#100000
-DEBUG_LOG_COUNTER_DISPLAY = 1#100
+DEBUG_ROW_DISPLAY = 100000      #display every 100,000th row in original data
+DEBUG_LOG_COUNTER_DISPLAY = 100     #display every 100th device number
 
 # DATA SPLITTING
 
