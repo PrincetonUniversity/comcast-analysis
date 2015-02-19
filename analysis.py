@@ -110,7 +110,7 @@ def update_cdf(filename, folder):
     deviceNum = int(filename.rstrip('.csv'))
     peakBytesPerUser['up'][deviceNum] = df_up['octets_passed'].max()
     peakBytesPerUser['dw'][deviceNum] = df_dw['octets_passed'].max()
-    logger.debug('peakByesPerUser["up"] = '+str(peakBytesPerUser['up']))
+    #logger.debug('peakByesPerUser["up"] = '+str(peakBytesPerUser['up']))
 
     # 1. Peak Per Day CDF
     # group by direction and date; find indices for peak octets_passed per day
