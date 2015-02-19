@@ -168,7 +168,7 @@ def save_hists(folder):
 
 if __name__ == "__main__":
 
-    CREATE_CSV = 1
+    CREATE_CSV = 0
     ANALYZE = 1
 
     #for datasetname in ['test-data-set.dat', 'test-control-set.dat']:
