@@ -4,7 +4,11 @@ from collections import OrderedDict, defaultdict, Counter
 from datetime import datetime
 import pickle as pkl
 import os
+import numpy as np
 import logging
+import matplotlib
+# avoid xWindows errors in plotting
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 #PROCESSEDPATH='processed/'
@@ -209,7 +213,7 @@ if __name__ == "__main__":
     plotCDF(noZeroHist_control['dw'], ax1[1], 'g')
 
     fig1.savefig(OUTPUTPATH + "noZeroCDF")
-    fig1.show()
+    #fig1.show()
 
     fig2, ax2 = plt.subplots(1, 2)
 
@@ -220,4 +224,4 @@ if __name__ == "__main__":
     plotCDF(peakHist_control['dw'], ax2[1], 'g')
 
     fig2.savefig(OUTPUTPATH + "peakCDF")
-    fig2.show()
+    #fig2.show()
