@@ -177,7 +177,6 @@ def plotCDF(data, ax, c='blue'):
     ax.plot( sorted_data, yvals, color=c )
     return
 
-# plot double subplot CDFs for upstream and downstream
 if __name__ == "__main__":
 
     for datasetname in ['test-data-set.dat', 'test-control-set.dat']:
@@ -201,10 +200,10 @@ if __name__ == "__main__":
     noZeroHist_control = pkl.load(open(OUTPUTPATH+CONTROLSET+"/"+'noZeroCounter.pkl', 'r'))
     peakHist_control = pkl.load(open(OUTPUTPATH+CONTROLSET+"/"+'peakCounter.pkl', 'r'))
 
-    # Plot data
+    # plot double subplot CDFs for upstream and downstream
     logger.info("Plotting...")
 
-    fig1, ax1 = plt.subplots(1, 2)
+    fig1, ax1 = plt.subplots(2, 1)
 
     plotCDF(noZeroHist['up'], ax1[0])
     plotCDF(noZeroHist_control['up'], ax1[0], 'g')
@@ -215,7 +214,7 @@ if __name__ == "__main__":
     fig1.savefig(OUTPUTPATH + "noZeroCDF")
     #fig1.show()
 
-    fig2, ax2 = plt.subplots(1, 2)
+    fig2, ax2 = plt.subplots(2, 1)
 
     plotCDF(peakHist['up'], ax2[0])
     plotCDF(peakHist_control['up'], ax2[0], 'g')
