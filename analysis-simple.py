@@ -21,6 +21,7 @@ DATALABEL = DATASET.split('.')[0]
 CONTROLLABEL = CONTROLSET.split('.')[0]
 NDEVICES = 1000
 LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
+LIST_OF_CONTROLLABELS.remove('control3')         #causes errors unslicable
 
 PROCESSEDPATH = 'processed/'
 OUTPUTPATH = 'output/'
@@ -184,59 +185,33 @@ def slice_df(df, num_devices, date_start, date_end):
     df3 = df2[ df2['Device_number'].isin(sliced_devices) ]
     return df3
 
-def slicer():
-    """
-    THIS IS NOT THE RIGHT WAY...
-    compose and pickle 4 sets of 1000 devices and same date range
-    TEST_up, TEST_dw, CONTROL_up, CONTROL_dw
-    see output/data_attributes.html for details
-    250-test -> 1000, daterange
-    control1 -> 1000, daterange
-    control2 -> 1000, daterange
-    control3 -> XXX
-    control4 -> 1000, ['2014-10-29 16:30:00' : enddate]
-    control5 -> 1000, daterange
-    control6 -> 1000, daterange
-    control7 -> 1000, daterange
-    control8 -> 1000, daterange
-    """
+def slicer(ControlSet, DATA_up, DATA_dw, ndev):
+    CONTROL_up, CONTROL_dw = load_dataframe(ControlSet)
+    # get date_start, date_end
+    date_start, date_stop = get_dates(CONTROL_up)
+    # slice
+    logger.debug(ControlSet + " ndev=" + str(ndev) + " control set unique: "\
+        + str(len( CONTROL_up['Device_number'].unique() )) + " data set unique: "\
+        + str(len( DATA_up['Device_number'].unique() )) )
 
-    NDEVICES = 1000
-    DSTART = '2014-09-30 00:00:00'
-    DEND = '2014-12-25 20:45:00'
+    CUP_sliced = slice_df(CONTROL_up, ndev, date_start, date_stop)
+    DUP_sliced = slice_df(DATA_up, ndev, date_start, date_stop)
+    #logger.debug("sliced UP sets ")
 
-    # TEST SET
-    dfname = '250-test'
-    direction = 'up'
-    df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
-    df_temp = slice_df(df, NDEVICES, DSTART, DEND)
-    df_temp['dataset'] = dfname
-    df_temp.to_pickle(PROCESSEDPATH + 'TEST_up.pkl')
+    # get date_start, date_end
+    date_start, date_stop = get_dates(CONTROL_dw)
+    # slice
+    logger.debug(ControlSet + " ndev=" + str(ndev) + " control set unique: "\
+        + str(len( CONTROL_dw['Device_number'].unique() )) + " data set unique: "\
+        + str(len( DATA_dw['Device_number'].unique() )) )
+    CDW_sliced = slice_df(CONTROL_dw, ndev, date_start, date_stop)
+    DDW_sliced = slice_df(DATA_dw, ndev, date_start, date_stop)
 
-    direction = 'dw'
-    df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
-    df_temp = slice_df(df, NDEVICES, DSTART, DEND)
-    df_temp['dataset'] = dfname
-    df_temp.to_pickle(PROCESSEDPATH + 'TEST_dw.pkl')
-
-    # CONTROL SET
-    CONTROL = []
-    direction = 'up'
-    for dfname in ['control1', 'control2', 'control5', 'control6', 'control7',
-                   'control8']:
-        df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
-        if dfname == 'control4':
-            df_temp = slice_df(df, NDEVICES, '2014-10-29 16:30:00', DEND)
-        else:
-            df_temp = slice_df(df, NDEVICES, DSTART, DEND)
-        df_temp['dataset'] = dfname
-        CONTROL.append(df_temp)
-    dfname = 'control4'
-    pd.concat(CONTROL).to_pickle(PROCESSEDPATH + 'TEST_up.pkl')
-
-    #TODO incomplete
-
-    return
+    # return name of outputfolder
+    outputlabel = ControlSet + '_' + date_start.replace(" ","_") \
+        + '_' + date_stop.replace(" ","_")
+    #logger.debug("sliced DW sets ")
+    return DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced, outputlabel
 
 
 ##############################################################################
@@ -247,9 +222,10 @@ class Plotter:
         self.test_dw = 0
         self.control_up = 0
         self.control_dw = 0
+
         self.DLABEL = dlabel
         self.CLABEL = clabel
-        self.DISPLAY_MEAN = 1
+        self.DISPLAY_MEAN = 0 # 1
         self.OUTPUTPATH = OUTPUTPATH
         self.XSCALE = XSCALE
         return
@@ -264,92 +240,96 @@ class Plotter:
         self.test_dw = test_dw
         self.control_up = control_up
         self.control_dw = control_dw
+        self.ALL_DF = {'test_up': self.test_up,
+                       'test_dw': self.test_dw,
+                       'control_up': self.control_up,
+                       'control_dw': self.control_dw}
+        self.grouped = defaultdict(int)
         return
 
-    def allBytes(self, df, method):
-        """
-        return df, xlabel, filename
-        """
-        dfr = df['octets_passed']
-        return dfr, "All Seen Bytes","CDF-AllBytes"
+    def allBytes(self, df):
+        return df
+
+    def nonZeroBytes(self, df):
+        return df[df['octets_passed'] > 0]
 
     def thresholdBytes(self, df, threshold=0):
         """
         return df, xlabel, filename
         """
-        dfr = df[df['octets_passed'] > threshold]['octets_passed']
+
+        dfr = df[df['octets_passed'] > threshold]
         return dfr, "Bytes > "+str(threshold),"CDF-ThresholdBytes-"+str(threshold)
 
-    def getBytesPerDevice(self, df, method='Peak'):
+    def getStringsFromGroupBy(self, GROUPBY):
         """
-        Peak: max()
-        Median: median()
-        90 percentile: quantile(0.90)
-        return df, xlabel, filename
+        eg: input = ["Device_number", "time"]
+        returns:
+            xlab = " Bytes per Device-number per Time"
+            filename = "Bytes_Device-number_Time"
         """
-        if method=='Peak':
-            dfr = df.sort('octets_passed', ascending=False).groupby(
-                ['Device_number'], as_index=False).first()['octets_passed']
+
+        xlab = " Bytes "
+        filename = "Bytes"
+        for col in GROUPBY:
+            col2 = col.capitalize().replace("_", "-")
+            xlab += " per "+col2
+            filename += "_"+col2
+        logger.debug("xlab, filename = "+xlab+"; "+filename)
+        return xlab, filename
+
+    def grouper(self, GROUPBY):
+        """
+        save df_grouped['octets_passed'] by ['Device_number'],
+        ['Device_number', 'date'], ['Device_number', 'time'], ['end_time']
+        """
+        logger.debug("group ALL_DF according to "+str(GROUPBY))
+        for name, df in self.ALL_DF.items():
+            self.grouped[name] = df.groupby(GROUPBY, as_index=False)['octets_passed']
+            logger.debug( "Group "+name+" by "+str(GROUPBY)+" len: "+str( len(self.grouped[name].first()) ) )
+        return
+
+    def getByteSeries(self, method, **kwargs):
+        """
+        for each sliced set
+        method = all: series = df['octets_passed']
+        method = threshold: series = thresholdBytes['octets_passed']
+        method = peak, group = device: series = getGroupedByteStats(grouped).max()
+        """
+
+        self.byte_series = defaultdict(int)
+
+        logger.debug("enter getByteSeries; method = "+method)
+
+        if method=='all':
+            #self.byte_series = self.ALL_DF
+            for name, df in self.ALL_DF.items():
+                self.byte_series[name] = self.allBytes(df)['octets_passed']
+        elif method=='nonZero':
+            for name, df in self.ALL_DF.items():
+                self.byte_series[name] = self.nonZeroBytes(df)['octets_passed']
+        elif method=='threshold':
+            for name, df in self.ALL_DF.items():
+                self.byte_series[name] = self.thresholdBytes(df, kwargs['threshold'])['octets_passed']
+        elif method=='Peak':
+            for name, gr in self.grouped.items():
+                self.byte_series[name] = gr.max()['octets_passed']
+                #logger.debug("name = "+name+"; max series len = "+ str(len(self.byte_series[name])))
         elif method=='Median':
-            dfr = df.groupby(['Device_number'],
-                             as_index=False).median()['octets_passed']
+            for name, gr in self.grouped.items():
+                self.byte_series[name] = gr.median()['octets_passed']
         elif method=='90perc':
-            dfr = df.groupby(['Device_number'],
-                             as_index=False).quantile(.90)['octets_passed']
+            for name, gr in self.grouped.items():
+                #self.byte_series[name] = gr.quantile(.90)['octets_passed']
+                self.byte_series[name] = gr.apply(lambda x: np.percentile(x, 90))
         else:
-            dfr = None
-        return dfr, method+" Bytes per Device","CDF-BytesPerDevice-"+method
+            logger.error("Unknown method = "+method)
+        return
 
-    def getBytesPerDevicePerDay(self, df, method='Peak'):
+    def CDFPlotter(self, xlabel, figname):
         """
-        return df, xlabel, filename
-        """
-        if method=='Peak':
-            #dfr = df.sort('octets_passed', ascending=False).groupby(
-            #    ['Device_number', 'date'], as_index=False).first()['octets_passed']
-            dfr = df.groupby(['Device_number', 'date'],
-                             as_index=False).max()['octets_passed']
-        elif method=='Median':
-            dfr = df.groupby(['Device_number', 'date'],
-                             as_index=False).median()['octets_passed']
-        elif method=='90perc':
-            dfr = df.groupby(['Device_number', 'date'],
-                             as_index=False).quantile(.90)['octets_passed']
-        else:
-            dfr = None
-        return dfr, method+" Bytes per Device per Day",\
-                "CDF-BytesPerDevicePerDay-"+method
-
-    def getBytesPerDevicePerTimeSlot(self, df, method='Peak'):
-        """
-        return df, xlabel, filename
-        """
-        if method=='Peak':
-            dfr = df.sort('octets_passed', ascending=False).groupby(
-                ['Device_number', 'time'], as_index=False).first()['octets_passed']
-        elif method=='Median':
-            dfr = df.groupby(['Device_number', 'time'],
-                             as_index=False).median()['octets_passed']
-        #elif method=='90perc':
-        #    logger.debug("plot "+method+" bytes per device per time slot.\nDF:")
-        #    dfr = df.groupby(['Device_number', 'time'],
-        #                     as_index=False).quantile(.90)['octets_passed']
-        #    logger.debug(dfr.describe())
-        else:
-            dfr = None
-        return dfr, method+" Bytes per Device per Time-Slot",\
-                "CDF-BytesPerDevicePerTimeSlot-"+method
-
-    def CDFPlotter(self, callback, method='Peak'):
-        """
-        Plot 2 subplot CDF uplink and downlink with test (b) and control (g)
-        data. The data itself is calculated by callback. Options: allBytes,
-        nonZeroBytes, peakBytesPerDevice, peakBytesPerDevicePerDay,
-        peakBytesPerDevicePerTimeSlot
-        Each df (testUP, testDW, controlUP, controlDW) is filtered according
-        to the callback criteria, and getCDF() is used to sort xvals and
-        and calculate appropriate yvals in range.
-        TODO: add marker intervals to plotter
+        given self BYTES[ ]: test_up/dw control_up/dw
+        just plot in CDF
         """
         fig1, ax1 = plt.subplots(2,1, figsize=(8,10))
 
@@ -359,18 +339,13 @@ class Plotter:
         axis_ctr = iter([0,0,1,1])
         markers = iter(['o','x','o','x'])
 
-        for df_temp in [self.test_up, self.control_up, self.test_dw,
-                        self.control_dw]:
-            df, xlabel, figname = callback(df_temp, method)
-            # there is an error if nothing is returned
-            if df is None:
-                logger.error("No df returned from byte datetime groupers.\n\
-                             Method = "+method)
-                return
-            x, y = getSortedCDF(list(df))
+        #logger.debug("byte_series.items() " + str(self.byte_series.items()))
+        for name, series in self.byte_series.items():
+            x, y = getSortedCDF(list(series))
+
             lab = next(labels)
             if self.DISPLAY_MEAN:
-                calcMean = '%.2E' % df.mean()
+                calcMean = '%.2E' % np.mean(list(series))
                 lab += ': '+ calcMean
             ax1[next(axis_ctr)].plot(x,y, color=next(colors), label=lab,
                                      marker=markers.next(), markevery=len(y)/10)
@@ -389,15 +364,149 @@ class Plotter:
         fig1.savefig(self.OUTPUTPATH+figname)
         return
 
+    def setOutputPath(self, outputlabel):
+        # new outputpath by control-set and date
+        logger.info("Plots stored in " + outputlabel)
+        self.OUTPUTPATH = 'output/' + outputlabel + '/'
+        if not os.path.exists(self.OUTPUTPATH):
+            os.makedirs(self.OUTPUTPATH)
+        return
+
+    def plotAll(self):
+        """
+        main method
+        - Has sliced self.test_up, self.test_dw, self.control_up, self.control_dw
+        - Plot
+        # allBytes and nonZero then CDF all stats
+        # group by dev [dev, dev-day, dev-time] then CDF all stats
+        # group by [datetime] then CDF all stats
+        # group by [datetime] then timeseries plot (x, y)
+        """
+
+        # allBytes and nonZero then CDF all stats
+        self.getByteSeries('all')
+        xlabel = 'All Bytes Seen'
+        figname = 'CDF-allBytes'
+        self.CDFPlotter(xlabel, figname)
+        logger.debug("draw all CDF")
+
+        self.getByteSeries('nonZero')
+        xlabel = 'Bytes > 0'
+        figname = 'CDF-nonZeroBytes'
+        self.CDFPlotter(xlabel, figname)
+        logger.debug("draw nonZero CDF")
+
+        # group by dev [dev, dev-day, dev-time] then CDF all stats
+        # group by [datetime] then CDF all stats
+        for group_by in [['Device_number'], ['Device_number', 'date'],
+                       ['Device_number', 'time'], ['end_time']]:
+            # store each group in self.grouped
+            self.grouper(group_by)
+            xlab, filename = self.getStringsFromGroupBy(group_by)
+            for stats in ['Peak', 'Median', '90perc']:
+                self.getByteSeries(stats)
+                xlabel = stats + xlab
+                figname = 'CDF-'+filename+'-'+stats
+                self.CDFPlotter(xlabel, figname)
+                logger.debug("draw CDF - Bytes per "+str(group_by)+" "+stats)
+
+        # for the last groupby ['end_time']
+        # group by [datetime] then timeseries plot (x, y)
+        GROUPBY = ['end_time']
+        xlab, filename = self.getStringsFromGroupBy(GROUPBY)
+        for name, df in self.ALL_DF.items():
+            self.grouped[name] = df.groupby(GROUPBY)
+
+        for stats in ['Peak', 'Median', '90perc']:
+            #return self.grouped
+            if stats=='Peak':
+                for name, df in self.grouped.items():
+                    self.byte_series[name] = df['octets_passed'].apply(lambda x: max(x))
+            elif stats=='Median':
+                for name, df in self.grouped.items():
+                    self.byte_series[name] = df['octets_passed'].apply(lambda x: np.median(x))
+            elif stats=='90perc':
+                for name, df in self.grouped.items():
+                    self.byte_series[name] = df['octets_passed'].apply(lambda x: np.percentile(x, 90))
+            else:
+                logging.error("invalid stat, self.byte_series may be corrupted")
+            #self.getByteSeries(stats)
+            ylabel = stats + xlab
+            figname = 'TimeSeries-'+filename+'-'+stats
+            self.SeriesPlotter(ylabel, figname)
+
+        return
+
+    def SeriesPlotter(self, ylabel, figname):
+        """
+        given self BYTES[ ]: test_up/dw control_up/dw
+        just plot in CDF
+        """
+        logger.debug("enter seriesplotter")
+        fig1, ax1 = plt.subplots(2,1, figsize=(18,10))
+
+        labels = iter([self.DLABEL+'_up',self.CLABEL+'_up',self.DLABEL+'_dw',
+                       self.CLABEL+'_dw'])
+        colors = iter(['b', 'g', 'b', 'g'])
+        axis_ctr = iter([0,0,1,1])
+        markers = iter(['o','x','o','x'])
+
+        #logger.debug("byte_series.items() " + str(self.byte_series.items()))
+        for name, series in self.byte_series.items():
+            x = pd.to_datetime(series.index)
+            y = series.values
+
+            lab = next(labels)
+            if self.DISPLAY_MEAN:
+                calcMean = '%.2E' % np.mean(list(series))
+                lab += ': '+ calcMean
+            ax1[next(axis_ctr)].plot_date(x,y, color=next(colors), label=lab)#,
+                                     #marker=markers.next(), markevery=len(y)/10)
+
+        #ax1[0].set_xscale(self.XSCALE)
+        #ax1[1].set_xscale(self.XSCALE)
+
+        ax1[1].set_xlabel("DateTime")
+        ax1[0].set_ylabel(ylabel + " Bytes UPLINK")
+        ax1[1].set_ylabel(ylabel + " Byes DOWNLINK")
+        ax1[0].grid(1)
+        ax1[1].grid(1)
+        ax1[0].legend(loc='best')
+        ax1[1].legend(loc='best')
+        fig1.tight_layout()
+        fig1.savefig(self.OUTPUTPATH+figname)
+
+        return
+
 ##############################################################################
 # MAIN methods
 ##############################################################################
 
-DATASET = 'test-data-set.dat'
-CONTROLSET = 'test-control-set.dat'
-DATALABEL = 'test-data-set'
-LIST_OF_CONTROLLABELS = ['test-control-set']
+#DATASET = 'test-data-set.dat'
+#CONTROLSET = 'test-control-set.dat'
+#DATALABEL = 'test-data-set'
+#LIST_OF_CONTROLLABELS = ['test-control-set']
 NDEVICES = 1000
+
+def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
+    # Plotter Class Object
+    p = Plotter()
+    # load test set up and down
+    DATA_up, DATA_dw = load_dataframe(DataSet)
+    # for control set in [control1 - control8]
+    for ControlSet in ControlSets:
+        # load test and control up and dw sets
+        test_up, test_dw, control_up, control_dw, outputlabel = slicer(ControlSet, DATA_up,
+                                                          DATA_dw, NDEVICES)
+        p.setOutputPath(outputlabel)
+        p.import_df(test_up, test_dw, control_up, control_dw)
+        p.DLABEL = DataSet
+        p.CLABEL = ControlSet
+
+        x = p.plotAll()
+        logger.info("Done "+ControlSet)
+
+    return p, x
 
 def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
     """
@@ -412,38 +521,20 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
     p = Plotter()
     # load test set up and down
     DATA_up, DATA_dw = load_dataframe(DataSet)
-    logger.debug("loaded test sets "+ DataSet )
     # for control set in [control1 - control8]
     for ControlSet in ControlSets:
-        CONTROL_up, CONTROL_dw = load_dataframe(ControlSet)
-        logger.debug("loaded control sets "+ ControlSet )
+        # load test and control up and dw sets
+        test_up, test_dw, control_up, control_dw = slicer(ControlSet, DATA_up,
+                                                          DATA_dw)
+        p.import_df(test_up, test_dw, control_up, control_dw)
+        p.DLABEL = DataSet
+        p.CLABEL = ControlSet
+        logger.debug("loaded sliced sets " + DataSet + " " + ControlSet )
 
-        # get date_start, date_end
-        date_start, date_stop = get_dates(CONTROL_up)
-        # slice
-        CUP_sliced = slice_df(CONTROL_up, ndev, date_start, date_stop)
-        DUP_sliced = slice_df(DATA_up, ndev, date_start, date_stop)
-        logger.debug("sliced UP sets ")
-
-        # get date_start, date_end
-        date_start, date_stop = get_dates(CONTROL_dw)
-        # slice
-        CDW_sliced = slice_df(CONTROL_dw, ndev, date_start, date_stop)
-        DDW_sliced = slice_df(DATA_dw, ndev, date_start, date_stop)
-        logger.debug("sliced DW sets ")
-
-        # plot CDFs
         # new outputpath by control-set and date
         outputlabel = ControlSet + '_' + date_start.replace(" ","_") \
         + '_' + date_stop.replace(" ","_")
-        logger.info("Plots stored in " + outputlabel)
-        p.OUTPUTPATH = 'output/' + outputlabel + '/'
-        if not os.path.exists(p.OUTPUTPATH):
-            os.makedirs(p.OUTPUTPATH)
-        # load test and control up and dw sets
-        p.import_df(DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced)
-        p.DLABEL = DataSet
-        p.CLABEL = ControlSet
+        p.setOutputPath(outputlabel)
 
         # allBytes and nonZeroBytes
         p.CDFPlotter(p.allBytes, '')
@@ -459,7 +550,7 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
 
         logger.debug("DONE control: " + ControlSet + "; test: " + DataSet)
 
-    return DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced
+    return #DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced
 
 def main():
     p = Plotter()
