@@ -1,7 +1,7 @@
 from __future__ import division
 import pandas as pd
 import numpy as np
-import random
+import random, os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -19,8 +19,8 @@ DATASET = '250-test.dat' #'test-data-set.dat'
 CONTROLSET = 'control1.dat' #'test-control-set.dat'
 DATALABEL = DATASET.split('.')[0]
 CONTROLLABEL = CONTROLSET.split('.')[0]
-#LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
-LIST_OF_CONTROLLABELS = ['test-control-set']
+NDEVICES = 1000
+LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
 
 PROCESSEDPATH = 'processed/'
 OUTPUTPATH = 'output/'
@@ -180,7 +180,7 @@ def slice_df(df, num_devices, date_start, date_end):
     """
     df2 = df[ (df['end_time'] >= date_start) & (df['end_time'] <= date_end) ]
     devices = df2['Device_number'].unique()
-    sliced_devices = random.choice(devices, num_devices)
+    sliced_devices = random.sample(devices, num_devices)
     df3 = df2[ df2['Device_number'].isin(sliced_devices) ]
     return df3
 
@@ -227,18 +227,22 @@ def slicer():
         df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
         if dfname == 'control4':
             df_temp = slice_df(df, NDEVICES, '2014-10-29 16:30:00', DEND)
-        else
+        else:
             df_temp = slice_df(df, NDEVICES, DSTART, DEND)
         df_temp['dataset'] = dfname
         CONTROL.append(df_temp)
     dfname = 'control4'
     pd.concat(CONTROL).to_pickle(PROCESSEDPATH + 'TEST_up.pkl')
 
+    #TODO incomplete
+
+    return
+
 
 ##############################################################################
 
 class Plotter:
-    def __init__(self, dlabel=DATALABEL, clabel=CONTROLLABEL):
+    def __init__(self, dlabel=DATALABEL, clabel=CONTROLLABEL, XSCALE='log'):
         self.test_up = 0
         self.test_dw = 0
         self.control_up = 0
@@ -247,6 +251,7 @@ class Plotter:
         self.CLABEL = clabel
         self.DISPLAY_MEAN = 1
         self.OUTPUTPATH = OUTPUTPATH
+        self.XSCALE = XSCALE
         return
 
     def load_df(self):
@@ -261,25 +266,25 @@ class Plotter:
         self.control_dw = control_dw
         return
 
-    def allBytes(self, df):
+    def allBytes(self, df, method):
         """
         return df, xlabel, filename
         """
         dfr = df['octets_passed']
-        return dfr, "All Seen Bytes","allBytes-cdf"
+        return dfr, "All Seen Bytes","CDF-AllBytes"
 
-    def nonZeroBytes(self, df):
+    def thresholdBytes(self, df, threshold=0):
         """
         return df, xlabel, filename
         """
-        dfr = df[df['octets_passed'] > 0]['octets_passed']
-        return dfr, "Non Zero Bytes","nonZeroBytes-cdf"
+        dfr = df[df['octets_passed'] > threshold]['octets_passed']
+        return dfr, "Bytes > "+str(threshold),"CDF-ThresholdBytes-"+str(threshold)
 
     def getBytesPerDevice(self, df, method='Peak'):
         """
         Peak: max()
         Median: median()
-        90%ile: quantile(0.90)
+        90 percentile: quantile(0.90)
         return df, xlabel, filename
         """
         if method=='Peak':
@@ -322,18 +327,18 @@ class Plotter:
         if method=='Peak':
             dfr = df.sort('octets_passed', ascending=False).groupby(
                 ['Device_number', 'time'], as_index=False).first()['octets_passed']
-            #dfr = df.sort('octets_passed', ascending=False).groupby(
-            #    ['Device_number', 'time'], as_index=False).first()['octets_passed']
         elif method=='Median':
             dfr = df.groupby(['Device_number', 'time'],
                              as_index=False).median()['octets_passed']
-        elif method=='90perc':
-            dfr = df.groupby(['Device_number', 'time'],
-                             as_index=False).quantile(.90)['octets_passed']
+        #elif method=='90perc':
+        #    logger.debug("plot "+method+" bytes per device per time slot.\nDF:")
+        #    dfr = df.groupby(['Device_number', 'time'],
+        #                     as_index=False).quantile(.90)['octets_passed']
+        #    logger.debug(dfr.describe())
         else:
             dfr = None
         return dfr, method+" Bytes per Device per Time-Slot",\
-                "CDF-BytesPerDevicePeTimeSlot-"+method
+                "CDF-BytesPerDevicePerTimeSlot-"+method
 
     def CDFPlotter(self, callback, method='Peak'):
         """
@@ -359,7 +364,7 @@ class Plotter:
             df, xlabel, figname = callback(df_temp, method)
             # there is an error if nothing is returned
             if df is None:
-                logger.debug("No df returned from byte datetime groupers.\n\
+                logger.error("No df returned from byte datetime groupers.\n\
                              Method = "+method)
                 return
             x, y = getSortedCDF(list(df))
@@ -369,6 +374,9 @@ class Plotter:
                 lab += ': '+ calcMean
             ax1[next(axis_ctr)].plot(x,y, color=next(colors), label=lab,
                                      marker=markers.next(), markevery=len(y)/10)
+
+        ax1[0].set_xscale(self.XSCALE)
+        ax1[1].set_xscale(self.XSCALE)
 
         ax1[1].set_xlabel(xlabel)
         ax1[0].set_ylabel("Normalized CDF UPLINK")
@@ -382,8 +390,16 @@ class Plotter:
         return
 
 ##############################################################################
+# MAIN methods
+##############################################################################
 
-def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABEL):
+DATASET = 'test-data-set.dat'
+CONTROLSET = 'test-control-set.dat'
+DATALABEL = 'test-data-set'
+LIST_OF_CONTROLLABELS = ['test-control-set']
+NDEVICES = 1000
+
+def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
     """
     load test set up and down
     for control set in [control1 - control8]
@@ -393,32 +409,36 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
     plot CDFs
     """
     # Plotter Class Object
-    p = Plotter
+    p = Plotter()
     # load test set up and down
-    TEST_up, TEST_dw = load_dataframe(DataSet)
+    DATA_up, DATA_dw = load_dataframe(DataSet)
+    logger.debug("loaded test sets "+ DataSet )
     # for control set in [control1 - control8]
     for ControlSet in ControlSets:
         CONTROL_up, CONTROL_dw = load_dataframe(ControlSet)
+        logger.debug("loaded control sets "+ ControlSet )
 
         # get date_start, date_end
         date_start, date_stop = get_dates(CONTROL_up)
         # slice
         CUP_sliced = slice_df(CONTROL_up, ndev, date_start, date_stop)
         DUP_sliced = slice_df(DATA_up, ndev, date_start, date_stop)
+        logger.debug("sliced UP sets ")
 
         # get date_start, date_end
         date_start, date_stop = get_dates(CONTROL_dw)
         # slice
         CDW_sliced = slice_df(CONTROL_dw, ndev, date_start, date_stop)
         DDW_sliced = slice_df(DATA_dw, ndev, date_start, date_stop)
+        logger.debug("sliced DW sets ")
 
         # plot CDFs
         # new outputpath by control-set and date
-        outputlabel = ControlSet + '_' + date_start.replace(" ","_") +
-        '_' + date_stop.replace(" ","_")
+        outputlabel = ControlSet + '_' + date_start.replace(" ","_") \
+        + '_' + date_stop.replace(" ","_")
         logger.info("Plots stored in " + outputlabel)
-        p.OUTPUTPATH = 'output/' + outputlabel
-        if os.path.exists(p.OUTPUTPATH):
+        p.OUTPUTPATH = 'output/' + outputlabel + '/'
+        if not os.path.exists(p.OUTPUTPATH):
             os.makedirs(p.OUTPUTPATH)
         # load test and control up and dw sets
         p.import_df(DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced)
@@ -426,17 +446,20 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
         p.CLABEL = ControlSet
 
         # allBytes and nonZeroBytes
-        p.CDFPlotter(p.allBytes)
-        p.CDFPlotter(p.nonZeroBytes)
+        p.CDFPlotter(p.allBytes, '')
+        p.CDFPlotter(p.thresholdBytes, 0)
         # max, median, 90 percentile
         for method in ['Peak', 'Median', '90perc']:
             p.CDFPlotter(p.getBytesPerDevice, method)
+            logger.debug("Bytes per Device method = " + method)
             p.CDFPlotter(p.getBytesPerDevicePerDay, method)
+            logger.debug("Bytes per Device per Day method = " + method)
             p.CDFPlotter(p.getBytesPerDevicePerTimeSlot, method)
-            logger.debug("Done control: " + ControlSet + "; test: "
-                         + DataSet+ "; method: " + method)
+            logger.debug("Bytes per Device per Time method = " + method)
 
-    return
+        logger.debug("DONE control: " + ControlSet + "; test: " + DataSet)
+
+    return DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced
 
 def main():
     p = Plotter()
