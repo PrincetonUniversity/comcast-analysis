@@ -23,6 +23,7 @@ NDEVICES = 1000
 LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
 LIST_OF_CONTROLLABELS.remove('control3')         #causes errors unslicable
 
+DATAPATH = 'data/'
 PROCESSEDPATH = 'processed/'
 OUTPUTPATH = 'output/'
 
@@ -45,9 +46,9 @@ logger.setLevel('DEBUG')
 # load dataframes
 #############################################################################
 
-def load_csv():
-    df1 = pd.read_csv(DATASET, delimiter='|', names=header_row)
-    df2 = pd.read_csv(CONTROLSET, delimiter='|', names=header_row)
+def load_csv(ds=DATASET, cs=CONTROLSET):
+    df1 = pd.read_csv(DATAPATH + ds, delimiter='|', names=header_row)
+    df2 = pd.read_csv(DATAPATH + cs, delimiter='|', names=header_row)
     return df1, df2
 
 def filter_csv(df, dfname):
@@ -488,7 +489,7 @@ class Plotter:
 #LIST_OF_CONTROLLABELS = ['test-control-set']
 NDEVICES = 1000
 
-def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
+def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS, method='sum'):
     # Plotter Class Object
     p = Plotter()
     # load test set up and down
@@ -498,6 +499,14 @@ def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
         # load test and control up and dw sets
         test_up, test_dw, control_up, control_dw, outputlabel = slicer(ControlSet, DATA_up,
                                                           DATA_dw, NDEVICES)
+
+        test_up = process_df(test_up)
+        test_dw = process_df(test_up)
+        control_up = process_df(test_up)
+        control_dw = process_df(test_up)
+        outputlabel = method.upper() + '/' + outputlabel
+
+        logger.debug("Set Output Path = " + outputlabel)
         p.setOutputPath(outputlabel)
         p.import_df(test_up, test_dw, control_up, control_dw)
         p.DLABEL = DataSet
@@ -508,7 +517,16 @@ def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
 
     return p, x
 
-def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS):
+def process_df(df, method='sum'):
+    g = df.groupby(['Device_number', 'end_time'], as_index=False)
+    if method=='sum':
+        return g.sum()
+    elif method=='max':
+        return g.max()
+    elif method=='wifi':
+        return df[df['service_class_name'] == 'xwifi_dn' | df['service_class_name'] == 'xwifi_up']
+
+def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS, method='sum'):
     """
     load test set up and down
     for control set in [control1 - control8]
@@ -526,13 +544,18 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
         # load test and control up and dw sets
         test_up, test_dw, control_up, control_dw = slicer(ControlSet, DATA_up,
                                                           DATA_dw)
+        test_up = process_df(test_up)
+        test_dw = process_df(test_up)
+        control_up = process_df(test_up)
+        control_dw = process_df(test_up)
+
         p.import_df(test_up, test_dw, control_up, control_dw)
         p.DLABEL = DataSet
         p.CLABEL = ControlSet
         logger.debug("loaded sliced sets " + DataSet + " " + ControlSet )
 
         # new outputpath by control-set and date
-        outputlabel = ControlSet + '_' + date_start.replace(" ","_") \
+        outputlabel = method.upper() + '/' + ControlSet + '_' + date_start.replace(" ","_") \
         + '_' + date_stop.replace(" ","_")
         p.setOutputPath(outputlabel)
 
@@ -551,6 +574,13 @@ def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTRO
         logger.debug("DONE control: " + ControlSet + "; test: " + DataSet)
 
     return #DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced
+
+def detailedTimeSeries(ds, cs):
+    df1, df2 = load_csv(ds, cs)
+    test_up, test_dw = filter_csv(df1, ds.split('.')[0])
+    control_up, control_dw = filter_csv(df2, cs.split('.')[0])
+    return test_up, test_dw, control_up, control_dw
+
 
 def main():
     p = Plotter()
