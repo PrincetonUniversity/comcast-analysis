@@ -3,10 +3,15 @@ import pandas as pd
 import numpy as np
 import random, os
 import matplotlib
+import pickle as pkl
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import defaultdict, OrderedDict, Counter
 import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logger = logging.getLogger()
+logger.setLevel('DEBUG')
 
 # original 250-test.dat size is 95,000,000 rows
 # head -1000000 250-test.dat > test-data-set.dat
@@ -20,15 +25,26 @@ CONTROLSET = 'control1.dat' #'test-control-set.dat'
 DATALABEL = DATASET.split('.')[0]
 CONTROLLABEL = CONTROLSET.split('.')[0]
 NDEVICES = 1000
-LIST_OF_CONTROLLABELS = ['control5']
+
+#LIST_OF_CONTROLLABELS = ['control5']
 #LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
 #LIST_OF_CONTROLLABELS.remove('control3')         #causes errors unslicable
 
+foldername = CONTROLLABEL
+DATAPATH = 'data/'
+FILTEREDPATH = 'filtered/'
+PROCESSEDPATH = 'processed/' + foldername + '/'
+OUTPUTPATH = 'output/' + foldername + '/'
 CONST = {}
 CONST['DATAPATH'] = 'data/'
-CONST['PROCESSEDPATH'] = 'processed/'
 CONST['FILTEREDPATH'] = 'filtered/'
-CONST['OUTPUTPATH'] = 'output/'
+CONST['PROCESSEDPATH'] = 'processed/' + foldername + '/'
+CONST['OUTPUTPATH'] = 'output/' + foldername + '/'
+for pathname, path in CONST.iteritems():
+    if not os.path.exists(path):
+        logger.info("Creat path "+path+" for "+pathname)
+        os.makedirs(path)
+
 CONST['header_row'] = ['Device_number',
          'end_time',
          'date_service_created',
@@ -39,10 +55,6 @@ CONST['header_row'] = ['Device_number',
          'octets_passed',
          'device_key',
          'service_identifier']
-
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-logger = logging.getLogger()
-logger.setLevel('DEBUG')
 
 #############################################################################
 # load dataframes
@@ -55,8 +67,16 @@ class ComcastDataSet:
         self.OUTPUTPATH = kwargs['OUTPUTPATH']
         self.FILTEREDPATH = kwargs['FILTEREDPATH']
         self.NDEV = 1000
-        self.datafilename = filename
-        self.name = "default"
+        self.name = None
+
+        if 'FILENAME' in kwargs.keys():
+            self.datafilename = kwargs['FILENAME']
+            self._get_default_name_from_filename()
+        else:
+            self.datafilename = None
+        if 'NAME' in kwargs.keys():
+            self.name = kwargs['NAME']
+
         self.data = pd.DataFrame({})
         self.up = 0
         self.dw = 0
@@ -64,21 +84,30 @@ class ComcastDataSet:
         self.header_row = kwargs['header_row']
         self.filter_header_row = self.header_row
 
-    # Load full
-    def load_csv(self, datfile=self.datafilename):
-        df = pd.read_csv(DATAPATH + datfile, delimiter='|', names=self.header_row)
-        df.sort('end_time', ascending=True)
-        return df
+    def _get_default_name_from_filename(self):
+        self.name = self.datafilename.split('.')[0]
+        logger.warning("Set name to " + self.name)
+        return
 
-    def get_date_range(self):
-        self.data.sort('end_time', ascending=True)
-        date_start = self.data['end_time'].iloc[0]
-        date_end = self.data['end_time'].iloc[-1]
-    return date_start, date_end
+    # Load full
+    def load_csv(self, datfile=None):
+        if datfile is None:
+            if self.datafilename is None:
+                logger.error("Using "+self.name+".dat as filename")
+                self.datafilename = self.name+'.dat'
+        else:
+            self.datafilename = datfile
+
+        df = pd.read_csv(self.DATAPATH + self.datafilename, delimiter='|', names=self.header_row)
+        df.sort('end_time', ascending=True)
+        self._get_default_name_from_filename()
+        self.data = df
+        return
 
     # Split by direction and save
     def save_by_direction(self):
         logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_up.pkl')
+        df = self.data
         self.filter_header_row = ['Device_number', 'end_time',
                                   'octets_passed', 'service_class_name']
         df_up = df[df['service_direction'] == 2][self.filter_header_row]
@@ -102,19 +131,25 @@ class ComcastDataSet:
         return
 
     # Filter and save
-    def add_datetime(self)
+    def add_datetime(self):
         logger.warning("add_datetime: split up and dw end_time to datetime and time")
         for df in [self.up, self.dw]:
-            df['time'] = df['end_time'].apply(lamda x: x.split()[1])
+            df['time'] = df['end_time'].apply(lambda x: x.split()[1])
             df['datetime'] = pd.to_datetime(df['end_time'])
         self.filter_header_row = list(df.columns)
         return
 
+    def get_date_range(self):
+        self.up.sort('end_time', ascending=True)
+        date_start = self.up['end_time'].iloc[0]
+        date_end = self.up['end_time'].iloc[-1]
+        return date_start, date_end
+
     def save_filtered(self, attrib=None):
         name = self.name
         if not attrib is None:
-            name += attrib
-        logger.warning("save_filtered: "+self.FILTEREDPATH + name+'_up.pkl')
+            name += '-'+attrib
+        logger.warning("save_filtered: "+self.FILTEREDPATH + name+'_[direction].pkl')
         self.up.to_pickle(self.FILTEREDPATH + name+'_up.pkl')
         self.dw.to_pickle(self.FILTEREDPATH + name+'_dw.pkl')
         return
@@ -133,28 +168,39 @@ class ComcastDataSet:
         if os.path.isfile(device_file):
             devices = pkl.load(open(device_file, 'r'))
         else:
-            logger.warning("Could not find: "+device_file+". Choose "+str(ndev))
-            devices = random.sample(list(self.data['Device_number'].unique()), ndev)
+            logger.warning("Could not find: "+device_file+". Choose "+str(ndev)+" and save it.")
+            devices = random.sample(list(self.up['Device_number'].unique()), ndev)
+            pkl.dump(devices, open(device_file, 'w'))
         return devices
 
     def filter_by_device(self, devices=None):
         if devices is None:
             devices = self.choose_devices(self.NDEV)
 
+        filt=[]
         for df in [self.up, self.dw]:
-            df = df[ df['Device_number'].isin(devices) ]
+             filt.append(df[ df['Device_number'].isin(devices) ])
+        self.up = filt[0]
+        self.dw = filt[1]
         return
 
     def filter_by_date(self, date_start, date_stop):
+        filt = []
         for df in [self.up, self.dw]:
-            df = df [ (df['end_time'] >= date_start) & (df['end_time'] <= date_end) ]
+            filt.append( df [ (df['end_time'] >= date_start) & (df['end_time'] <= date_stop) ] )
+        self.up = filt[0]
+        self.dw = filt[1]
         return
 
     def filter_by_time(self, times):
-        if not 'time' list(self.up.columns):
+        if not 'time' in list(self.up.columns):
+            self.add_datetime()
 
+        filt=[]
         for df in [self.up, self.dw]:
-            df = df[ df['time'].isin(times) ]
+            filt.append( df[ df['time'].isin(times) ] )
+        self.up = filt[0]
+        self.dw = filt[1]
         return
 
     def filter_by_service(self, keywords):
@@ -164,6 +210,7 @@ class ComcastDataSet:
 
     def filter_agg_service(self, aggType='sum'):
         for df in [self.up, self.dw]:
+            #TODO incomplete
             df = df.groupby([ list(df.columns).remove('service_class_name') ], as_index=False).sum()
         return
 
@@ -184,6 +231,32 @@ class ComcastDataSet:
         else:
             self.load_filtered(attrib)
         return
+
+    # FINAL aggregation and save after device, daterange
+    def save_processed(self):
+        filepath = self.PROCESSEDPATH + self.name+'_[dir]-'+str(self.NDEV)+'.pkl'
+        logger.debug("Save filterd and chosen test/control set to: "+filepath)
+        self.up.to_pickle(self.PROCESSEDPATH + self.name+'_up-'+str(self.NDEV)+'.pkl')
+        self.dw.to_pickle(self.PROCESSEDPATH + self.name+'_dw-'+str(self.NDEV)+'.pkl')
+        return
+
+    def aggregate(self, method='sum'):
+        """
+        current df contains too many columns. Use [sum|max|wifi]
+        to reduce data into the form [device_id, end_time]:octets_passed
+        save these datasets to filtered as [method]-[name]_[dir].pkl
+        """
+        up_g = self.up.groupby(['Device_number', 'end_time'], as_index=False)
+        dw_g = self.up.groupby(['Device_number', 'end_time'], as_index=False)
+        if method=='max':
+            self.up = up_g.max()
+            self.dw = dw_g.max()
+        else:
+            method = 'sum'
+            self.up = up_g.sum()
+            self.dw = dw_g.sum()
+        return
+
 
 #############################################################################
 # Helper func
@@ -541,7 +614,7 @@ class Plotter:
 #DATASET = 'test-data-set.dat'
 #CONTROLSET = 'test-control-set.dat'
 #DATALABEL = 'test-data-set'
-#LIST_OF_CONTROLLABELS = ['test-control-set']
+LIST_OF_CONTROLLABELS = ['test-control-set']
 NDEVICES = 1000
 
 def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS, method='sum'):
