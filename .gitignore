@@ -77,4 +77,4 @@ docs/_build/
 intro2.tex
 flanc.bib
 *.brf
-figures/DPAL*
+*DPAL*
