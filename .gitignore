@@ -71,3 +71,10 @@ docs/_build/
 *~
 *.swo
 .output/*
+
+
+# latex files I'm ignoring
+intro2.tex
+flanc.bib
+*.brf
+figures/DPAL*
