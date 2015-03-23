@@ -131,7 +131,6 @@
 \usepackage{subcaption}
 \usepackage{amsmath, amssymb,alltt}
 \usepackage{url,tabularx,amsmath,amssymb,psfrag,times,multirow,color}
-\usepackage{balance}
 \usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -353,10 +352,10 @@ bookmarksopen = {true}
 
 
 \newcommand{\supsym}[1]{\raisebox{4pt}{{\footnotesize #1}}}
-\newcommand{\pu}{\supsym{$\dag$}}
-\newcommand{\aff2}{\supsym{$\diamond$}}
-\newcommand{\aff3}{\supsym{$\star$}}
-\newcommand{\aff4}{\supsym{$\ddag$}}
+%\newcommand{\ptn}{\supsym{$\dag$}}
+%\newcommand{\aff2}{\supsym{$\diamond$}}
+%\newcommand{\aff3}{\supsym{$\star$}}
+%\newcommand{\aff4}{\supsym{$\ddag$}}
 
 \newcommand{\remove}[1]{}
 \newcommand{\cmstart}{}
@@ -368,8 +367,8 @@ bookmarksopen = {true}
 \title{
 \textbf{\ttlfnt \TITLE}}
 \author{
-\aufnt{Paper \#00, \pageref{LastPage} Pages}
-%\aufnt{Sarthak Grover\pu, xxx\aff2, yyy\aff3}\\
+\aufnt{Paper \#0, \pageref{LastPage} Pages}
+%\aufnt{Sarthak Grover\ptn, xxx\aff2, yyy\aff3}\\
 %\ptn\affaddr{Princeton University}~~~\et\affaddr{ABC, city}
 }
 %\date{\normalsize\url{http://projectbismark.net}}
@@ -413,17 +412,6 @@ bookmarksopen = {true}
 \label{lastpage}
 \end{sloppypar}
 
-%\input{intro2}
-%\input{background}
-%\input{authlogic}
-%\input{implementation}
-%\input{campus}
-%\input{bgp}
-%\input{related}
-%\input{conclusion}
-%\label{lastpage}
-%\end{sloppypar}
-
 %\appendix
 %\input{appendix_sources}
 
@@ -436,9 +424,8 @@ bookmarksopen = {true}
 \setlength{\bibsep}{0pt}
 \small
 \bibliographystyle{abbrv}
-\flushleft\balance\bibliography{paper}
-% sigproc.bib is the name of the
-% Bibliography in this case 
+\flushleft\balance\bibliography{paper} 	% sigproc.bib is the name of the
+										% Bibliography in this case 
 %\bibliographystyle{abbrvnat_noaddr} % SPACE
 %\theendnotes % ENDNOTES
 }{% !onlyAbstract
