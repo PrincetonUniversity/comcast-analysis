@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 #PROCESSEDPATH='processed/'
 DATAPATH='/data/users/sarthak/comcast-data/'
 PROCESSEDPATH='/data/users/sarthak/comcast-data/processed/'
-OUTPUTPATH='output/'
+OUTPUTPATH='/data/users/sarthak/comcast-data/output/'
 
 '''
 Generate a test data/control set for quick play

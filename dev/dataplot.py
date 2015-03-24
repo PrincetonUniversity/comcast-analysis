@@ -3,10 +3,15 @@ import pandas as pd
 import numpy as np
 import random, os
 import matplotlib
+import pickle as pkl
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import defaultdict, OrderedDict, Counter
 import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+logger = logging.getLogger()
+logger.setLevel('DEBUG')
 
 # original 250-test.dat size is 95,000,000 rows
 # head -1000000 250-test.dat > test-data-set.dat
@@ -20,15 +25,27 @@ CONTROLSET = 'control1.dat' #'test-control-set.dat'
 DATALABEL = DATASET.split('.')[0]
 CONTROLLABEL = CONTROLSET.split('.')[0]
 NDEVICES = 1000
-LIST_OF_CONTROLLABELS = ['control5']
+
+#LIST_OF_CONTROLLABELS = ['control5']
 #LIST_OF_CONTROLLABELS = ['control'+str(l) for l in range(1,9)]
 #LIST_OF_CONTROLLABELS.remove('control3')         #causes errors unslicable
 
+foldername = CONTROLLABEL
 DATAPATH = '../data/'
-PROCESSEDPATH = '../processed/'
-OUTPUTPATH = '../output/'
+FILTEREDPATH = '../filtered/'
+PROCESSEDPATH = '../processed/' + foldername + '/'
+OUTPUTPATH = '../output/' + foldername + '/'
+CONST = {}
+CONST['DATAPATH'] = '../data/'
+CONST['FILTEREDPATH'] = '../filtered/'
+CONST['PROCESSEDPATH'] = '../processed/' + foldername + '/'
+CONST['OUTPUTPATH'] = '../output/' + foldername + '/'
+for pathname, path in CONST.iteritems():
+    if not os.path.exists(path):
+        logger.info("Creat path "+path+" for "+pathname)
+        os.makedirs(path)
 
-header_row = ['Device_number',
+CONST['header_row'] = ['Device_number',
          'end_time',
          'date_service_created',
          'service_class_name',
@@ -38,43 +55,212 @@ header_row = ['Device_number',
          'octets_passed',
          'device_key',
          'service_identifier']
-
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-logger = logging.getLogger()
-logger.setLevel('DEBUG')
-
 #############################################################################
 # load dataframes
 #############################################################################
 
-def load_csv(ds=DATASET, cs=CONTROLSET):
-    df1 = pd.read_csv(DATAPATH + ds, delimiter='|', names=header_row)
-    df2 = pd.read_csv(DATAPATH + cs, delimiter='|', names=header_row)
-    return df1, df2
+class ComcastDataSet:
+    def __init__(self, **kwargs):
+        self.DATAPATH = kwargs['DATAPATH']
+        self.PROCESSEDPATH = kwargs['PROCESSEDPATH']
+        self.OUTPUTPATH = kwargs['OUTPUTPATH']
+        self.FILTEREDPATH = kwargs['FILTEREDPATH']
+        self.NDEV = 1000
+        self.name = None
+        if 'FILENAME' in kwargs.keys():
+            self.datafilename = kwargs['FILENAME']
+            self._get_default_name_from_filename()
+        else:
+            self.datafilename = None
+        if 'NAME' in kwargs.keys():
+            self.name = kwargs['NAME']
+        self.data = pd.DataFrame({})
+        self.up = 0
+        self.dw = 0
+        self.length = len(self.data)
+        if 'header_row' in kwargs.keys():
+            self.header_row = kwargs['header_row']
+            self.filter_header_row = self.header_row
+        else:
+            self.header_row = 0
+            self.filter_header_row = 0
 
-def filter_csv(df, dfname):
-    df_up = df[df['service_direction'] == 2][['Device_number', 'end_time',
-                                              'octets_passed', 'service_class_name']]
-    df_dw = df[df['service_direction'] == 1][['Device_number', 'end_time',
-                                              'octets_passed', 'service_class_name']]
-    df_up.to_pickle(PROCESSEDPATH+dfname+'_up.pkl')
-    df_dw.to_pickle(PROCESSEDPATH+dfname+'_dw.pkl')
-    return
+    def load_paths(self, **kwargs):
+        self.DATAPATH = kwargs['DATAPATH']
+        self.PROCESSEDPATH = kwargs['PROCESSEDPATH']
+        self.OUTPUTPATH = kwargs['OUTPUTPATH']
+        self.FILTEREDPATH = kwargs['FILTEREDPATH']
 
-def load_dataframe(dfname):
-    df_up = pd.read_pickle(PROCESSEDPATH+dfname+'_up.pkl')
-    df_dw = pd.read_pickle(PROCESSEDPATH+dfname+'_dw.pkl')
-    return df_up, df_dw
+    def _get_default_name_from_filename(self):
+        self.name = self.datafilename.split('.')[0]
+        logger.warning("Set name to " + self.name)
+        return
 
-def save_dfs():
-    df1, df2 = load_csv()
-    filter_csv(df1, DATALABEL)
-    filter_csv(df2, CONTROLLABEL)
-    return
+    # Load full
+    def load_csv(self, datfile=None):
+        if datfile is None:
+            if self.datafilename is None:
+                logger.error("Using "+self.name+".dat as filename")
+                self.datafilename = self.name+'.dat'
+        else:
+            self.datafilename = datfile
+
+        df = pd.read_csv(self.DATAPATH + self.datafilename, delimiter='|', names=self.header_row)
+        df.sort('end_time', ascending=True)
+        self._get_default_name_from_filename()
+        self.data = df
+        return
+
+    # Split by direction and save
+    def save_by_direction(self):
+        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_up.pkl')
+        df = self.data
+        self.filter_header_row = ['Device_number', 'end_time',
+                                  'octets_passed', 'service_class_name']
+        df_up = df[df['service_direction'] == 2][self.filter_header_row]
+        df_dw = df[df['service_direction'] == 1][self.filter_header_row]
+        df_up.to_pickle(self.PROCESSEDPATH + self.name+'_up.pkl')
+        df_dw.to_pickle(self.PROCESSEDPATH + self.name+'_dw.pkl')
+        self.up = df_up
+        self.dw = df_dw
+        return
+
+    def load_full(self):
+        if not os.path.isfile (self.PROCESSEDPATH + self.name + '_up.pkl'):
+            logger.warning("Could not find: "+self.PROCESSEDPATH + self.name+'_up.pkl')
+            self.load_csv(self.datafilename)
+            self.save_by_direction()
+        else:
+            self.up = pd.read_pickle(self.PROCESSEDPATH + self.name+'_up.pkl')
+            self.dw = pd.read_pickle(self.PROCESSEDPATH + self.name+'_dw.pkl')
+            self.length = len(self.up) + len(self.dw)
+            self.filter_header_row = list(self.up.columns)
+        return
+
+    # Filter and save
+    def add_datetime(self):
+        logger.warning("add_datetime: split up and dw end_time to datetime and time")
+        self.up['time'] = self.up['end_time'].apply(lambda x: x.split()[1])
+        self.up['datetime'] = pd.to_datetime(self.up['end_time'])
+        self.dw['time'] = self.dw['end_time'].apply(lambda x: x.split()[1])
+        self.dw['datetime'] = pd.to_datetime(self.dw['end_time'])
+        self.filter_header_row = list(self.up.columns)
+        return
+
+    def get_date_range(self):
+        self.up.sort('end_time', ascending=True)
+        date_start = self.up['end_time'].iloc[0]
+        date_end = self.up['end_time'].iloc[-1]
+        return date_start, date_end
+
+    def save_filtered(self, attrib=None):
+        name = self.name
+        if not attrib is None:
+            name += '-'+attrib
+        logger.warning("save_filtered: "+self.FILTEREDPATH + name+'_[direction].pkl')
+        self.up.to_pickle(self.FILTEREDPATH + name+'_up.pkl')
+        self.dw.to_pickle(self.FILTEREDPATH + name+'_dw.pkl')
+        return
+
+    def load_filtered(self, attrib=None):
+        name = self.name
+        if not attrib is None:
+            name += attrib
+        self.up = pd.read_pickle(self.FILTEREDPATH + name+'_up.pkl')
+        self.dw = pd.read_pickle(self.FILTEREDPATH + name+'_dw.pkl')
+        return
+
+    # Slice and choose devices
+    def choose_devices(self, ndev):
+        device_file = self.FILTEREDPATH + self.name + str(ndev) + '.pkl'
+        if os.path.isfile(device_file):
+            devices = pkl.load(open(device_file, 'r'))
+        else:
+            logger.warning("Could not find: "+device_file+". Choose "+str(ndev)+" and save it.")
+            devices = random.sample(list(self.up['Device_number'].unique()), ndev)
+            pkl.dump(devices, open(device_file, 'w'))
+        return devices
+
+    def filter_by_device(self, devices=None):
+        if devices is None:
+            devices = self.choose_devices(self.NDEV)
+
+        self.up = self.up [ self.up ['Device_number'].isin(devices) ]
+        self.dw = self.dw [ self.dw ['Device_number'].isin(devices) ]
+        return
+
+    def filter_by_date(self, date_start, date_stop):
+        self.up =  self.up [ (self.up['end_time'] >= date_start) & (self.up['end_time'] <= date_stop) ]
+        self.dw =  self.dw [ (self.dw['end_time'] >= date_start) & (self.dw['end_time'] <= date_stop) ]
+        return
+
+    def filter_by_time(self, times):
+        if not 'time' in list(self.up.columns):
+            self.add_datetime()
+        self.up = self.up[self.up['time'].isin(times)]
+        self.dw = self.dw[self.dw['time'].isin(times)]
+        return
+
+    def filter_by_service(self, keywords):
+        self.up = self.up[ self.up['service_class_name'].isin(keywords) ]
+        self.dw = self.dw[ self.dw['service_class_name'].isin(keywords) ]
+        return
+
+    def filter_agg_service(self, aggType='sum'):
+        for df in [self.up, self.dw]:
+            #TODO incomplete
+            df = df.groupby([ list(df.columns).remove('service_class_name') ], as_index=False).sum()
+        return
+
+    def filter_bytes_threshold(self, threshold):
+        #TODO
+        for df in [self.up, self.dw]:
+            df = df[ df['octets_passed'] > threshold]
+        return
+
+    def load(self, attrib=None):
+        """main method to load a df and save it"""
+        name = self.name
+        if not attrib is None:
+            name += attrib
+        if not os.path.isfile (self.FILTEREDPATH + name+'_up.pkl'):
+            logger.warning("Could not find: "+self.FILTEREDPATH + name+'_up.pkl')
+            self.load_full()
+            self.save_filtered(attrib)
+        else:
+            self.load_filtered(attrib)
+        return
+
+    # FINAL aggregation and save after device, daterange
+    def save_processed(self):
+        filepath = self.PROCESSEDPATH + self.name+'_[dir]-'+str(self.NDEV)+'.pkl'
+        logger.debug("Save filterd and chosen test/control set to: "+filepath)
+        self.up.to_pickle(self.PROCESSEDPATH + self.name+'_up-'+str(self.NDEV)+'.pkl')
+        self.dw.to_pickle(self.PROCESSEDPATH + self.name+'_dw-'+str(self.NDEV)+'.pkl')
+        return
+
+    def aggregate(self, method='sum'):
+        """
+        current df contains too many columns. Use [sum|max|wifi]
+        to reduce data into the form [device_id, end_time]:octets_passed
+        save these datasets to filtered as [method]-[name]_[dir].pkl
+        """
+        up_g = self.up.groupby(['Device_number', 'end_time'], as_index=False)
+        dw_g = self.dw.groupby(['Device_number', 'end_time'], as_index=False)
+        if method=='max':
+            self.up = up_g.max()
+            self.dw = dw_g.max()
+        else:
+            method = 'sum'
+            self.up = up_g.sum()
+            self.dw = dw_g.sum()
+        return
+
 
 #############################################################################
 # Helper func
 #############################################################################
+
 def getSortedCDF(data):
     """
     return x,y for a cdf given one dimensional unsorted data x
@@ -87,43 +273,6 @@ def getSortedCDF(data):
 #############################################################################
 # Analysis
 #############################################################################
-
-class DataProcessor:
-    def __init__(self, DFNAME):
-        self.dfname = DFNAME
-        return
-
-    def set_dfname(self, DFNAME):
-        self.dfname = DFNAME
-        return
-
-    def load_csv(self):
-        return pd.read_csv(self.dfname + '.dat', delimiter='|',
-                           names=header_row)
-
-    def splitDateTime(self, df_temp):
-        """
-        dataframes are passed by reference by default.
-        """
-        df_temp['date'] = df_temp['end_time'].apply(lambda x:
-                                                        x.split(" ")[0])
-        df_temp['time'] = df_temp['end_time'].apply(lambda x:
-                                                        x.split(" ")[1])
-        return
-
-    def save_pkl(self):
-        df = self.load_csv()
-        df_up = df[df['service_direction'] == 2][['Device_number', 'end_time',
-                                                  'octets_passed']]
-        df_dw = df[df['service_direction'] == 1][['Device_number', 'end_time',
-                                                  'octets_passed']]
-        self.splitDateTime(df_up)
-        self.splitDateTime(df_dw)
-        df_up.to_pickle(PROCESSEDPATH + self.dfname + '_up.pkl')
-        df_dw.to_pickle(PROCESSEDPATH + self.dfname + '_dw.pkl')
-        return df_up, df_dw
-
-##############################################################################
 
 def meta_data():
     listDS = ['test-data-set', 'test-control-set', '250-test', 'control1',
@@ -160,32 +309,6 @@ def meta_data():
                                           'perc90_bytes']]
     df_attributes.to_pickle(OUTPUTPATH + 'data_attributes.pkl')
     return df_attributes
-
-##############################################################################
-# SLICE data
-# 1000 devices, 9/30 -- 12/25
-##############################################################################
-
-def get_dates(df):
-    """
-    given df, sort dates and get date_start and date_end
-    """
-    df.sort('end_time', ascending=True)
-    date_start = df['end_time'].iloc[0]
-    date_end = df['end_time'].iloc[-1]
-    return date_start, date_end
-
-def slice_df(df, num_devices, date_start, date_end):
-    """
-    num_devices = 1000
-    date_start = 2014-09-30 00:00:00
-    date_end = 2014-12-25 20:45:00
-    """
-    df2 = df[ (df['end_time'] >= date_start) & (df['end_time'] <= date_end) ]
-    devices = df2['Device_number'].unique()
-    sliced_devices = random.sample(devices, num_devices)
-    df3 = df2[ df2['Device_number'].isin(sliced_devices) ]
-    return df3
 
 def slicer(ControlSet, DATA_up, DATA_dw, ndev):
     CONTROL_up, CONTROL_dw = load_dataframe(ControlSet)
@@ -375,6 +498,49 @@ class Plotter:
             os.makedirs(self.OUTPUTPATH)
         return
 
+
+    def SeriesPlotter(self, ylabel, figname):
+        """
+        given self BYTES[ ]: test_up/dw control_up/dw
+        just plot in CDF
+        """
+        logger.debug("enter seriesplotter")
+        fig1, ax1 = plt.subplots(2,1, figsize=(18,10))
+
+        labels = iter([self.DLABEL+'_up',self.CLABEL+'_up',self.DLABEL+'_dw',
+                       self.CLABEL+'_dw'])
+        colors = iter(['b', 'g', 'b', 'g'])
+        axis_ctr = iter([0,0,1,1])
+        markers = iter(['o','d','o','d'])
+
+        #logger.debug("byte_series.items() " + str(self.byte_series.items()))
+        for name, series in self.byte_series.items():
+            x = pd.to_datetime(series.index)
+            y = series.values
+
+            lab = next(labels)
+            if self.DISPLAY_MEAN:
+                calcMean = '%.2E' % np.mean(list(series))
+                lab += ': '+ calcMean
+            ax1[next(axis_ctr)].plot_date(x,y, color=next(colors), label=lab,
+                                          alpha=0.5, marker=markers.next())#,
+                                     #marker=markers.next(), markevery=len(y)/10)
+
+        #ax1[0].set_xscale(self.XSCALE)
+        #ax1[1].set_xscale(self.XSCALE)
+
+        ax1[1].set_xlabel("DateTime")
+        ax1[0].set_ylabel(ylabel + " Bytes UPLINK")
+        ax1[1].set_ylabel(ylabel + " Byes DOWNLINK")
+        ax1[0].grid(1)
+        ax1[1].grid(1)
+        ax1[0].legend(loc='best')
+        ax1[1].legend(loc='best')
+        fig1.tight_layout()
+        fig1.savefig(self.OUTPUTPATH+figname)
+
+        return
+
     def plotAll(self):
         """
         main method
@@ -440,48 +606,6 @@ class Plotter:
 
         return
 
-    def SeriesPlotter(self, ylabel, figname):
-        """
-        given self BYTES[ ]: test_up/dw control_up/dw
-        just plot in CDF
-        """
-        logger.debug("enter seriesplotter")
-        fig1, ax1 = plt.subplots(2,1, figsize=(18,10))
-
-        labels = iter([self.DLABEL+'_up',self.CLABEL+'_up',self.DLABEL+'_dw',
-                       self.CLABEL+'_dw'])
-        colors = iter(['b', 'g', 'b', 'g'])
-        axis_ctr = iter([0,0,1,1])
-        markers = iter(['o','d','o','d'])
-
-        #logger.debug("byte_series.items() " + str(self.byte_series.items()))
-        for name, series in self.byte_series.items():
-            x = pd.to_datetime(series.index)
-            y = series.values
-
-            lab = next(labels)
-            if self.DISPLAY_MEAN:
-                calcMean = '%.2E' % np.mean(list(series))
-                lab += ': '+ calcMean
-            ax1[next(axis_ctr)].plot_date(x,y, color=next(colors), label=lab,
-                                          alpha=0.5, marker=markers.next())#,
-                                     #marker=markers.next(), markevery=len(y)/10)
-
-        #ax1[0].set_xscale(self.XSCALE)
-        #ax1[1].set_xscale(self.XSCALE)
-
-        ax1[1].set_xlabel("DateTime")
-        ax1[0].set_ylabel(ylabel + " Bytes UPLINK")
-        ax1[1].set_ylabel(ylabel + " Byes DOWNLINK")
-        ax1[0].grid(1)
-        ax1[1].grid(1)
-        ax1[0].legend(loc='best')
-        ax1[1].legend(loc='best')
-        fig1.tight_layout()
-        fig1.savefig(self.OUTPUTPATH+figname)
-
-        return
-
 ##############################################################################
 # MAIN methods
 ##############################################################################
@@ -489,7 +613,7 @@ class Plotter:
 #DATASET = 'test-data-set.dat'
 #CONTROLSET = 'test-control-set.dat'
 #DATALABEL = 'test-data-set'
-#LIST_OF_CONTROLLABELS = ['test-control-set']
+LIST_OF_CONTROLLABELS = ['test-control-set']
 NDEVICES = 1000
 
 def main2(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS, method='sum'):
@@ -528,69 +652,6 @@ def process_df(df, method='sum'):
         return g.max()
     elif method=='wifi':
         return df[df['service_class_name'] == 'xwifi_dn' | df['service_class_name'] == 'xwifi_up']
+    else:
+        return g.apply(lambda x: np.percentile(x, method))
 
-def plotByDateRange(ndev=NDEVICES, DataSet=DATALABEL, ControlSets=LIST_OF_CONTROLLABELS, method='sum'):
-    """
-    load test set up and down
-    for control set in [control1 - control8]
-    load control set up and down and get date_start, date_end
-    slice control set to 1000 devices,
-    slice test set to 1000 devices, date_start, date_end
-    plot CDFs
-    """
-    # Plotter Class Object
-    p = Plotter()
-    # load test set up and down
-    DATA_up, DATA_dw = load_dataframe(DataSet)
-    # for control set in [control1 - control8]
-    for ControlSet in ControlSets:
-        # load test and control up and dw sets
-        test_up, test_dw, control_up, control_dw = slicer(ControlSet, DATA_up,
-                                                          DATA_dw)
-        test_up = process_df(test_up)
-        test_dw = process_df(test_up)
-        control_up = process_df(test_up)
-        control_dw = process_df(test_up)
-
-        p.import_df(test_up, test_dw, control_up, control_dw)
-        p.DLABEL = DataSet
-        p.CLABEL = ControlSet
-        logger.debug("loaded sliced sets " + DataSet + " " + ControlSet )
-
-        # new outputpath by control-set and date
-        outputlabel = method.upper() + '/' + ControlSet + '_' + date_start.replace(" ","_") \
-        + '_' + date_stop.replace(" ","_")
-        p.setOutputPath(outputlabel)
-
-        # allBytes and nonZeroBytes
-        p.CDFPlotter(p.allBytes, '')
-        p.CDFPlotter(p.thresholdBytes, 0)
-        # max, median, 90 percentile
-        for method in ['Peak', 'Median', '90perc']:
-            p.CDFPlotter(p.getBytesPerDevice, method)
-            logger.debug("Bytes per Device method = " + method)
-            p.CDFPlotter(p.getBytesPerDevicePerDay, method)
-            logger.debug("Bytes per Device per Day method = " + method)
-            p.CDFPlotter(p.getBytesPerDevicePerTimeSlot, method)
-            logger.debug("Bytes per Device per Time method = " + method)
-
-        logger.debug("DONE control: " + ControlSet + "; test: " + DataSet)
-
-    return #DUP_sliced, DDW_sliced, CUP_sliced, CDW_sliced
-
-def detailedTimeSeries(ds, cs):
-    df1, df2 = load_csv(ds, cs)
-    test_up, test_dw = filter_csv(df1, ds.split('.')[0])
-    control_up, control_dw = filter_csv(df2, cs.split('.')[0])
-    return test_up, test_dw, control_up, control_dw
-
-def main():
-    p = Plotter()
-    p.load_df()
-    p.splitDateTime()
-    p.CDFPlotter(p.allBytes)
-    p.CDFPlotter(p.nonZeroBytes)
-    p.CDFPlotter(p.peakBytesPerDevice)
-    p.CDFPlotter(p.peakBytesPerDevicePerDay)
-    p.CDFPlotter(p.peakBytesPerDevicePerTimeSlot)
-    return
