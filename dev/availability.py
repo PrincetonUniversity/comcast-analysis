@@ -136,6 +136,34 @@ def main_separate():
     df_test.to_pickle(SEPARATEDPATH + "test.pkl")
     return
 
+def filter_by_date(df, start_date, end_date):
+    return df[ (df['datetime'] < end_date) & (df['datetime'] >= start_date) ]
+
+def main_split_massive_by_month():
+    SEPARATEDPATH = "../separated/full/"
+    df_test = pd.read_pickle(SEPARATEDPATH + "test.pkl")
+    df_control = pd.read_pickle(SEPARATEDPATH + "control.pkl")
+
+    start_dates = {"Oct": datetime.datetime(2014, 10, 1),
+                   "Nov": datetime.datetime(2014, 11, 1),
+                   "Dec": datetime.datetime(2014, 12, 1)}
+    end_dates = {"Oct": datetime.datetime(2014, 10, 31),
+                "Nov": datetime.datetime(2014, 11, 30),
+                "Dec": datetime.datetime(2014, 12, 31)}
+    for month in ["Oct", "Nov", "Dec"]:
+        SEPARATEDPATH = "../separated/"+month+"/"
+        if not os.path.exists(SEPARATEDPATH):
+            os.makedirs(SEPARATEDPATH)
+        cont = filter_by_date( df_control, start_dates[month], end_dates[month] )
+        cont.to_pickle(SEPARATEDPATH + "control.pkl")
+        del cont
+        test = filter_by_date( df_test, start_dates[month], end_dates[month] )
+        test.to_pickle(SEPARATEDPATH + "test.pkl")
+        del test
+        logger.debug("filter "+month)
+    return
+
+
 def getSortedCDF(data):
     """
     return x,y for a cdf given one dimensional unsorted data x
@@ -230,7 +258,8 @@ def main_scatter_all():
 
 if __name__ is '__main__':
     #main_slice()
-    main_separate()
+    #main_separate()
+    main_split_massive_by_month()
     # main_cdf()
     #combo_cdf()
     #main_scatter_all()
