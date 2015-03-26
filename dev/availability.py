@@ -117,7 +117,7 @@ def main_separate():
         end_date = df_control['datetime'].max()
 
         split_test = df_test[ (df_test['datetime'] < end_date) & (df_test['datetime'] >= start_date) ]
-        df_control.to_pickle(SEPARATEDPATH + controlname + ".pkl")
+        df_control.to_pickle(SEPARATEDPATH + "control.pkl")
         split_test.to_pickle(SEPARATEDPATH + "test" + ".pkl")
         logger.debug(" control = "+controlname+" start_date = "+str(start_date)+
                    " end_date = "+str(end_date)+
