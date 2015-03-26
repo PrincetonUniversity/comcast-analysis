@@ -2,7 +2,7 @@ from __future__ import division
 import pickle as pkl
 import pandas as pd
 import numpy as np
-import os
+import os, sys
 from collections import defaultdict
 import datetime
 import matplotlib
@@ -316,10 +316,11 @@ def plot_prevalence_total_devices():
     fig1.savefig('slice-dataset-threshold-count-ndevices')
     return
 
-def main():
+def main(argv):
     ORIGPATH = "../../dev/"
 
-    for folder in os.listdir("../separated/"):
+    #for folder in os.listdir("../separated/"):
+    for folder in [argv]:
         CURPATH = "../separated/"+folder
         os.chdir(CURPATH)
 
@@ -330,7 +331,7 @@ def main():
         control_full['time'] = control_full['datetime'].apply(lambda x: x.time())
         test_full['date'] = test_full['datetime'].apply(lambda x: x.date())
         control_full['date'] = control_full['datetime'].apply(lambda x: x.date())
-
+        '''
         logger.debug("plot initial time series")
         g1 = test_full.groupby("datetime")
         g2 = control_full.groupby("datetime")
@@ -386,7 +387,7 @@ def main():
         plot_cdf_all_bytes(test_full, control_full)
         plot_cdf_max_per_device(test_full, control_full)
         plot_cdf_max_per_day_per_device(test_full, control_full)
-
+        '''
         logger.debug("plot prevalance: total devices by threshold")
         maxThresh = max( test_full['throughput'].max(), control_full['throughput'].max() )
         minThresh = min( test_full['throughput'].min(), control_full['throughput'].min() )
@@ -400,4 +401,5 @@ def main():
     return
 
 if __name__ == "__main__":
-    main()
+    print sys.argv[1]
+    main(sys.argv[1])
