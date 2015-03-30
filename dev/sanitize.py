@@ -1,5 +1,5 @@
 from __future__ import division
-from dataplot import ComcastDataSet, CONST
+from ComcastDataSet import ComcastDataSet, CONST
 from collections import defaultdict
 import pandas as pd
 import numpy as np
@@ -15,6 +15,7 @@ CONST["SANITIZEDPATH"] = "/data/users/sarthak/comcast-data/sanitized/"
 TESTSET = "250-test.dat"
 CONTROLSETS = ["control"+str(x)+".dat" for x in range(1,9)]
 
+CONVERT_OCTETS = 8 / (15 * 60 * 1024)
 
 def aggregate_sum_data(name)
     """
@@ -72,7 +73,7 @@ def _load_unsanitized_df(dfname, direction):
         logger.warning("no directional unsanitized data to load " + dfname)
         return pd.DataFrame({})
     df['datetime'] = pd.to_datetime(df.end_time)
-    df['throughput'] = df.octets_passed * (9 / (15*60 * 1024 * 1024) )    #Mbps
+    df['throughput'] = df.octets_passed * CONVERT_OCTETS )    #Kbps
     return df
 
 ##############################################################################

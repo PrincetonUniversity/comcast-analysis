@@ -27,7 +27,7 @@ CONST['header_row'] = ['Device_number',
          'octets_passed',
          'device_key',
          'service_identifier']
-CONST['OCTETS_TO_Mbps'] = 8 / (15*60 * 1024 * 1024)
+CONST['CONVERT_OCTETS'] = 8 / (15*60 * 1024)        # to kbps
 
 for pathname, path in CONST.iteritems():
     if 'PATH' in pathname and not os.path.exists(path):
@@ -183,8 +183,8 @@ class ComcastDataSet:
 
     def _add_throughput(self):
         logger.warning("add_throughput to up and dw using octets_passed")
-        self.up['throughput'] = self.up.octets_passed * CONST['OCTETS_TO_Mbps']
-        self.dw['throughput'] = self.dw.octets_passed * CONST['OCTETS_TO_Mbps']
+        self.up['throughput'] = self.up.octets_passed * CONST['CONVERT_OCTETS']
+        self.dw['throughput'] = self.dw.octets_passed * CONST['CONVERT_OCTETS']
         return
 
     def _add_ipaddr(self):
