@@ -118,7 +118,7 @@ class ComcastDataSet:
 
         logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_up.pkl')
         df_up.to_pickle(self.PROCESSEDPATH + self.name+'_up.pkl')
-        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_de.pkl')
+        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_dw.pkl')
         df_dw.to_pickle(self.PROCESSEDPATH + self.name+'_dw.pkl')
         self.up = df_up
         self.dw = df_dw
@@ -148,8 +148,8 @@ class ComcastDataSet:
             name = raw_input("Enter dataset name:\t")
             self._set_name(name)
 
-        self.up = pd.read_pickle(self.FILTEREDPATH + name+'_up.pkl')
-        self.dw = pd.read_pickle(self.FILTEREDPATH + name+'_dw.pkl')
+        self.up = pd.read_pickle(self.FILTEREDPATH + self.name+'_up.pkl')
+        self.dw = pd.read_pickle(self.FILTEREDPATH + self.name+'_dw.pkl')
         return
 
     def main_aggregate(self):
@@ -174,10 +174,9 @@ class ComcastDataSet:
         return
 
     def main_save_processed(self):
-        name = self.name
-        logger.warning("save_processed with extra cols: "+self.FILTEREDPATH + name+'_[direction].pkl')
-        self.up[self.filter_header_row].to_pickle(self.FILTEREDPATH + name+'_up.pkl')
-        self.dw[self.filter_header_row].to_pickle(self.FILTEREDPATH + name+'_dw.pkl')
+        logger.warning("save_processed with extra cols: "+self.FILTEREDPATH + self.name+'_[direction].pkl')
+        self.up[self.filter_header_row].to_pickle(self.FILTEREDPATH + self.name+'_up.pkl')
+        self.dw[self.filter_header_row].to_pickle(self.FILTEREDPATH + self.name+'_dw.pkl')
         return
 
     # helper funcs to add columns
@@ -299,6 +298,7 @@ class ComcastDataSet:
             name = raw_input("Enter dataset name:\t")
             self._set_name(name)
 
+        name = self.name
         if not attrib is None:
             name += '-'+attrib
         logger.warning("save_filtered by filtered_header_row: "+self.FILTEREDPATH + name+'_[direction].pkl')
@@ -311,6 +311,7 @@ class ComcastDataSet:
             name = raw_input("Enter dataset name:\t")
             self._set_name(name)
 
+        name = self.name
         if not attrib is None:
             name += attrib
         self.up = pd.read_pickle(self.FILTEREDPATH + name+'_up.pkl')
@@ -324,10 +325,11 @@ class ComcastDataSet:
             name = raw_input("Enter dataset name:\t")
             self._set_name(name)
 
+        name = self.name
         if not attrib is None:
             name += attrib
-        if not os.path.isfile (self.FILTEREDPATH + name+'_up.pkl'):
-            logger.warning("Could not find: "+self.FILTEREDPATH + name+'_up.pkl')
+        if not os.path.isfile (self.FILTEREDPATH + self.name+'_up.pkl'):
+            logger.warning("Could not find: "+self.FILTEREDPATH + self.name+'_up.pkl')
             self.main_load_full()
             logger.debug("no filtering, aggregate and add extra columns")
             self.main_aggregate()
@@ -420,13 +422,14 @@ def main():
 def meta_data():
     listDS = ['250-test', 'control1', 'control2', 'control3',
               'control4', 'control5', 'control6', 'control7',
-              'control8', 'test-data-set', 'test-control-set']
+              'control8']#, 'test-data-set', 'test-control-set']
     attrib = defaultdict(list)
+
     for dfname in listDS:
         df_full = ComcastDataSet(**CONST)
         logger.info('load dataframe ' + dfname)
-        df._set_name(dfname)
-        df.load()
+        df_full._set_name(dfname)
+        df_full.load()
 
         for direction in ['up', 'dw']:
             df = getattr(df_full, direction)
