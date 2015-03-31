@@ -223,9 +223,10 @@ def filter_by_date(df, start_date, end_date):
 
 def main_split_massive_by_month():
     folder = "full"
-    INPUTPATH = SEPARATEDPATH + folder + "_" + direction + "/"
     OUTPUTPATH = SEPARATEDPATH
     for direction in ['up', 'dw']:
+        INPUTPATH = SEPARATEDPATH + folder + "_" + direction + "/"
+
         df_test = pd.read_pickle(INPUTPATH + "test.pkl")
         df_control = pd.read_pickle(INPUTPATH + "control.pkl")
 
