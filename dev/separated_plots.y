@@ -309,6 +309,10 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
 
 # for persistence and prevalance
 def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
+    maxThresh = max( test_full['throughput'].max(), control_full['throughput'].max() )
+    minThresh = min( test_full['throughput'].min(), control_full['throughput'].min() )
+    stepThresh = (maxThresh - minThresh)/20
+
     fig1, ax1 = plt.subplots(1,1)
     ctr = 0
     c = ['b', 'g']
@@ -361,34 +365,37 @@ def mp_plotter(folder):
     control_full['time'] = control_full['datetime'].apply(lambda x: x.time())
     test_full['date'] = test_full['datetime'].apply(lambda x: x.date())
     control_full['date'] = control_full['datetime'].apply(lambda x: x.date())
-    test_full['weekday'] = test_full['datetime'].apply(lambda x: x.weekday())
-    control_full['weekday'] = control_full['datetime'].apply(lambda x: x.weekday())
+    #test_full['weekday'] = test_full['datetime'].apply(lambda x: x.weekday())
+    #control_full['weekday'] = control_full['datetime'].apply(lambda x: x.weekday())
+
+    g1 = test_full.groupby("datetime")
+    g2 = control_full.groupby("datetime")
+    #g1 = test_full.groupby(["weekday", "time"])
+    #g2 = control_full.groupby(["weekday", "time"])
 
     logger.debug("plot initial time series by week")
-    #g1 = test_full.groupby("datetime")
-    #g2 = control_full.groupby("datetime")
-    g1 = test_full.groupby(["weekday", "time"])
-    g2 = control_full.groupby(["weekday", "time"])
     plot_initial_timeseries(g1, g2, PLOTPATH)
 
     for param in ["mean", "median"]:
-        logger.debug("plot prime time ratio user "+param)
         tps1 = throughput_stats_per_device(test_full)
         rperday1 = mean_ratios_per_day(tps1, 'perc90',param)
         rperdev1 = mean_ratios_per_device(tps1, 'perc90',param)
         tps2 = throughput_stats_per_device(control_full)
         rperday2 = mean_ratios_per_day(tps2, 'perc90',param)
         rperdev2 = mean_ratios_per_device(tps2, 'perc90',param)
+
+        logger.debug("plot prime time ratio user "+param)
         plot_primetime_ratio_user(tps1, rperday1, rperdev1, tps2, rperday2, rperdev2, param, PLOTPATH)
     del tps1, tps2, rperdev1, rperdev2, rperday1, rperday2
 
-    logger.debug("plot prime time ratio isp")
     t1 = test_full.groupby('datetime')['throughput'].sum().reset_index()
     t1['time'] = t1['datetime'].apply(lambda x: x.time())
     t2 = control_full.groupby('datetime')['throughput'].sum().reset_index()
     t2['time'] = t2['datetime'].apply(lambda x: x.time())
     g1 = t1.groupby('time')
     g2 = t2.groupby('time')
+
+    logger.debug("plot prime time ratio isp")
     plot_primetime_ratio_isp(g1, g2, PLOTPATH)
     del g1, g2, t1, t2
 
@@ -402,7 +409,6 @@ def mp_plotter(folder):
     logger.info("control set " + str(start_time_c) +" "+ str(stop_time_c))
     del df_primetime
 
-    logger.debug("plot prime time ratio by date")
     df = test_full # Salt Lake City on PST => 7-11pm == 2-6 AM
     bool_series = (df['time'] < stop_time_t) & (df['time'] >= start_time_t)
     peak_t = df[ bool_series ]
@@ -413,6 +419,8 @@ def mp_plotter(folder):
     nonpeak_c = df[ ~ bool_series ]
     r_test = peak_t.groupby('date')['throughput'].mean() / nonpeak_t.groupby('date')['throughput'].mean()
     r_control = peak_c.groupby('date')['throughput'].mean() / nonpeak_c.groupby('date')['throughput'].mean()
+
+    logger.debug("plot prime time ratio by date")
     plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH)
     del r_test, r_control
 
@@ -427,18 +435,15 @@ def mp_plotter(folder):
     plot_cdf_max_per_device(test_full, control_full, PLOTPATH)
     plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH)
 
-    #logger.debug("plot prevalance: total devices by threshold")
-    #maxThresh = max( test_full['throughput'].max(), control_full['throughput'].max() )
-    #minThresh = min( test_full['throughput'].min(), control_full['throughput'].min() )
-    #stepThresh = (maxThresh - minThresh)/20
-    #TODO
+    logger.debug("plot prevalance: total devices by threshold")
+    plot_prevalence_total_devices(test_full, control_full, PLOTPATH)
 
     logger.debug("DONE "+folder+" (for now)")
     return
 
 
 def mp_plot_all():
-    pool = mp.Pool(processes=13) #use 13 cores only
+    pool = mp.Pool(processes=12) #use 12 cores only
     for folder in os.listdir(INPUTPATH):
         pool.apply_async(mp_plotter, args=(folder,))
     pool.close()
@@ -447,6 +452,6 @@ def mp_plot_all():
 
 
 if __name__ == "__main__":
-    #print sys.argv[1]
-    #main(sys.argv[1])
-    mp_plot_all()
+    print sys.argv[1]
+    main(sys.argv[1])
+    #mp_plot_all()
