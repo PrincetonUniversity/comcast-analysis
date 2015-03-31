@@ -17,9 +17,10 @@ logger.setLevel('DEBUG')
 
 NUMENTRIES = 4000    #the last time slot should have at least a 1000 entries
 AVAIL_MIN = 0.8
-OUTPUTPATH = '/data/users/sarthak/comcast-data/sanitized/'
-INPUTPATH = '/data/users/sarthak/comcast-data/filtered/'
+SANITIZEDPATH = '/data/users/sarthak/comcast-data/sanitized/'
 SEPARATEDPATH = '/data/users/sarthak/comcast-data/separated/'
+INPUTPATH = '/data/users/sarthak/comcast-data/filtered/'
+OUTPUTPATH = SANITIZEDPATH
 DFLIST = ['250-test']
 CONTROLLIST = [ 'control'+str(x) for x in [1,2,3,4,5,6,7,8] ]
 DFLIST.extend( CONTROLLIST )
@@ -140,6 +141,7 @@ def mp_slice():
     return
 
 def main_slice():
+    """ input: filtered data; output: sanitized data """
     availability = {}
     for name in DFLIST:
         for direction in ['up', 'dw']:
@@ -177,6 +179,9 @@ def test():
     return df
 
 def main_separate():
+    """ input: sanitized data, output: data sliced by month"""
+    INPUTPATH = SANITIZEDPATH
+    OUTPUTPATH = SEPARATEDPATH
     for direction in ["up", "dw"]:
 
         test = '250-test_'+direction+'.pkl'
@@ -217,28 +222,55 @@ def filter_by_date(df, start_date, end_date):
     return df[ (df['datetime'] < end_date) & (df['datetime'] >= start_date) ]
 
 def main_split_massive_by_month():
+    folder = "full"
+    INPUTPATH = SEPARATEDPATH + folder + "_" + direction + "/"
+    OUTPUTPATH = SEPARATEDPATH
     for direction in ['up', 'dw']:
-        INPUTPATH = SEPARATEDPATH + "full_"+direction+"/"
         df_test = pd.read_pickle(INPUTPATH + "test.pkl")
         df_control = pd.read_pickle(INPUTPATH + "control.pkl")
 
+        start_control = df_control['datetime'].min()
+        end_control = df_control['datetime'].max()
+        start_test = df_test['datetime'].min()
+        end_test = df_test['datetime'].max()
+        logger.debug(" folder= "+ folder +" start_control= "+str(start_control)+
+                " end_control= "+str(end_test)+" start_test= "+str(start_test)+
+                " end_test= "+str(end_test)+
+                " devices-control = "+str( len(df_control['Device_number'].unique()) )+
+                " devices-test = "+str( len(df_test['Device_number'].unique()) ) )
+
+        # Define limits
         start_dates = {"Oct": datetime.datetime(2014, 10, 1),
                     "Nov": datetime.datetime(2014, 11, 1),
                     "Dec": datetime.datetime(2014, 12, 1)}
         end_dates = {"Oct": datetime.datetime(2014, 10, 31),
                     "Nov": datetime.datetime(2014, 11, 30),
                     "Dec": datetime.datetime(2014, 12, 31)}
+
         for month in ["Oct", "Nov", "Dec"]:
             OUTPUTPATH = SEPARATEDPATH + month + "_"+direction+"/"
             if not os.path.exists(OUTPUTPATH):
                 os.makedirs(OUTPUTPATH)
+
             cont = filter_by_date( df_control, start_dates[month], end_dates[month] )
-            cont.to_pickle(OUTPUTPATH + "control.pkl")
-            del cont
             test = filter_by_date( df_test, start_dates[month], end_dates[month] )
+
+            start_control = cont['datetime'].min()
+            end_control = cont['datetime'].max()
+            start_test = test['datetime'].min()
+            end_test = test['datetime'].max()
+            logger.debug(" folder= "+ month +" start_control= "+str(start_control)+
+                    " end_control= "+str(end_test)+" start_test= "+str(start_test)+
+                    " end_test= "+str(end_test)+
+                    " devices-control = "+str( len(cont['Device_number'].unique()) )+
+                    " devices-test = "+str( len(test['Device_number'].unique()) ) )
+
             test.to_pickle(OUTPUTPATH + "test.pkl")
+            cont.to_pickle(OUTPUTPATH + "control.pkl")
             del test
-            logger.debug("slice "+month+"_"+direction)
+            del cont
+
+            logger.debug("DONE slice "+month+"_"+direction)
     return
 
 
@@ -252,8 +284,13 @@ def getSortedCDF(data):
     return sorted_data, yvals
 
 if __name__ is '__main__':
-    pass
-    #main_slice()
+    # SANITIZE
+    #mp_slice()
+
+    # SPLIT EACH TEST INTO CONTROL RANGE, AND COMBO INTO FULL SET
     #main_separate()
-    #main_split_massive_by_month()
+
+    # SPLIT BY MONTH
+    main_split_massive_by_month()
+
     #main()
