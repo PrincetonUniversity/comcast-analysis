@@ -4,12 +4,12 @@ import numpy as np
 import random, os
 import datetime
 import matplotlib
-import pickle as pkl
 matplotlib.use('Agg')
+import pickle as pkl
 import matplotlib.pyplot as plt
-from collections import defaultdict, OrderedDict, Counter
-import itertools
+from collections import defaultdict
 import logging
+import multiprocessing as mp
 
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 logger = logging.getLogger()
@@ -57,7 +57,7 @@ def calculate_availability(pivoted_table):
 def plot_availability(availability, availability2, dfname, PATH=OUTPUTPATH+'availability/'):
 
     if not os.path.exists(PATH):
-        os,makedirs(PATH)
+        os.makedirs(PATH)
 
     # CDF avail by device
     x = np.sort( availability )
@@ -69,26 +69,25 @@ def plot_availability(availability, availability2, dfname, PATH=OUTPUTPATH+'avai
     ax1.grid(1)
     ax1.set_xlabel('availability > x')
     ax1.set_ylabel('number of devices')
-    fig1.savefig(OUTPUTPATH + 'availability/' + dfname+'-availability-CDF')
+    fig1.savefig(PATH + dfname+'-availability-CDF')
 
     # timeseries avail vs date
     fig2, ax2 = plt.subplots(1,1)
     availability2.plot(ax=ax2)
     ax2.set_xlabel("DateTime")
     ax2.set_ylabel("Availability per Time-Slot")
-    fig2.savefig(OUTPUTPATH + 'availability/' + dfname+'-availability-by-date')
+    fig2.savefig(PATH + dfname+'-availability-by-date')
 
-    logger.debug("availability " + dfname)
     return
 
 def slice_df(availability, df):
     selected_devices = (availability[availability >= AVAIL_MIN]).index
-    logger.debug( "Number of devices selected = " + str(len(selected_devices)) )
+    #logger.debug( "Number of devices selected = " + str(len(selected_devices)) )
     sliced = df[df['Device_number'].isin(selected_devices)]
-    logger.debug( "slice the df: entries = "+str( len(sliced) ) )
+    #logger.debug( "slice the df: entries = "+str( len(sliced) ) )
     sliced = sliced.sort(['Device_number', 'datetime'], ascending=[1,1])
-    logger.debug( "Date range = " + str(sliced['datetime'].min()) + " to "
-                 + str(sliced['datetime'].max()) )
+    #logger.debug( "Date range = " + str(sliced['datetime'].min()) + " to "
+    #             + str(sliced['datetime'].max()) )
     return sliced
 
 def slice_and_plot_avail(name, direction):
@@ -104,14 +103,25 @@ def slice_and_plot_avail(name, direction):
     #availability[dfname] = a1
 
     final_df = slice_df(a1, df)
+    final_df.to_pickle(OUTPUTPATH + dfname + '_temp.pkl')
 
     logger.debug( "SLICED " + dfname +" " + str( len(final_df['Device_number'].unique()) )
     + " " + str(final_df['datetime'].min() ) + " " +str( final_df['datetime'].max() ) )
 
-    final_df.to_pickle(OUTPUTPATH + dfname + '.pkl')
+    # Single pass slill seems to be weird and full of errors. Lets do a double
+    # pass
     p = pivot_table(final_df)
     a1, a2 = calculate_availability(p)
     plot_availability(a1, a2, dfname, OUTPUTPATH+'final_availability/')
+    final_df2 = slice_df(a1, final_df)
+    final_df2.to_pickle(OUTPUTPATH + dfname + '.pkl')
+
+    logger.debug( "SLICED2 " + dfname +" " + str( len(final_df2['Device_number'].unique()) )
+    + " " + str(final_df2['datetime'].min() ) + " " +str( final_df2['datetime'].max() ) )
+
+    p = pivot_table(final_df2)
+    a1, a2 = calculate_availability(p)
+    plot_availability(a1, a2, dfname, OUTPUTPATH+'final2_availability/')
 
     del df
     del final_df
