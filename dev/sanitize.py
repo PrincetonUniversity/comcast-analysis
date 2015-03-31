@@ -15,7 +15,7 @@ CONST["SANITIZEDPATH"] = "/data/users/sarthak/comcast-data/sanitized/"
 TESTSET = "250-test.dat"
 CONTROLSETS = ["control"+str(x)+".dat" for x in range(1,9)]
 
-CONVERT_OCTETS = 8 / (15 * 60 * 1024)
+CONVERT_OCTETS = 8 / (15 * 60 * 1024)       # to kbps
 
 def aggregate_sum_data(name)
     """

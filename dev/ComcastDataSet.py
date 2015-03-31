@@ -6,6 +6,7 @@ import struct, socket
 import pickle as pkl
 from collections import defaultdict
 import logging
+import multiprocessing as mp
 
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 logger = logging.getLogger()
@@ -52,7 +53,7 @@ class ComcastDataSet:
         if 'FILENAME' in kwargs.keys():
             self._set_filename(kwargs['FILENAME'])
         else:
-            self.datafilename = none
+            self.datafilename = None
         if 'name' in kwargs.keys():
             self.name = kwargs['name']
         self.data = pd.DataFrame({})
@@ -67,13 +68,18 @@ class ComcastDataSet:
             self.filter_header_row = 0
         self._load_paths(**kwargs)
 
-    def _set_filename(filename):
+    def _set_filename(self, filename):
         self.datafilename = filename
         self._get_default_name_from_filename()
         return
 
     def _get_default_name_from_filename(self):
         self.name = self.datafilename.split('.')[0]
+        logger.warning("Set name to " + self.name)
+        return
+
+    def _set_name(self, name):
+        self.name = name
         logger.warning("Set name to " + self.name)
         return
 
@@ -102,13 +108,17 @@ class ComcastDataSet:
 
     # Split by direction and save
     def save_by_direction(self):
-        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_up.pkl')
         df = self.data
-        self.filter_header_row = ['Device_number', 'end_time', 'cmts_inet'
-                                  'octets_passed', 'service_class_name']
+        self.filter_header_row = ['Device_number', 'end_time', 'cmts_inet',
+                                  'octets_passed', 'device_key',
+                                  'service_class_name']
+
         df_up = df[df['service_direction'] == 2][self.filter_header_row]
         df_dw = df[df['service_direction'] == 1][self.filter_header_row]
+
+        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_up.pkl')
         df_up.to_pickle(self.PROCESSEDPATH + self.name+'_up.pkl')
+        logger.warning("save_by_direction: "+self.PROCESSEDPATH + self.name+'_de.pkl')
         df_dw.to_pickle(self.PROCESSEDPATH + self.name+'_dw.pkl')
         self.up = df_up
         self.dw = df_dw
@@ -116,6 +126,10 @@ class ComcastDataSet:
 
     # load direction split datasets
     def main_load_full(self):
+        if self.name is None:
+            name = raw_input("Enter dataset name:\t")
+            self._set_name(name)
+
         if not os.path.isfile (self.PROCESSEDPATH + self.name + '_up.pkl'):
             logger.warning("Could not find: "+self.PROCESSEDPATH + self.name+'_up.pkl')
             self.load_csv(self.datafilename)
@@ -130,7 +144,10 @@ class ComcastDataSet:
     # PROCESS: aggregate service_class_name, add extra cols, and save
 
     def main_load_processed(self):
-        name = self.name
+        if self.name is None:
+            name = raw_input("Enter dataset name:\t")
+            self._set_name(name)
+
         self.up = pd.read_pickle(self.FILTEREDPATH + name+'_up.pkl')
         self.dw = pd.read_pickle(self.FILTEREDPATH + name+'_dw.pkl')
         return
@@ -139,8 +156,8 @@ class ComcastDataSet:
         """
         groupby service_class_name and add all octets
         """
-        up_g = self.up.groupby(['Device_number', 'end_time', 'cmts_inet'], as_index=False)
-        dw_g = self.dw.groupby(['Device_number', 'end_time', 'cmts_inet'], as_index=False)
+        up_g = self.up.groupby(['Device_number', 'end_time'], as_index=False)
+        dw_g = self.dw.groupby(['Device_number', 'end_time'], as_index=False)
         # sum the octets_passed column
         self.up = up_g.sum()
         self.dw = dw_g.sum()
@@ -148,13 +165,12 @@ class ComcastDataSet:
         return
 
     def main_add_extra_columns(self):
-        logger.warning("add datetime, throughput, ipaddr to up and dw")
+        logger.warning("add datetime, throughput to up and dw")
+        self.filter_header_row = ['Device_number', 'end_time', 'octets_passed']
         self._add_datetime()
         self._add_throughput()
-        self._add_ipaddr()
-        self.filter_header_row = ['Device_number', 'end_time', 'octets_passed',
-                                  'datetime', 'throughput','ipaddr']
         #self.add_time()
+        #self._add_ipaddr()
         return
 
     def main_save_processed(self):
@@ -171,6 +187,7 @@ class ComcastDataSet:
         self.up['datetime'] = pd.to_datetime(self.up['end_time'])
         #self.dw['time'] = self.dw['end_time'].apply(lambda x: x.split()[1])
         self.dw['datetime'] = pd.to_datetime(self.dw['end_time'])
+        self.filter_header_row.append('datetime')
         return
 
     def _add_time(self):
@@ -185,13 +202,18 @@ class ComcastDataSet:
         logger.warning("add_throughput to up and dw using octets_passed")
         self.up['throughput'] = self.up.octets_passed * CONST['CONVERT_OCTETS']
         self.dw['throughput'] = self.dw.octets_passed * CONST['CONVERT_OCTETS']
+        self.filter_header_row.append('throughput')
         return
 
     def _add_ipaddr(self):
-        logger.warning("add_ipaddr to up arnd dw using cmts_inet")
-        get_ipaddr = lambda x: socket.inet_ntoa(struct.pack('!L', int( x )))
-        self.up['ipaddr'] = self.up.cmts_inet.apply(get_ipaddr)
-        self.dw['ipaddr'] = self.dw.cmts_inet.apply(get_ipaddr)
+        if 'cmts_inet' in self.up.columns:
+            logger.warning("add_ipaddr to up arnd dw using cmts_inet")
+            get_ipaddr = lambda x: socket.inet_ntoa(struct.pack('!L', int( x )))
+            self.up['ipaddr'] = self.up.cmts_inet.apply(get_ipaddr)
+            self.dw['ipaddr'] = self.dw.cmts_inet.apply(get_ipaddr)
+            self.filter_header_row.append('ipaddr')
+        else:
+            logger.warning("Can't add ipaddr: no cmts_inet")
         return
 
     def _get_date_range(self):
@@ -273,7 +295,10 @@ class ComcastDataSet:
 
     # Save/Load filtered
     def main_save_filtered(self, attrib=None):
-        name = self.name
+        if self.name is None:
+            name = raw_input("Enter dataset name:\t")
+            self._set_name(name)
+
         if not attrib is None:
             name += '-'+attrib
         logger.warning("save_filtered by filtered_header_row: "+self.FILTEREDPATH + name+'_[direction].pkl')
@@ -282,7 +307,10 @@ class ComcastDataSet:
         return
 
     def main_load_filtered(self, attrib=None):
-        name = self.name
+        if self.name is None:
+            name = raw_input("Enter dataset name:\t")
+            self._set_name(name)
+
         if not attrib is None:
             name += attrib
         self.up = pd.read_pickle(self.FILTEREDPATH + name+'_up.pkl')
@@ -292,7 +320,10 @@ class ComcastDataSet:
     # MAIN: FINAL aggregation and save after device, daterange
     def load(self, attrib=None):
         """main method to load a df and save it"""
-        name = self.name
+        if self.name is None:
+            name = raw_input("Enter dataset name:\t")
+            self._set_name(name)
+
         if not attrib is None:
             name += attrib
         if not os.path.isfile (self.FILTEREDPATH + name+'_up.pkl'):
@@ -306,44 +337,126 @@ class ComcastDataSet:
             self.main_load_processed()
         return
 
+    def log_meta_data(self, data):
+        data['set_name'].append(self.name)
+        data['num_devices'].append( len(self.up['Device_number'].unique()) )
+        data['date_start'].append( len(self.up['end_time'].min()) )
+        data['date_end'].append( len(self.up['end_time'].max()) )
+        return data
+
+##############################################################################
+# TEST
+##############################################################################
+
+def test():
+
+    # Constructor
+    a = ComcastDataSet(**CONST)
+    a._set_filename('test-data-set.dat')
+    print a.datafilename
+
+    # Load Raw File
+    a._load_csv()
+    print a.data.head()
+    a.save_by_direction()
+
+    # Load split by direction
+    b = ComcastDataSet(**CONST)
+    b._set_name('test-data-set')
+    b.main_load_full()
+    print b.up.head()
+
+    # Aggregate all service_class_name
+    b.main_aggregate()
+    b.main_add_extra_columns()
+    print b.filter_header_row
+    print b.up.columns
+    b.main_save_processed()
+
+    # Load aggregated processed frames
+    c = ComcastDataSet(**CONST)
+    c._set_name('test-data-set')
+    c.main_load_processed()
+
+    # Final Load method
+    d = ComcastDataSet(**CONST)
+    d._set_name('test-data-set')
+    d.load()
+    metadata = defaultdict(list)
+    meta = d.log_meta_data(metadata)
+    print meta
+
+    return
+
+def process_df(dfname):
+    df = ComcastDataSet(**CONST)
+    df._set_filename(dfname)
+    df._load_csv()
+    df.save_by_direction()
+    df.main_aggregate()
+    df.main_add_extra_columns()
+    df.main_save_processed()
+    return
+
+def main():
+
+    listDS = ['250-test', 'control1', 'control2', 'control3' ,'control4',
+              'control5', 'control6', 'control7', 'control8']
+    #attrib = defaultdict(list)
+
+    job = []
+    for dfname in listDS:
+        dfname += '.dat'
+        p = mp.Process(target=process_df, args=(dfname, ))
+        job.append(p)
+        p.start()
+
+    return
+
 #############################################################################
 # Analysis
 #############################################################################
 
 def meta_data():
-    listDS = ['test-data-set', 'test-control-set', '250-test', 'control1',
-              'control2', 'control3' ,'control4', 'control5', 'control6',
-              'control7', 'control8']
+    listDS = ['250-test', 'control1', 'control2', 'control3',
+              'control4', 'control5', 'control6', 'control7',
+              'control8', 'test-data-set', 'test-control-set']
     attrib = defaultdict(list)
     for dfname in listDS:
-        for direction in ['up', 'dw']:
-            logger.info('load dataframe ' + dfname + '_' + direction)
+        df_full = ComcastDataSet(**CONST)
+        logger.info('load dataframe ' + dfname)
+        df._set_name(dfname)
+        df.load()
 
-            df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
+        for direction in ['up', 'dw']:
+            df = getattr(df_full, direction)
+            #logger.info('load dataframe ' + dfname + '_' + direction)
+            #df = pd.read_pickle(PROCESSEDPATH + dfname +'_'+ direction +'.pkl')
 
             attrib['name'].append(dfname)
             attrib['direction'].append(direction)
             attrib['len'].append(len(df))
-            df.sort('end_time', ascending=True)
+            df.sort('end_time', ascending=True, inplace=True)
             attrib['date_start'].append(df['end_time'].iloc[0])
             attrib['date_end'].append(df['end_time'].iloc[-1])
             devices = np.sort(df['Device_number'].unique())
             attrib['num_devices'].append(len(devices))
             attrib['device_start'].append(devices[0])
             attrib['device_end'].append(devices[-1])
-            attrib['max_bytes'].append(df['octets_passed'].max())
-            attrib['mean_bytes'].append(df['octets_passed'].mean())
-            attrib['median_bytes'].append(df['octets_passed'].median())
-            attrib['perc90_bytes'].append( np.percentile( df['octets_passed'],
-                                                         90) )
+            attrib['max_rate'].append(df['octets_passed'].max() * CONST['CONVERT_OCTETS'])
+            attrib['mean_rate'].append(df['octets_passed'].mean() * CONST['CONVERT_OCTETS'])
+            attrib['median_rate'].append(df['octets_passed'].median() * CONST['CONVERT_OCTETS'])
+            attrib['perc90_rate'].append( np.percentile( df['octets_passed'],
+                                                         90)  * CONST['CONVERT_OCTETS'])
             logger.debug(pd.DataFrame(attrib))
     df_attributes = pd.DataFrame(attrib)[['name', 'direction', 'len',
                                           'date_start', 'date_end',
                                           'num_devices', 'device_start',
-                                          'device_end', 'max_bytes',
-                                          'mean_bytes', 'median_bytes',
-                                          'perc90_bytes']]
-    df_attributes.to_pickle(OUTPUTPATH + 'data_attributes.pkl')
+                                          'device_end', 'max_rate',
+                                          'mean_rate', 'median_rate',
+                                          'perc90_rate']]
+    df_attributes.to_pickle(CONST['OUTPUTPATH'] + 'data_attributes.pkl')
+    df_attributes.to_html(CONST['OUTPUTPATH'] + 'data_attributes.html')
     return df_attributes
 
 def slicer(ControlSet, DATA_up, DATA_dw, ndev):
