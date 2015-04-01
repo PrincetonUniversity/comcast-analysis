@@ -698,7 +698,9 @@ def mp_plot_all():
 
 
 if __name__ == "__main__":
-    pass
-    #print sys.argv[1]
-    #main(sys.argv[1])
+    print "INPUTPATH ", INPUTPATH
+    print "OUTPUTPATH ", OUTPUTPATH
+    print "PROCESSEDPATH ", PROCESSEDPATH
+    print "folder = ", sys.argv[1]
+    main(sys.argv[1])
     #mp_plot_all()
