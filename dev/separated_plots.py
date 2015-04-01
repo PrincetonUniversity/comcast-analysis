@@ -179,8 +179,8 @@ def plot_initial_timeseries(g1, g2, param, PLOTPATH):
         ts1 = getattr(g1['throughput'], param)()
         ts2 = getattr(g2['throughput'], param)()
     elif param == 'perc90':
-        ts1 = getattr(g1['throughput'], quantile)(0.9)
-        ts2 = getattr(g2['throughput'], quantile)(0.9)
+        ts1 = getattr(g1['throughput'], 'quantile')(0.9)
+        ts2 = getattr(g2['throughput'], 'quantile')(0.9)
     else:
         logger.warning("unknown parameter to plot throughput timeseries")
         plt.close()
