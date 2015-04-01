@@ -527,6 +527,8 @@ def mp_plotter(folder):
     PROCPATH = PROCESSEDPATH + folder + '/'
     if not os.path.exists(PLOTPATH):
         os.makedirs(PLOTPATH)
+    if not os.path.exists(PROCPATH):
+        os.makedirs(PROCPATH)
 
     logger.debug("load test and control sets from " + CURPATH)
     test_full = pd.read_pickle(CURPATH + "test.pkl")
