@@ -42,7 +42,6 @@ def throughput_stats_per_device_per_date(dfin):
     df = dfin.copy()
     g = df.set_index('datetime').groupby(["Device_number"])
     throughput_stats = g['throughput'].resample('D', how=[np.sum, len, max, min, np.median, np.mean, np.std])
-    throughput_stats = throughput_stats.rename(columns={'datetime':'date'})
 
     # for perc90 need to do it separately
     df['date'] = df['datetime'].apply(lambda x: x.date())
@@ -51,6 +50,7 @@ def throughput_stats_per_device_per_date(dfin):
     perc90_per_day = g['throughput'].apply(lambda x: np.percentile(x, 90))
 
     throughput_stats['perc90'] = perc90_per_day
+    throughput_stats = throughput_stats.rename(columns={'datetime':'date'})
 
     return throughput_stats
 
@@ -153,7 +153,7 @@ def get_peak_ratios(throughput_stats, numer='perc90', denom='median'):
     Output: pandas dataframe of ratio of throughput_stats columns. Reindexed. Columns = [Device_number. date, peakratio]
     Default: perc90 (numer): median (denom) per day per device
     """
-    ratios = (throughput_stats[numer]/throughput_stats[denom]).reset_index().rename(columns={0:'peakratio'})
+    ratios = (throughput_stats[numer]/throughput_stats[denom]).reset_index().rename(columns={'datetime':'date', 0:'peakratio'})
     return ratios
 
 def get_prime_time_ratios(octets_stats):
@@ -195,7 +195,10 @@ def plot_initial_timeseries(g1, g2, param, PLOTPATH):
     ax1.legend(loc='best')
     ax1.set_ylabel('Data Rate [kbps]')
     ax1.set_title(param+' Avg Data Rate')
-    fig1.savefig(PLOTPATH +'timeseries-throughput-'+filename_label)
+
+    plotname = 'timeseries-throughput-'+filename_label
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -215,7 +218,10 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     ax1.set_ylabel(agg_param+' peak-ratio')
     ax1.set_yscale('log')
     ax1.set_title("Daily peak-ratio aggregated "+agg_param+" over devices")
-    fig1.savefig(PLOTPATH +'peakratio-timeseries-'+filename_label)
+
+    plotname = 'peakratio-timeseries-'+filename_label
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -238,7 +244,10 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
     ax1.set_xscale('log')
     ax1.set_title("Distribution of peak-ratio per device aggregated "+agg_param+" over days")
-    fig1.savefig(PLOTPATH +'peakratio-CDF-devices-'+filename_label)
+
+    plotname = 'peakratio-CDF-devices-'+filename_label
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -264,7 +273,7 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
         ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test')
         ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control')
     else:
-        log.debug("no param_time selected so plot 90-%ile, median, max, mean")
+        logger.debug("no param_time selected so plot 90-%ile, median, max, mean")
 
         g1[param_device].max().plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-max')
         g2[param_device].max().plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-max')
@@ -281,7 +290,10 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
     ax1.legend(loc='best')
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Bytes')
     ax1.set_title("Aggregate Bytes in a 15 min slot")
-    fig1.savefig(PLOTPATH +'describe-total-octets-per-day')
+
+    plotname = 'describe-total-octets-per-day'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -308,7 +320,7 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
         ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-'+param_time)
         ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-'+param_time)
     else:
-        log.debug("no param_time selected so plot 90-%ile, median, max, mean over time")
+        logger.debug("no param_time selected so plot 90-%ile, median, max, mean over time")
 
         (g1[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-max')
         (g2[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-max')
@@ -325,7 +337,10 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     ax1.legend(loc='best')
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Data Rate [kbps]')
     ax1.set_title("Aggregate Data Rate in a 15 min slot")
-    fig1.savefig(PLOTPATH +'describe-total-throughput-per-day')
+
+    plotname = 'describe-total-throughput-per-day'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -381,7 +396,10 @@ def plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH):
     ax1.set_ylabel('Prime-time ratio')
     #ax1.set_yscale('log')
     ax1.set_title("avg throughput (peak hour) : avg throughput (non-peak hour)")
-    fig1.savefig(PLOTPATH +'prime-time-ratio-by-date')
+
+    plotname = 'prime-time-ratio-by-date'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -397,7 +415,10 @@ def plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH):
     ax1.grid(1)
     ax1.legend(loc='best')
     ax1.set_title('Prime-time Ratio per Device')
-    fig1.savefig(PLOTPATH +'cdf-prime-time-ratio-per-device')
+
+    plotname = 'cdf-prime-time-ratio-per-device'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -421,7 +442,10 @@ def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     ax1.grid(1)
     ax1.legend(loc='best')
     ax1.set_title('All Bytes')
-    fig1.savefig(PLOTPATH +'cdf-all-bytes')
+
+    plotname = 'cdf-all-bytes'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -450,7 +474,10 @@ def plot_cdf_max_per_device(test_full, control_full, PLOTPATH):
     ax1.grid(1)
     ax1.legend(loc='best')
     ax1.set_title('Max per Device')
-    fig1.savefig(PLOTPATH +'cdf-max-per-device')
+
+    plotname = 'cdf-max-per-device'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -479,7 +506,10 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
     ax1.grid(1)
     ax1.legend(loc='best')
     ax1.set_title('Max per Day per Device')
-    fig1.savefig(PLOTPATH +'cdf-max-per-day-per-device')
+
+    plotname = 'cdf-max-per-day-per-device'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
 
@@ -511,14 +541,10 @@ def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
     ax1.set_ylabel('Number of Devices')
     ax1.set_yscale('log')
     ax1.set_title("Prevalence: total devices")
-    fig1.savefig(PLOTPATH +'slice-dataset-threshold-count-ndevices')
+    plotname = 'slice-dataset-threshold-count-ndevices'
+    fig1.savefig(PLOTPATH + plotname)
+    logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
-    return
-
-def main(argv):
-    #for folder in os.listdir("../separated/"):
-    for folder in [argv]:
-        mp_plotter(folder)
     return
 
 def mp_plotter(folder):
@@ -558,9 +584,9 @@ def mp_plotter(folder):
         tps2.to_pickle(PROCPATH + 'tps2.pkl')
     else:
         logger.debug("Load throughput stats per device for test")
-        tps1 = pd.load_pickle(PROCPATH + 'tps1.pkl')
+        tps1 = pd.read_pickle(PROCPATH + 'tps1.pkl')
         logger.debug("Load throughput stats per device for control")
-        tps2 = pd.load_pickle(PROCPATH + 'tps2.pkl')
+        tps2 = pd.read_pickle(PROCPATH + 'tps2.pkl')
 
     # peak ratio (defined) =  [perc90 : median] of throughput (per day per device)
     # returns pandas dataframe [ Device_number | date | peakratio ]
@@ -598,9 +624,9 @@ def mp_plotter(folder):
         os2.to_pickle(PROCPATH + 'os2.pkl')
     else:
         logger.debug("Load octets stats per datetime for test")
-        os1 = pd.load_pickle(PROCPATH + 'os1.pkl')
+        os1 = pd.read_pickle(PROCPATH + 'os1.pkl')
         logger.debug("Load octets stats per datetime for control")
-        os2 = pd.load_pickle(PROCPATH + 'os2.pkl')
+        os2 = pd.read_pickle(PROCPATH + 'os2.pkl')
 
     # group octets [max, min, median, perc90, len, std] by weekday and time
     # column to select from g1 and g2 groups, originally in os1 and os2
@@ -698,11 +724,22 @@ def mp_plot_all():
     pool.join()
     return
 
+def main(argv):
+    #for folder in os.listdir("../separated/"):
+    for folder in [argv]:
+        mp_plotter(folder)
+    return
+
+def test():
+    mp_plotter('test_dw')
+    return
+
 
 if __name__ == "__main__":
     print "INPUTPATH ", INPUTPATH
     print "OUTPUTPATH ", OUTPUTPATH
     print "PROCESSEDPATH ", PROCESSEDPATH
     print "folder = ", sys.argv[1]
-    main(sys.argv[1])
+    test()
+    #main(sys.argv[1])
     #mp_plot_all()
