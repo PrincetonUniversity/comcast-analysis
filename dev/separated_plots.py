@@ -263,7 +263,7 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
     param_time: denotes the agg over [week, time] group: median, mean, perc90, max
     """
 
-    fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
+    fig1, ax1 = plt.subplots(1, 1, figsize=(18,8))
 
     if param_time in ['mean', 'max', 'min', 'median']:
         ts1 = getattr(g1[param_device], param_time)
@@ -295,7 +295,8 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Bytes')
     ax1.set_title("Aggregate Bytes in a 15 min slot")
 
-    plotname = 'describe-total-octets-per-day'
+    filename_label = param_time.upper()
+    plotname = 'describe-total-octets-per-day-'+filename_label
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -312,7 +313,7 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     param_time: denotes the agg over [week, time] group: median, mean, perc90, max
     """
 
-    fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
+    fig1, ax1 = plt.subplots(1, 1, figsize=(18,8))
 
     if param_time in ['mean', 'max', 'min', 'median']:
         ts1 = getattr(g1[param_device], param_time) * CONVERT_OCTETS
@@ -344,7 +345,8 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Data Rate [kbps]')
     ax1.set_title("Aggregate Data Rate in a 15 min slot")
 
-    plotname = 'describe-total-throughput-per-day'
+    filename_label = param_time.upper()
+    plotname = 'describe-total-throughput-per-day-'+filename_label
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -405,7 +407,7 @@ def plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH):
     #ax1.set_yscale('log')
     ax1.set_title("avg throughput (peak hour) : avg throughput (non-peak hour)")
 
-    plotname = 'prime-time-ratio-by-date'
+    plotname = 'prime-time-ratio-by-date-timeseries'
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -425,7 +427,7 @@ def plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH):
     ax1.set_ylabel('CDF')
     ax1.set_title('Prime-time Ratio per Device')
 
-    plotname = 'cdf-prime-time-ratio-per-device'
+    plotname = 'prime-time-ratio-per-device-cdf'
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -652,8 +654,8 @@ def mp_plotter(folder):
     # devices, so should use mean to unbias that
     # can also try 'perc90' across all devices or 'median' across all devices
     # and then take mean or median when we fold on time
-    g1 = os1.groupby(['time', 'weekday'])
-    g2 = os2.groupby(['time', 'weekday'])
+    g1 = os1.groupby([ 'weekday', 'time'])
+    g2 = os2.groupby([ 'weekday', 'time'])
 
     # parameter to aggregate over devices
     param_device = 'mean'
