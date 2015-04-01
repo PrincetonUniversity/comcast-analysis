@@ -192,11 +192,13 @@ def plot_initial_timeseries(g1, g2, param, PLOTPATH):
 
     # save with a filename containing the aggregation parameter
     filename_label = param.upper()
-    ax1.legend(loc='best')
     ax1.set_ylabel('Data Rate [kbps]')
     ax1.set_title(param+' Avg Data Rate')
 
     plotname = 'timeseries-throughput-'+filename_label
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -214,12 +216,14 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     rperday2.plot(ax=ax1, marker='d', linestyle='-', markeredgecolor='none', label='control')
 
     filename_label = agg_param.upper()
-    ax1.legend(loc='best')
     ax1.set_ylabel(agg_param+' peak-ratio')
     ax1.set_yscale('log')
     ax1.set_title("Daily peak-ratio aggregated "+agg_param+" over devices")
 
     plotname = 'peakratio-timeseries-'+filename_label
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -239,13 +243,14 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     ax1.plot(x2, y2, marker='d', linestyle='-', markeredgecolor='none', label='control')
 
     filename_label = agg_param.upper()
-    ax1.legend(loc='best')
-    ax1.grid(1)
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
     ax1.set_xscale('log')
     ax1.set_title("Distribution of peak-ratio per device aggregated "+agg_param+" over days")
 
     plotname = 'peakratio-CDF-devices-'+filename_label
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -287,11 +292,13 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
         g1[param_device].median().plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='test-median')
         g2[param_device].median().plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='control-median')
 
-    ax1.legend(loc='best')
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Bytes')
     ax1.set_title("Aggregate Bytes in a 15 min slot")
 
     plotname = 'describe-total-octets-per-day'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -334,11 +341,13 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
         (g1[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='test-median')
         (g2[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='control-median')
 
-    ax1.legend(loc='best')
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Data Rate [kbps]')
     ax1.set_title("Aggregate Data Rate in a 15 min slot")
 
     plotname = 'describe-total-throughput-per-day'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -392,12 +401,14 @@ def plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH):
     fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
     r_test.plot(ax=ax1, color='b', marker='o', linestyle='--',  label='test')
     r_control.plot(ax=ax1, color='g', marker='d', linestyle='-',  label='control')
-    ax1.legend(loc='best')
     ax1.set_ylabel('Prime-time ratio')
     #ax1.set_yscale('log')
     ax1.set_title("avg throughput (peak hour) : avg throughput (non-peak hour)")
 
     plotname = 'prime-time-ratio-by-date'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -412,11 +423,12 @@ def plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH):
     ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
     ax1.set_ylabel('CDF')
-    ax1.grid(1)
-    ax1.legend(loc='best')
     ax1.set_title('Prime-time Ratio per Device')
 
     plotname = 'cdf-prime-time-ratio-per-device'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -439,11 +451,12 @@ def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     ax1.set_xscale('log')
     ax1.set_xlabel("Data Rate [kbps]")
     ax1.set_ylabel('CDF')
-    ax1.grid(1)
-    ax1.legend(loc='best')
     ax1.set_title('All Bytes')
 
     plotname = 'cdf-all-bytes'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -471,11 +484,12 @@ def plot_cdf_max_per_device(test_full, control_full, PLOTPATH):
     ax1.set_xscale('log')
     ax1.set_xlabel("Data Rate [kbps]")
     ax1.set_ylabel('CDF')
-    ax1.grid(1)
-    ax1.legend(loc='best')
     ax1.set_title('Max per Device')
 
     plotname = 'cdf-max-per-device'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -503,11 +517,12 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
     ax1.set_xscale('log')
     ax1.set_xlabel("Data Rate [kbps]")
     ax1.set_ylabel('CDF')
-    ax1.grid(1)
-    ax1.legend(loc='best')
     ax1.set_title('Max per Day per Device')
 
     plotname = 'cdf-max-per-day-per-device'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -534,14 +549,16 @@ def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
             ydata.append( num_dev )
         ax1.plot(xdata, ydata, color=c[ctr], marker=m[ctr], label=lab[ctr])
         ctr+=1
-    ax1.grid(1)
-    ax1.legend(loc='best')
     ax1.set_xscale('linear')
     ax1.set_xlabel('threshold [kbps]')
     ax1.set_ylabel('Number of Devices')
     ax1.set_yscale('log')
     ax1.set_title("Prevalence: total devices")
+
     plotname = 'slice-dataset-threshold-count-ndevices'
+    ax1.grid(1)
+    ax1.legend(loc='best')
+    fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
@@ -740,6 +757,6 @@ if __name__ == "__main__":
     print "OUTPUTPATH ", OUTPUTPATH
     print "PROCESSEDPATH ", PROCESSEDPATH
     print "folder = ", sys.argv[1]
-    test()
-    #main(sys.argv[1])
+    #test()
+    main(sys.argv[1])
     #mp_plot_all()
