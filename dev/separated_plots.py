@@ -17,7 +17,9 @@ logger.setLevel('DEBUG')
 CONVERT_OCTETS = 8 / (15 * 60 * 1024)       #kbps
 
 INPUTPATH = "/data/users/sarthak/comcast-data/separated/"
-OUTPUTPATH = "/data/users/sarthak/comcast-data/plots/"
+#OUTPUTPATH = "/data/users/sarthak/comcast-data/plots/"
+#OUTPUTPATH = "/data/users/sarthak/comcast-analysis/plots/"
+OUTPUTPATH = "~/public_html/files/comcast/plots/"
 PROCESSEDPATH = "/data/users/sarthak/comcast-data/process/"
 if not os.path.exists(OUTPUTPATH):
     os.makedirs(OUTPUTPATH)
@@ -422,7 +424,7 @@ def plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH):
     ax1.plot(x, y, marker='o', label='test', markevery=len(y)/10)
     x,y = getSortedCDF(ratio2)
     ax1.plot(x, y, marker='d', label='control', markevery=len(y)/10)
-    ax1.set_xscale('log')
+    #ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
     ax1.set_ylabel('CDF')
     ax1.set_title('Prime-time Ratio per Device')
@@ -685,6 +687,13 @@ def mp_plotter(folder):
     #TODO WEEKDAYS/HOLIDAYS/WEEKENDS SPLIT
     # GET date AND time:
     logger.debug("Shitty way of getting date and time for datasets")
+    #ts = pd.TimeSeries(index=test_full['datetime'])
+    #test_full['time'] = ts.index.time
+    #test_full['date'] = ts.index.date
+    #ts = pd.TimeSeries(index=control_full['datetime'])
+    #control_full['time'] = ts.index.time
+    #control_full['date'] = ts.index.date
+    #del ts
     test_full['time'] = test_full['datetime'].apply(lambda x: x.time())
     control_full['time'] = control_full['datetime'].apply(lambda x: x.time())
     test_full['date'] = test_full['datetime'].apply(lambda x: x.date())
