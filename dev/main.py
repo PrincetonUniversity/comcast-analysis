@@ -45,8 +45,14 @@ def init_setup(folder):
     logger.info("Add the time column for datasets")
     if 'time' not in test_full.columns:
         test_full['time'] = test_full.set_index('datetime').index.time
+        #test_full['time'] = test_full.set_index('datetime').resample('H').index.time
     if 'time' not in control_full.columns:
         control_full['time'] = control_full.set_index('datetime').index.time
+    if 'date' not in test_full.columns:
+        #test_full['date'] = test_full.set_index('datetime').resample('D').index
+        test_full['date'] = test_full.set_index('datetime').index.date
+    if 'date' not in control_full.columns:
+        control_full['date'] = control_full.set_index('datetime').index.date
     logger.info("Done adding time column for datasets")
 
     return CURPATH, PLOTPATH, PROCPATH, test_full, control_full
@@ -198,7 +204,7 @@ def mp_plotter(folder):
     jobs.append( mp.Process(target= primetime,
                             args=(test_full, control_full, PLOTPATH,)) )
     jobs.append( mp.Process(target= throughput_weekday,
-                            args=(test_full, control_full, PROCPAH, PLOTPATH,)) )
+                            args=(test_full, control_full, PROCPATH, PLOTPATH,)) )
     jobs.append( mp.Process(target= plot_cdf,
                             args=(test_full, control_full, PLOTPATH,)) )
     jobs.append( mp.Process(target= prevalence,

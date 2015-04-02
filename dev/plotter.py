@@ -14,6 +14,8 @@ logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S
 logger = logging.getLogger()
 logger.setLevel('DEBUG')
 
+CONVERT_OCTETS = 8 / (15 * 60 * 1024)    #BYTES TO kbps
+
 # CDF
 def getSortedCDF(data):
     sorted_data = np.sort( data )
