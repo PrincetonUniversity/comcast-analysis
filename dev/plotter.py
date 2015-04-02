@@ -14,16 +14,6 @@ logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S
 logger = logging.getLogger()
 logger.setLevel('DEBUG')
 
-CONVERT_OCTETS = 8 / (15 * 60 * 1024)       #kbps
-
-INPUTPATH = "/data/users/sarthak/comcast-data/separated/"
-#OUTPUTPATH = "/data/users/sarthak/comcast-data/plots/"
-#OUTPUTPATH = "/data/users/sarthak/comcast-analysis/plots/"
-OUTPUTPATH = "~/public_html/files/comcast/plots/"
-PROCESSEDPATH = "/data/users/sarthak/comcast-data/process/"
-if not os.path.exists(OUTPUTPATH):
-    os.makedirs(OUTPUTPATH)
-
 # CDF
 def getSortedCDF(data):
     sorted_data = np.sort( data )
@@ -158,15 +148,6 @@ def get_peak_ratios(throughput_stats, numer='perc90', denom='median'):
     ratios = (throughput_stats[numer]/throughput_stats[denom]).reset_index().rename(columns={'datetime':'date', 0:'peakratio'})
     return ratios
 
-def get_prime_time_ratios(octets_stats):
-    """
-    Input: pandas dataframe of octets_stats; Index = [datetime]; Columns = [weekday, time, sum]
-    Output: pandas dataframe of ratio of throughput_stats columns. Reindexed. Columns = [date, peakratio]
-    Default: perc90 (numer): median (denom) per day per device
-    """
-    ratios = (throughput_stats[numer]/throughput_stats[denom]).reset_index().rename(columns={'datetime':'date', 0:'peakratio'})
-    return ratios
-
 # Plotter - timeseries
 def plot_initial_timeseries(g1, g2, param, PLOTPATH):
     """
@@ -214,8 +195,8 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     fig1, ax1 = plt.subplots(1, 1, figsize=(12,5))
 
     # x-axis: DAY, y-axis: agg (param) ratio over devices
-    rperday1.plot(ax=ax1, marker='o', linestyle='-', markeredgecolor='none', label='test')
-    rperday2.plot(ax=ax1, marker='d', linestyle='-', markeredgecolor='none', label='control')
+    rperday1.plot(ax=ax1, marker='o', linestyle='--', label='test')
+    rperday2.plot(ax=ax1, marker='d', linestyle='--', label='control')
 
     filename_label = agg_param.upper()
     ax1.set_ylabel(agg_param+' peak-ratio')
@@ -241,8 +222,8 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     # x-axis: peak-ratio per device, y-axis: agg (param) ratio over days
     x1,y1 = getSortedCDF(rperdev1.values)
     x2,y2 = getSortedCDF(rperdev2.values)
-    ax1.plot(x1, y1, marker='o', linestyle='-', markeredgecolor='none', label='test')
-    ax1.plot(x2, y2, marker='d', linestyle='-', markeredgecolor='none', label='control')
+    ax1.plot(x1, y1, marker='o', linestyle='--', label='test')
+    ax1.plot(x2, y2, marker='d', linestyle='--', label='control')
 
     filename_label = agg_param.upper()
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
@@ -357,13 +338,36 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     plt.close()
     return
 
-def get_peak_primetime_per_set(test_full, control_full, PLOTPATH):
-# get avg peak vs non peak throughput per day
+def _get_peak_primetime_per_set(test_full, control_full, PLOTPATH):
+    """
+    For each 4-hour period in a day:
+        Splits df into peak-time and non-peak time
+        calculates the peak-time load as mean of throughput OR sum of octets
+
+    """
+    # Add time column
+
+    if 'time' not in test_full.columns:
+        test_full['time'] = test_full.set_index('datetime').index.time
+    if 'time' not in control_full.columns:
+        control_full['time'] = control_full.set_index('datetime').index.time
+
+    if (os.path.isfile(PLOTPATH + "df_best_primetime_hour.pkl")):
+        logger.info("Load df_best_primetime_hour.pkl")
+        return pd.read_pickle(PLOTPATH + "df_best_primetime_hour.pkl")
+
+    HRS_IN_DAY = 24
+    PEAK_HRS = 4
+    NONPEAK_HRS = HRS_IN_DAY - PEAK_HRS
+    # get avg peak vs non peak throughput per day
+
+    logger.debug("Calculate df_primetime for each "+str(PEAK_HRS)+" slot in a day")
+
     myData = defaultdict(list)
 
-    for ctr in range(24):
+    for ctr in range(HRS_IN_DAY):
         start_time = datetime.time(ctr,0)
-        stop_time = datetime.time( (ctr+4) % 24 )
+        stop_time = datetime.time( (ctr+ PEAK_HRS) % HRS_IN_DAY )
 
         df = test_full
         if stop_time > start_time:
@@ -381,35 +385,152 @@ def get_peak_primetime_per_set(test_full, control_full, PLOTPATH):
             nonpeak_c = df[ (df['time'] > stop_time) & (df['time'] <= start_time) ]
             peak_c = df[ (df['time'] < stop_time) | (df['time'] >= start_time) ]
 
-        avg_test_peak = peak_t.groupby('date').mean()
-        avg_test_nonpeak = nonpeak_t.groupby('date').mean()
+        '''
+        # to calculate prime time ratio per day for each hour
+        if how = 'mean':
+            test_peak = peak_t.groupby('date')['throughput'].mean()
+            test_nonpeak = nonpeak_t.groupby('date')['throughput'].mean()
 
-        avg_control_peak = peak_c.groupby('date').mean()
-        avg_control_nonpeak = nonpeak_c.groupby('date').mean()
+            control_peak = peak_c.groupby('date')['throughput'].mean()
+            control_nonpeak = nonpeak_c.groupby('date')['throughput'].mean()
+        elif how='sum':
+            test_peak = peak_t.groupby('date')['octets_passed'].sum()
+            test_nonpeak = nonpeak_t.groupby('date')['octets_passed'].sum()
+
+            control_peak = peak_c.groupby('date')['octets_passed'].sum()
+            control_nonpeak = nonpeak_c.groupby('date')['octets_passed'].sum()
+        '''
+
         myData['start_time'].append( start_time )
         myData['stop_time'].append( stop_time )
+
         myData['peak_t'].append( peak_t['throughput'].mean() )
         myData['nonpeak_t'].append( nonpeak_t['throughput'].mean() )
         myData['peak_c'].append( peak_c['throughput'].mean() )
         myData['nonpeak_c'].append( nonpeak_c['throughput'].mean() )
+        myData['peak_t data'].append( peak_t['octets_passed'].sum() )
+        myData['nonpeak_t data'].append( nonpeak_t['octets_passed'].sum() )
+        myData['peak_c data'].append( peak_c['octets_passed'].sum() )
+        myData['nonpeak_c data'].append( nonpeak_c['octets_passed'].sum() )
 
     df_primetime = pd.DataFrame(myData)
-    df_primetime['test_ratio'] = df_primetime['peak_t']/df_primetime['nonpeak_t']
-    df_primetime['control_ratio'] = df_primetime['peak_c']/df_primetime['nonpeak_c']
+    df_primetime['test_ratio [rate]'] = df_primetime['peak_t']/df_primetime['nonpeak_t']
+    df_primetime['control_ratio [rate]'] = df_primetime['peak_c']/df_primetime['nonpeak_c']
+    df_primetime['test_ratio [data]'] = df_primetime['peak_t data']/df_primetime['nonpeak_t data']
+    df_primetime['control_ratio [data]'] = df_primetime['peak_c data']/df_primetime['nonpeak_c data']
+    df_primetime['test_ratio'] = (df_primetime['peak_t data']/PEAK_HRS) / (df_primetime['nonpeak_t data']/NONPEAK_HRS)
+    df_primetime['control_ratio'] = (df_primetime['peak_c data']/PEAK_HRS) / (df_primetime['nonpeak_c data']/NONPEAK_HRS)
 
     df_primetime.to_pickle(PLOTPATH + "df_best_primetime_hour.pkl")
     df_primetime.to_html(PLOTPATH + "df_best_primetime_hour.html")
     return df_primetime
 
-def plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH):
+def get_peak_nonpeak_series(test_full, control_full, PLOTPATH):
+
+    # peak prime time at each hour in a day, calculated with throughput or data
+    # this also adds the time column
+    df_primetime = _get_peak_primetime_per_set(test_full, control_full, PLOTPATH)
+
+    # find the best MAX primetime hours
+    start_time_t = df_primetime.sort('test_ratio', ascending=False).iloc[0]['start_time']
+    stop_time_t = df_primetime.sort('test_ratio', ascending=False).iloc[0]['stop_time']
+    logger.info("test set " + str(start_time_t) +" "+ str(stop_time_t))
+    start_time_c = df_primetime.sort('control_ratio', ascending=False).iloc[0]['start_time']
+    stop_time_c = df_primetime.sort('control_ratio', ascending=False).iloc[0]['stop_time']
+    logger.info("control set " + str(start_time_c) +" "+ str(stop_time_c))
+    del df_primetime
+
+    df = test_full # Salt Lake City on PST => 7-11pm == 2-6 AM
+    if stop_time_t < start_time_t:
+        bool_series = (df['time'] < stop_time_t) | (df['time'] >= start_time_t)
+    else:
+        bool_series = (df['time'] < stop_time_t) & (df['time'] >= start_time_t)
+    peak_t = df[ bool_series ]
+    nonpeak_t = df[ ~ bool_series ]
+
+    df = control_full # Still SLC
+    if stop_time_c < start_time_c:
+        bool_series = (df['time'] < stop_time_c) | (df['time'] >= start_time_c)
+    else:
+        bool_series = (df['time'] < stop_time_c) & (df['time'] >= start_time_c)
+    peak_c = df[ bool_series ]
+    nonpeak_c = df[ ~ bool_series ]
+
+    return peak_t, nonpeak_t, peak_c, nonpeak_c
+
+def _avg_bytes_per_hr(df):
+    """
+    Input: pandas df peak_t, nonpeak_t, peak_c, nonpeak_c
+    Output: pandas df [ Device_number | date | bytes_per_hr ] where bph is avg
+    in an hour during that day
+    TODO: make the input test_full instead
+    """
+    # sum of bytes per device per hour: resample by hour and for each device
+    # group, sum the octets_passed in that hour. drop na entries later for
+    # samples outside peak times that got resampled
+    g = df.set_index('datetime').groupby("Device_number")
+    summed_per_hr = g['octets_passed'].resample('H', how=sum).dropna()
+
+    # stick to the definition: take avg bytes send in a peak hour, per device per day
+    avg_per_day = summed_per_hr.reset_index().set_index("datetime").groupby(
+        "Device_number").resample("D", how=np.mean).reset_index().rename(
+            columns={0:'bytes_per_hr', 'datetime':'date'})
+    return avg_per_day.pivot(index='date', columns='Device_number', values='bytes_per_hr')
+
+def get_primetime_ratio(peak_t, nonpeak_t, peak_c, nonpeak_c):
+    """
+    peak, nonpeak are original dataframes sliced based on prime time hours
+    - field should be (1) octets_passed, in wchich case we will sum all octets
+    per hour per device, then get average (or max/90perc) octets per hour for
+    that device, and then take 'param' over devices, which will be mean, median
+    , etc. (2) throughput, in which case we will first get avg (or max/90perc)
+    throughput in peak_time per day per device, then take 'param' over devices
+    """
+    # get ratio (peak:nonpeak avg bytes per hour) for each (device, date)
+    peak_t = _avg_bytes_per_hr(peak_t)
+    nonpeak_t = _avg_bytes_per_hr(nonpeak_t)
+    peak_c = _avg_bytes_per_hr(peak_c)
+    nonpeak_c = _avg_bytes_per_hr(nonpeak_c)
+    r_test = (peak_t/nonpeak_t).stack().reset_index().rename(columns={0:'ratio'})
+    r_control = (peak_c/nonpeak_c).stack().reset_index().rename(columns={0:'ratio'})
+
+    # now we can get mean, max, perc90 peak primetime per day
+    #r_test = getattr(peak_t.groupby('date')[field], param)() / getattr(nonpeak_t.groupby('date')[field], param)()
+    #r_control = getattr(peak_c.groupby('date')[field], param)() / getattr(nonpeak_c.groupby('date')[field], param)()
+    return r_test, r_control
+
+def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
+    # Timeseries
     fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
-    r_test.plot(ax=ax1, color='b', marker='o', linestyle='--',  label='test')
-    r_control.plot(ax=ax1, color='g', marker='d', linestyle='-',  label='control')
+
+    r_test_g = r_test.groupby('date')['ratio']
+    r_control_g = r_control.groupby('date')['ratio']
+
+    if param in ['mean', 'median', 'max']:
+        r_t = getattr(r_test_g, param)()
+        r_c = getattr(r_control_g, param)()
+    elif param=='perc90':
+        r_t = getattr(r_test_g, 'quantile')(0.9)
+        r_c = getattr(r_control_g, 'quantile')(0.9)
+    else:
+        logger.debug("Plot all: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='test')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='control')
+
+        r_t = getattr(r_test_g, 'quantile')(0.9)
+        r_c = getattr(r_control_g, 'quantile')(0.9)
+
+    r_t.plot(ax=ax1, color='b', marker='o', label='test')
+    r_c.plot(ax=ax1, color='g', marker='d', label='control')
+
     ax1.set_ylabel('Prime-time ratio')
     #ax1.set_yscale('log')
-    ax1.set_title("avg throughput (peak hour) : avg throughput (non-peak hour)")
+    ax1.set_title("Prime-time Ratio every Date - "+param)
 
-    plotname = 'prime-time-ratio-by-date-timeseries'
+    filename_label=param.upper()
+    plotname = 'prime-time-ratio-by-date-timeseries-'+filename_label
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -418,18 +539,42 @@ def plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH):
     plt.close()
     return
 
-def plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH):
+def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
+    # CDF
     fig1, ax1 = plt.subplots(1,1)
-    x,y = getSortedCDF(ratio)
-    ax1.plot(x, y, marker='o', label='test', markevery=len(y)/10)
-    x,y = getSortedCDF(ratio2)
-    ax1.plot(x, y, marker='d', label='control', markevery=len(y)/10)
-    #ax1.set_xscale('log')
+    r_test_g = r_test.groupby('Device_number')['ratio']
+    r_control_g = r_control.groupby('Device_number')['ratio']
+
+    if param in ['mean', 'median', 'max']:
+        r_t = getattr(r_test_g, param)()
+        r_c = getattr(r_control_g, param)()
+    elif param=='perc90':
+        r_t = getattr(r_test_g, 'quantile')(0.9)
+        r_c = getattr(r_control_g, 'quantile')(0.9)
+    else:
+        logger.debug("Plot all: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        x,y = getSortedCDF(r_t2)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='test-median', markevery=len(y)/10)
+        x,y = getSortedCDF(r_c2)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='control-median', markevery=len(y)/10)
+
+        r_t = getattr(r_test_g, 'quantile')(0.9)
+        r_c = getattr(r_control_g, 'quantile')(0.9)
+
+    x,y = getSortedCDF(r_t)
+    ax1.plot(x, y, marker='o', color='b', label='test', markevery=len(y)/10)
+    x,y = getSortedCDF(r_c)
+    ax1.plot(x, y, marker='d', color='g', label='control', markevery=len(y)/10)
+
+    ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
     ax1.set_ylabel('CDF')
-    ax1.set_title('Prime-time Ratio per Device')
+    ax1.set_title('Prime-time Ratio per Device - '+param)
 
-    plotname = 'prime-time-ratio-per-device-cdf'
+    filename_label=param.upper()
+    plotname = 'prime-time-ratio-per-device-cdf-'+filename_label
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
@@ -462,7 +607,7 @@ def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     ax1.legend(loc='best')
     fig1.tight_layout()
     fig1.savefig(PLOTPATH + plotname)
-    logger.info("CREATE FILE "+PLOTPATH + plotname)
+    logger.info("CREATE FILE " + PLOTPATH + plotname)
     plt.close()
     return
 
@@ -534,6 +679,7 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
 
 # for persistence and prevalance
 def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
+
     maxThresh = max( test_full['throughput'].max(), control_full['throughput'].max() )
     minThresh = min( test_full['throughput'].min(), control_full['throughput'].min() )
     stepThresh = (maxThresh - minThresh)/20
@@ -567,207 +713,3 @@ def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
-
-def mp_plotter(folder):
-    CURPATH = INPUTPATH + folder + '/'
-    PLOTPATH = OUTPUTPATH + folder + '/'
-    PROCPATH = PROCESSEDPATH + folder + '/'
-    if not os.path.exists(PLOTPATH):
-        os.makedirs(PLOTPATH)
-    if not os.path.exists(PROCPATH):
-        os.makedirs(PROCPATH)
-
-    logger.debug("load test and control sets from " + CURPATH)
-    test_full = pd.read_pickle(CURPATH + "test.pkl")
-    control_full = pd.read_pickle(CURPATH + "control.pkl")
-
-    # CHANGE TIMEZONE TO MST
-    test_full['datetime']-=datetime.timedelta(hours=6)
-    control_full['datetime']-=datetime.timedelta(hours=6)
-
-
-    g1 = test_full.groupby("datetime")
-    g2 = control_full.groupby("datetime")
-    #g1 = test_full.groupby(["weekday", "time"])
-    #g2 = control_full.groupby(["weekday", "time"])
-
-    logger.debug("plot initial time series")
-    for param in ['sum', 'max', 'perc90', 'mean', 'median']:
-        plot_initial_timeseries(g1, g2, param, PLOTPATH)
-
-    # throughput stats calculation per device per day
-    if not os.path.isfile(PROCPATH + 'tps1.pkl'):
-        logger.debug("Calculate throughput stats per device for test")
-        tps1 = throughput_stats_per_device_per_date(test_full)
-        tps1.to_pickle(PROCPATH + 'tps1.pkl')
-        logger.debug("Calculate throughput stats per device for control")
-        tps2 = throughput_stats_per_device_per_date(control_full)
-        tps2.to_pickle(PROCPATH + 'tps2.pkl')
-    else:
-        logger.debug("Load throughput stats per device for test")
-        tps1 = pd.read_pickle(PROCPATH + 'tps1.pkl')
-        logger.debug("Load throughput stats per device for control")
-        tps2 = pd.read_pickle(PROCPATH + 'tps2.pkl')
-
-    # peak ratio (defined) =  [perc90 : median] of throughput (per day per device)
-    # returns pandas dataframe [ Device_number | date | peakratio ]
-    logger.debug("Calculate peak ratio = [perc90:median] throughput per date per device")
-    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
-    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
-    del tps1, tps2
-
-    # use peak_ratio['peakratio'] to get all ratios regardless of day/time
-    logger.debug("plot peak ratio CDF of all")
-    plot_peak_ratio_cdf(peak_ratio1['peakratio'], peak_ratio2['peakratio'], 'all', PLOTPATH)
-
-    for agg_param in ["min", "mean", "median", "perc90", "max"]:
-        peak_ratio_per_day1 = ratios_per_date(peak_ratio1, agg_param)
-        peak_ratio_per_day2 = ratios_per_date(peak_ratio2, agg_param)
-        logger.debug("plot peak ratio CDF aggregated over dates: filter by "+agg_param)
-        plot_peak_ratio_timeseries(peak_ratio_per_day1, peak_ratio_per_day2, agg_param, PLOTPATH)
-
-        peak_ratio_per_dev1 = ratios_per_device(peak_ratio1, agg_param)
-        peak_ratio_per_dev2 = ratios_per_device(peak_ratio2, agg_param)
-        logger.debug("plot peak ratio timeseries aggregated over devices: filter by "+agg_param)
-        plot_peak_ratio_cdf(peak_ratio_per_dev1, peak_ratio_per_dev2, agg_param, PLOTPATH)
-
-    del peak_ratio1, peak_ratio2
-    del peak_ratio_per_day1, peak_ratio_per_day2
-    del peak_ratio_per_dev1, peak_ratio_per_dev2
-
-    # octets stats calculation per datetime aggregate
-    if not os.path.isfile(PROCPATH + 'os1.pkl'):
-        logger.debug("Calculate octets stats per datetime for test")
-        os1 = aggregate_octets_stats_per_datetime(test_full)
-        os1.to_pickle(PROCPATH + 'os1.pkl')
-        logger.debug("Calculate octets stats per datetime for control")
-        os2 = aggregate_octets_stats_per_datetime(control_full)
-        os2.to_pickle(PROCPATH + 'os2.pkl')
-    else:
-        logger.debug("Load octets stats per datetime for test")
-        os1 = pd.read_pickle(PROCPATH + 'os1.pkl')
-        logger.debug("Load octets stats per datetime for control")
-        os2 = pd.read_pickle(PROCPATH + 'os2.pkl')
-
-    # group octets [max, min, median, perc90, len, std] by weekday and time
-    # column to select from g1 and g2 groups, originally in os1 and os2
-
-    # selecting sum here would create plots biased towards the set with more
-    # devices, so should use mean to unbias that
-    # can also try 'perc90' across all devices or 'median' across all devices
-    # and then take mean or median when we fold on time
-    g1 = os1.groupby([ 'weekday', 'time'])
-    g2 = os2.groupby([ 'weekday', 'time'])
-
-    # parameter to aggregate over devices
-    param_device = 'mean'
-
-    # parameter to aggregate over a week
-    param_time = 'all'
-
-    logger.debug("plot aggregated bytes per day")
-    plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH)
-
-    logger.debug("plot aggregated bytes per day")
-    plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH)
-
-    del g1, g2, os1, os2
-
-    """
-    # prime time ratio = sum octets in peak hour : sum octets in off-peak hour
-    # returns pandas dataframe [ Device_number | datetime (date only) | peakratio ]
-    # prime time ratio calc per datetime
-    #TODO get_prime_time_ratio()
-    logger.debug("Calculate peak ratio = [perc90:median] throughput per date per device")
-    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
-    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
-    del tps1, tps2
-    """
-
-    #TODO WEEKDAYS/HOLIDAYS/WEEKENDS SPLIT
-    # GET date AND time:
-    logger.debug("Shitty way of getting date and time for datasets")
-    #ts = pd.TimeSeries(index=test_full['datetime'])
-    #test_full['time'] = ts.index.time
-    #test_full['date'] = ts.index.date
-    #ts = pd.TimeSeries(index=control_full['datetime'])
-    #control_full['time'] = ts.index.time
-    #control_full['date'] = ts.index.date
-    #del ts
-    test_full['time'] = test_full['datetime'].apply(lambda x: x.time())
-    control_full['time'] = control_full['datetime'].apply(lambda x: x.time())
-    test_full['date'] = test_full['datetime'].apply(lambda x: x.date())
-    control_full['date'] = control_full['datetime'].apply(lambda x: x.date())
-    #test_full['weekday'] = test_full['datetime'].apply(lambda x: x.weekday())
-    #control_full['weekday'] = control_full['datetime'].apply(lambda x: x.weekday())
-
-    logger.debug("get primetime at different times")
-    df_primetime = get_peak_primetime_per_set(test_full, control_full, PLOTPATH)
-    start_time_t = df_primetime.sort('test_ratio', ascending=False).iloc[0]['start_time']
-    stop_time_t = df_primetime.sort('test_ratio', ascending=False).iloc[0]['stop_time']
-    logger.info("test set " + str(start_time_t) +" "+ str(stop_time_t))
-    start_time_c = df_primetime.sort('control_ratio', ascending=False).iloc[0]['start_time']
-    stop_time_c = df_primetime.sort('control_ratio', ascending=False).iloc[0]['stop_time']
-    logger.info("control set " + str(start_time_c) +" "+ str(stop_time_c))
-    del df_primetime
-
-    df = test_full # Salt Lake City on PST => 7-11pm == 2-6 AM
-    bool_series = (df['time'] < stop_time_t) & (df['time'] >= start_time_t)
-    peak_t = df[ bool_series ]
-    nonpeak_t = df[ ~ bool_series ]
-    df = control_full # Unknown, so using maxes
-    bool_series = (df['time'] < stop_time_c) & (df['time'] >= start_time_c)
-    peak_c = df[ bool_series ]
-    nonpeak_c = df[ ~ bool_series ]
-    r_test = peak_t.groupby('date')['throughput'].mean() / nonpeak_t.groupby('date')['throughput'].mean()
-    r_control = peak_c.groupby('date')['throughput'].mean() / nonpeak_c.groupby('date')['throughput'].mean()
-
-    logger.debug("plot prime time ratio by date")
-    plot_primetime_ratio_by_date(r_test, r_control, PLOTPATH)
-    del r_test, r_control
-
-    logger.debug("plot primetime ratio per device")
-    ratio = peak_t.groupby('Device_number')['throughput'].mean() / nonpeak_t.groupby('Device_number')['throughput'].mean()
-    ratio2 = peak_c.groupby('Device_number')['throughput'].mean() / nonpeak_c.groupby('Device_number')['throughput'].mean()
-    plot_primetime_ratio_per_device(ratio, ratio2, PLOTPATH)
-    del peak_t, peak_c, nonpeak_t, nonpeak_c
-
-    logger.debug("plot dataset throughput CDFs")
-    plot_cdf_all_bytes(test_full, control_full, PLOTPATH)
-    plot_cdf_max_per_device(test_full, control_full, PLOTPATH)
-    plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH)
-
-    logger.debug("plot prevalance: total devices by threshold")
-    plot_prevalence_total_devices(test_full, control_full, PLOTPATH)
-
-    logger.debug("DONE "+folder+" (for now)")
-    return
-
-
-def mp_plot_all():
-    pool = mp.Pool(processes=12) #use 12 cores only
-    for folder in os.listdir(INPUTPATH):
-        pool.apply_async(mp_plotter, args=(folder,))
-    pool.close()
-    pool.join()
-    return
-
-def main(argv):
-    #for folder in os.listdir("../separated/"):
-    for folder in [argv]:
-        mp_plotter(folder)
-    return
-
-def test():
-    mp_plotter('test_dw')
-    return
-
-
-if __name__ == "__main__":
-    print "INPUTPATH ", INPUTPATH
-    print "OUTPUTPATH ", OUTPUTPATH
-    print "PROCESSEDPATH ", PROCESSEDPATH
-    print "folder = ", sys.argv[1]
-    #test()
-    main(sys.argv[1])
-    #mp_plot_all()
