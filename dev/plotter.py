@@ -224,8 +224,8 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     # x-axis: peak-ratio per device, y-axis: agg (param) ratio over days
     x1,y1 = getSortedCDF(rperdev1.values)
     x2,y2 = getSortedCDF(rperdev2.values)
-    ax1.plot(x1, y1, marker='o', linestyle='--', label='test')
-    ax1.plot(x2, y2, marker='d', linestyle='--', label='control')
+    ax1.plot(x1, y1, marker='o', markevery=len(y1)//10, linestyle='--', label='test')
+    ax1.plot(x2, y2, marker='d', markevery=len(y2)//10, linestyle='--', label='control')
 
     filename_label = agg_param.upper()
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
@@ -558,17 +558,17 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
         r_t2 = getattr(r_test_g, 'median')()
         r_c2 = getattr(r_control_g, 'median')()
         x,y = getSortedCDF(r_t2)
-        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='test-median', markevery=len(y)/10)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='test-median', markevery=len(y)//10)
         x,y = getSortedCDF(r_c2)
-        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='control-median', markevery=len(y)/10)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='control-median', markevery=len(y)//10)
 
         r_t = getattr(r_test_g, 'quantile')(0.9)
         r_c = getattr(r_control_g, 'quantile')(0.9)
 
     x,y = getSortedCDF(r_t)
-    ax1.plot(x, y, marker='o', color='b', label='test', markevery=len(y)/10)
+    ax1.plot(x, y, marker='o', color='b', label='test', markevery=len(y)//10)
     x,y = getSortedCDF(r_c)
-    ax1.plot(x, y, marker='d', color='g', label='control', markevery=len(y)/10)
+    ax1.plot(x, y, marker='d', color='g', label='control', markevery=len(y)//10)
 
     ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
@@ -587,17 +587,12 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
 
 def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     fig1, ax1 = plt.subplots(1,1)
-    ctr = 0
-    c = ['b', 'g', 'k', 'r']
-    m = ['o', 'd']
-    lab = ['test', 'control']
 
-    for df in [test_full, control_full]:
-        #xdata = df.groupby('Device_number')['speed'].max()
-        xdata = df['throughput']
-        x,y = getSortedCDF(xdata)
-        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)/10, label=lab[ctr])
-        ctr+=1
+    x1, y1 = getSortedCDF( test_full['throughput'].values )
+    ax1.plot(x1, y1, marker='o', color='b', markevery=len(y1)//10, linestyle='--', label='test')
+    x2, y2 = getSortedCDF( control_full['throughput'].values )
+    ax1.plot(x2, y2, marker='d', color='g', markevery=len(y2)//10, linestyle='--', label='control')
+
     #format_axes(ax1)
     ax1.set_xscale('log')
     ax1.set_xlabel("Data Rate [kbps]")
@@ -627,9 +622,9 @@ def plot_cdf_max_per_device(test_full, control_full, PLOTPATH):
         xdata = df.groupby('Device_number')['throughput'].max()
         xdata2 = df.groupby('Device_number')['throughput'].quantile(0.9)
         x,y = getSortedCDF(xdata)
-        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)/10, label=lab[ctr]+'-max')
+        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr]+'-max')
         x,y = getSortedCDF(xdata2)
-        ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)/10, label=lab[ctr]+'-90%ile')
+        ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)//10, label=lab[ctr]+'-90%ile')
         ctr+=1
     #format_axes(ax1)
     ax1.set_xscale('log')
@@ -660,9 +655,9 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
         xdata = df.groupby(['Device_number', 'date'])['throughput'].max()
         xdata2 = df.groupby(['Device_number', 'date'])['throughput'].quantile(0.9)
         x,y = getSortedCDF(xdata)
-        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)/10, label=lab[ctr]+'-max')
+        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr]+'-max')
         x,y = getSortedCDF(xdata2)
-        ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)/10, label=lab[ctr]+'-90%ile')
+        ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)//10, label=lab[ctr]+'-90%ile')
         ctr+=1
     #format_axes(ax1)
     ax1.set_xscale('log')

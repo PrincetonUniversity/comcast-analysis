@@ -210,6 +210,7 @@ def mp_plotter(folder):
     jobs.append( mp.Process(target= prevalence,
                             args=(test_full, control_full, PLOTPATH,)) )
 
+    logger.debug("Start parallel code for folder "+folder)
     for proc in jobs:
         proc.start()
 
