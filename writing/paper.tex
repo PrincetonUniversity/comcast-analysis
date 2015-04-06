@@ -323,8 +323,11 @@ bookmarksopen = {true}
     \ifthenelse{\equal{\showComments}{yes}}{\textcolor{#1}{#2}}{}
 }
 
-\newcommand{\xxx}[1]{\note{blue}{#1}}		%use for comments
-\newcommand{\sg}[1]{\note{red}{#1}}			%use for questions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\xxx}[1]{\note{green}{Note: #1}}		%use for comments
+\newcommand{\sg}[1]{\note{red}{SG: #1}}			%use for questions
+\newcommand{\todo}[1]{\note{blue}{TODO: #1}}		%use for todo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%
 %%% Abbreviations
@@ -334,6 +337,8 @@ bookmarksopen = {true}
 \newcommand{\ea}{{\em et al.}}
 %\newcommand{\system}{FLANC}
 %\newcommand{\name}{FLANC}
+\newcommand{\test}{test}
+\newcommand{\control}{control}
 \newcommand{\fp}{\vspace*{0.02in}\noindent}
 
 %% \newtheoremstyle{tighter}

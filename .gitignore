@@ -72,7 +72,7 @@ docs/_build/
 *.swo
 .output/*
 
-
+##############################################################################
 # latex files I'm ignoring
 intro2.tex
 flanc.bib
@@ -85,3 +85,9 @@ filtered/*
 processed/*
 sliced/*
 data/*
+
+
+###############################################################################
+# except these files
+
+!paper.pdf
