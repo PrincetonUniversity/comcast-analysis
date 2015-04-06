@@ -56,18 +56,57 @@ Note that 15 minute time slots were synchronized to the same time stamp. They we
 Our initial analysis of data transferred per time slot showed that certain gateway devices were responsive only for brief periods. We also noticed that certain time slots had a very low response rate throughout the dataset. \todo{Why? asked comcast}.
 
 %\sg{remove machines that contribute to less than 0.8 of the time slots.}
-We evaluate the fraction of responsiveness of a gateway throughout the dataset, as well as the fraction of responsiveness per time slot, and call this the \bf{availability}. Figure~\ref{fig:availability} shows how the number of devices decreases for a higher availability requirement. Based on the common trend of this plot throughout the \test and \control datasets, we decided to only choose gateway devices with an availability of at least 0.8.
-\todo{fig 1: Make common plot of availability -- 8 control sets (half filtered) vs availability.}
+We evaluate the fraction of responsiveness of a gateway throughout the dataset, as well as the fraction of responsiveness per time slot, and call this the \textbf{availability}. Figure~\ref{fig:availability} shows how the number of devices decreases for a higher availability requirement. Based on the common trend of this plot throughout the \test and \control datasets, we decided to only choose gateway devices with an availability of at least 0.8.
+
+
+\begin{figure}[t!]
+%\hspace*{-0.2in}
+\begin{minipage}{1\linewidth}
+%
+\begin{subfigure}[b]{0.45\linewidth}
+\includegraphics[width=\linewidth]{figures/250-test_dw-availability-CDF.png}
+  \caption{Availability by device}
+  \label{fig:availability-device}
+\end{subfigure} \hfill
+%
+\begin{subfigure}[b]{0.45\linewidth}
+\includegraphics[width=\linewidth]{figures/250-test_dw-availability-by-date.png}
+  \caption{Availability by date}
+  \label{fig:availability-date}
+\end{subfigure} \hfill
+%
+\end{minipage}
+\caption{Availability, based on gateway device responsiveness. }
+\label{fig:availability}
+\end{figure}
 
 % remove weird dates with very low machines
 On exploring \control 4, we noticed that the dataset spanned the October-December period, but for the first week there were 15000 unique devices reporting their usage statistics, while after the first week, the number dropped to 5000. Furthermore, \control 5 and \control 6 reported usage for 5000 devices in the month of November, but only a 100 devices in December. We did not want stray devices impacting our measure of availability, therefore we sliced the \control datasets to monthly date ranges with a minimum of 4000, or at least half the total unique devices present.
 % why 4000? --- eyeballing availability plots -- 3k to 4k seemed to be the right choice for control4
 
 %final datasets for each control, each month, and full
-Finally, we sliced the sanitized \test set based on the date range of each individual \control set for comparison. We compared each of these tests individually to ensure that there are no outliers. We refer to the \test and \control sets in this case simply as datasets $1-8$. To analyze data by each month, we also sliced and combined the sanitized data to give us \control and \test data for October, November, and December, referred to as $oct, nov, dec$. Finally, we combine all \control sets to form a large concatenated dataset over the same date range as the complete \test dataset, and we refer to this simply as $full$. A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
-\todo{final table of set, num gateways, date range}
+%\sg{after sanitization, we can either compare test to each control in the same time range and draw agg conclusions, or do it by month, or combo it into a huge control set and compare it with test set}
+%\sg{Present results for full sets, unless there is a significant difference in any trends or distributions}
+Finally, we sliced the sanitized \test set based on the date range of each individual \control set for comparison. We compared each of these tests individually to ensure that there are no outliers. We refer to the \test and \control sets in this case simply as datasets $1-8$. To analyze data by each month, we also sliced and combined the sanitized data to give us \control and \test data for October, November, and December, referred to as $oct$, $nov$, $dec$. Finally, we combine all \control sets to form a large concatenated dataset over the same date range as the complete \test dataset, and we refer to this simply as $full$. A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
+
+\begin{table*}[ht]
+\small
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Dataset}            & set$_1$      & set$_2$      & set$_3$      & set$_4$      & set$_5$      & set$_6$      & set$_7$      & set$_8$      & set$_{oct}$  & set$_{nov}$  & set$_{dec}$  & set$_{full}$ \\ \hline
+\textbf{Start Time}         & 2014-09-30  & 2014-10-01  & 2014-10-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-12-01  & 2014-10-01  & 2014-11-01  & 2014-12-01  & 2014-09-30  \\ \hline
+\textbf{End Time}           & 2014-10-31  & 2014-10-31  & 2014-10-312 & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-10-30  & 2014-11-29  & 2014-12-29  & 2014-12-29  \\ \hline
+\textbf{Devices$_{\control}$} & 3627                & 4033                & 3969                & 1266                & 3632                & 3852                & 3644                & 4277                & 11629               & 12394               & 13405               & 16015               \\ \hline
+\textbf{Devices$_{\test}$}    & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                \\ \hline
+\end{tabular}
+\caption{Sanitized Dataset Description: Most of our analysis will be based on set$_{full}$ unless otherwise stated }
+\label{tab:sanitized-description}
+\end{table*}
 
 
-\sg{after sanitization, we can either compare test to each control in the same time range and draw agg conclusions, or do it by month, or combo it into a huge control set and compare it with test set}
 
-\sg{Present results for full sets, unless there is a significant difference in any trends or distributions}
+\todo{Figure~\ref{fig:availability} Make common \textbf{EPS} plot of availability -- 8 control sets (half filtered) + test sets vs availability.}
+
+\sg{Figure~\ref{fig:availability-device} should show why we chose 0.5 as threshold, Figure~\ref{fig:availability-date} should show why we expected 3k-4k sanitized devices per set} 
+
+\todo{Table~\ref{tab:sanitized-description} recheck all numbers and rewrite para accordingly, it seems control4 did not end at just one month - continued till December}
