@@ -20,7 +20,7 @@ Both the \test and \control sets were collected from users in Salt Lake City, Ut
 
 %8 control sets, different devices, different times
 %more details about data, fields, direction, locations?
-Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot ~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
+Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
 
 \begin{table}[ht]
 \small
@@ -42,21 +42,31 @@ service\_identifier    & Service id (not used in our analysis)     \\ \hline
 \label{tab:field-description}
 \end{table}
 
+\subsection{Data Processing}
+
 % split database by direction, combine service class name
-To process the large amount of data (more than 15000 unique devices, 15 $\mult$ 24 time slots per day, 3 months, multiple service classes per time-slot), we first split the data by direction into uplink and downlink. The nature of the questions we ask in ~\ref{sec:background}
+To process the large amount of data (more than 15000 unique devices, 96 time slots per day, 3 months, multiple service classes per time-slot), we first split the data by direction into uplink and downlink. The nature of the questions we ask in section~\ref{sec:background} encourages us to concentrate on the downstream data, although we present similar results for upstream data in section~\ref{sec:results}. We also do not use the service class name identifier in our analysis, which is internal to Comcast. \todo{Our analysis showed that ignoring the service class identifier does not change our conclusions on usage patterns and statistics.} Thus we only considered overall usage for each gateway device in each time slot, in uplink and downlink direction.
 
-
-\sg{granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns}
+%granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns
+Note that 15 minute time slots were synchronized to the same time stamp. They were off only by a few seconds (under 30, as claimed by Comcast). As our analysis deals with aggregated patterns on a granularity of 15 minutes, we believe this time synchronization to be irrelevant.
 
 \subsection{Data Sanitization}
 
-\sg{correlated drops at times or devices that contributed only 2-3 days of the whole month}
+%\sg{correlated drops at times or devices that contributed only 2-3 days of the whole month}
+Our initial analysis of data transferred per time slot showed that certain gateway devices were responsive only for brief periods. We also noticed that certain time slots had a very low response rate throughout the dataset. \todo{Why? asked comcast}.
 
-\sg{remove machines that contribute to less than 0.8 of the time slots.}
-
+%\sg{remove machines that contribute to less than 0.8 of the time slots.}
+We evaluate the fraction of responsiveness of a gateway throughout the dataset, as well as the fraction of responsiveness per time slot, and call this the \bf{availability}. Figure~\ref{fig:availability} shows how the number of devices decreases for a higher availability requirement. Based on the common trend of this plot throughout the \test and \control datasets, we decided to only choose gateway devices with an availability of at least 0.8.
 \todo{fig 1: Make common plot of availability -- 8 control sets (half filtered) vs availability.}
 
-\sg{final table of set, num gateways, date range}
+% remove weird dates with very low machines
+On exploring \control 4, we noticed that the dataset spanned the October-December period, but for the first week there were 15000 unique devices reporting their usage statistics, while after the first week, the number dropped to 5000. Furthermore, \control 5 and \control 6 reported usage for 5000 devices in the month of November, but only a 100 devices in December. We did not want stray devices impacting our measure of availability, therefore we sliced the \control datasets to monthly date ranges with a minimum of 4000, or at least half the total unique devices present.
+% why 4000? --- eyeballing availability plots -- 3k to 4k seemed to be the right choice for control4
+
+%final datasets for each control, each month, and full
+Finally, we sliced the sanitized \test set based on the date range of each individual \control set for comparison. We compared each of these tests individually to ensure that there are no outliers. We refer to the \test and \control sets in this case simply as datasets $1-8$. To analyze data by each month, we also sliced and combined the sanitized data to give us \control and \test data for October, November, and December, referred to as $oct, nov, dec$. Finally, we combine all \control sets to form a large concatenated dataset over the same date range as the complete \test dataset, and we refer to this simply as $full$. A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
+\todo{final table of set, num gateways, date range}
+
 
 \sg{after sanitization, we can either compare test to each control in the same time range and draw agg conclusions, or do it by month, or combo it into a huge control set and compare it with test set}
 
