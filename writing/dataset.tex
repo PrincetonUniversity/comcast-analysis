@@ -62,18 +62,23 @@ We evaluate the fraction of responsiveness of a gateway throughout the dataset, 
 \begin{figure}[t!]
 %\hspace*{-0.2in}
 \begin{minipage}{1\linewidth}
+\centering
 %
-\begin{subfigure}[b]{0.45\linewidth}
+%\hfill
+\begin{subfigure}[b]{0.5\linewidth}
 \includegraphics[width=\linewidth]{figures/250-test_dw-availability-CDF.png}
   \caption{Availability by device}
   \label{fig:availability-device}
-\end{subfigure} \hfill
+\end{subfigure}
 %
-\begin{subfigure}[b]{0.45\linewidth}
+\hspace{-1em}
+%
+\begin{subfigure}[b]{0.5\linewidth}
 \includegraphics[width=\linewidth]{figures/250-test_dw-availability-by-date.png}
   \caption{Availability by date}
   \label{fig:availability-date}
-\end{subfigure} \hfill
+\end{subfigure}
+%\hfill
 %
 \end{minipage}
 \caption{Availability, based on gateway device responsiveness. }
@@ -110,3 +115,5 @@ Finally, we sliced the sanitized \test set based on the date range of each indiv
 \sg{Figure~\ref{fig:availability-device} should show why we chose 0.5 as threshold, Figure~\ref{fig:availability-date} should show why we expected 3k-4k sanitized devices per set} 
 
 \todo{Table~\ref{tab:sanitized-description} recheck all numbers and rewrite para accordingly, it seems control4 did not end at just one month - continued till December}
+
+\todo{Table~\ref{tab:sanitized-description} turn it around}
