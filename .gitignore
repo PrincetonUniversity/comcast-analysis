@@ -85,3 +85,9 @@ filtered/*
 processed/*
 sliced/*
 data/*
+
+
+###############################################################################
+# except these files
+
+!paper.pdf
