@@ -91,3 +91,4 @@ data/*
 # except these files
 
 !paper.pdf
+!todo.txt

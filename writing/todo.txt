@@ -1,0 +1,87 @@
+Meeting with Roya 04/04/2015
+
+Sanitizing the FCC
+
+
+- INTRODUCTION
+	- FCC background and importance
+	- Why it matters, why people should care about it, how many people care about it (eg: retweets on decisions). Do we understand it? (ask Ed about importance and if he would find my paper interesting)
+	- Power of FCC: its decisions change the economies of play, some policy papers
+	- Important that their decisions are based on valid measurements and hypothesis.
+	- Technical questions and Other types (?)
+	- FCC HYPOTHESIS:
+		- H1:
+		- H2:
+		- H3:
+		- ...
+	- To evaluate some of FCC decisions we chose broadband usage data from comcast in an urban city with high tier usage. 
+	- Sections: Data + Sanitization + Specifications, Methodololy, Analysis of observations vs FCC Hypothesis
+
+
+- Comcast Data
+
+- Methodology
+	- Challenges (including sanitization)
+	- Means, medians, percentiles
+	- Importance of measuring peak
+	- Measuring one city and tier: advantage [data characterization above??]
+	- Shorcomings of the data
+		- 15 mins granularity is low but way better than aggregate sandvine (hourly? monthly?) and FCC statistics
+		- user end instead of server end or inside the ISP: controlled environment (although bismark and samknows are the same - what is samknows granularity)
+
+
+- Results and Analysis
+	#- FCC perspective
+	- H1:
+	- How we approach
+	- results/figure
+	- comparison with sandvine/FCC
+	- Reject/Accept/Don't Know?
+	- H2: Latency
+	- We can't answer although important
+	- H3: Prime Time
+	- in next section we discuss a worst time scenario metric we came up with: peak ratio
+	- H4: Asymmetry
+	- results/fig
+	- Cisco alcatel cite + our thoughts
+	- H5: Price vs usage
+	- approach: histogram of max reached per device
+	- show usage didnt increase much apart from 1% outliers
+	- no usage change after a certain price limit.
+	- also show this doesn't agree with popular DASU util inc as capacity inc hypothesis
+	#- is it worth it Google Fiber?
+	#- Should ISPs be marketting plans to dumb consumers or give them unlimited BW but cap total Bytes during congestion hrs based on congestion IDK
+
+	#- ISP perspective?
+	
+
+- Discussion (suggestions for FCC)
+	- peak time
+	- user taxonomy
+		#- FCC family of 3 defines general limit of 25 Mbps
+		#- Sandvine simply heavy hitters, typical, non-streamer
+		#- we consider peak ratio + usage to classify in 4 types
+			#- use it coz business is a big contributer in urban cities
+
+
+- Related + Conclusion
+	- FCC is important
+	- should make policies based on true measurements
+	- ISP perspective
+
+	- Policy + Measurement techniques
+
+
+###############################################################################
+
+RESULT PLOTS
+- rationale for 25/3? Does that mean if there were outliers FCC will change definition? More attetion to evidence needed
+- 24 hrs avg vs peaktime [CDF max vs avg per day]
+- machines reaching threshhold byte rate in their lifetime [histogram]
+- asymmetry
+- machines total usage tier throughout 3 months [should be part of data characterization not the results]
+
+
+###############################################################################
+
+COPY ALL FCC HYPOTHESIS FROM GOOGLE DOC HERE
