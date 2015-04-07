@@ -1,0 +1,485 @@
+<head>
+
+<title> Comcast Data Set Description and Questions </title>
+
+<style>
+  div.container {
+    display:inline-block;
+  }
+  p {
+    text-align:left;
+  }
+</style>
+
+<script src="sorttable.js"></script>
+
+</head>
+
+
+<body>
+<h2>Data Description </h2>
+
+<br>
+Note [Table 1]:
+<ul>
+  <li>average data rate is calculated by dividing the octets_passed by time
+    slot duration (15 mins). All rates are in kbps.</li>
+  <li>Click on the field to sort the table</li>
+</ul>
+<br>
+<br>
+
+<table border="1" class="sortable">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>direction</th>
+      <th>len</th>
+      <th>date_start</th>
+      <th>date_end</th>
+      <th>num_devices</th>
+      <th>device_start</th>
+      <th>device_end</th>
+      <th>max_rate</th>
+      <th>mean_rate</th>
+      <th>median_rate</th>
+      <th>perc90_rate</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th>0 </th>
+      <td> 250-test</td>
+      <td> up</td>
+      <td> 16211400</td>
+      <td> 2014-09-30 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  2219</td>
+      <td> 20001</td>
+      <td> 22219</td>
+      <td>  42542.078229</td>
+      <td>  48.173467</td>
+      <td> 0.927561</td>
+      <td>  42.117747</td>
+    </tr>
+
+    <tr>
+      <th>1 </th>
+      <td> 250-test</td>
+      <td> dw</td>
+      <td> 16235530</td>
+      <td> 2014-09-30 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  2219</td>
+      <td> 20001</td>
+      <td> 22219</td>
+      <td> 296493.057370</td>
+      <td> 324.911646</td>
+      <td> 2.207656</td>
+      <td> 626.100710</td>
+    </tr>
+
+    <tr>
+      <th>2 </th>
+      <td> control1</td>
+      <td> up</td>
+      <td> 13208062</td>
+      <td> 2014-09-30 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td> 15148</td>
+      <td>     1</td>
+      <td> 20000</td>
+      <td>  23945.737691</td>
+      <td>  32.856993</td>
+      <td> 1.133220</td>
+      <td>  32.445633</td>
+    </tr>
+
+    <tr>
+      <th>3 </th>
+      <td> control1</td>
+      <td> dw</td>
+      <td> 13226075</td>
+      <td> 2014-09-30 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td> 15158</td>
+      <td>     1</td>
+      <td> 20000</td>
+      <td> 109127.947109</td>
+      <td> 273.928787</td>
+      <td> 2.126510</td>
+      <td> 499.207679</td>
+    </tr>
+
+    <tr>
+      <th>4 </th>
+      <td> control2</td>
+      <td> up</td>
+      <td> 13402080</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td>  5282</td>
+      <td>  3627</td>
+      <td>  9831</td>
+      <td>  36421.287587</td>
+      <td>  33.648501</td>
+      <td> 1.140313</td>
+      <td>  32.650131</td>
+    </tr>
+
+    <tr>
+      <th>5 </th>
+      <td> control2</td>
+      <td> dw</td>
+      <td> 13434752</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td>  5282</td>
+      <td>  3627</td>
+      <td>  9831</td>
+      <td> 123632.316606</td>
+      <td> 298.869454</td>
+      <td> 2.239627</td>
+      <td> 599.376177</td>
+    </tr>
+
+    <tr>
+      <th>6 </th>
+      <td> control3</td>
+      <td> up</td>
+      <td> 13029069</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td>  5111</td>
+      <td>  9831</td>
+      <td> 15866</td>
+      <td>  24233.964306</td>
+      <td>  28.392789</td>
+      <td> 1.159097</td>
+      <td>  29.527403</td>
+    </tr>
+
+    <tr>
+      <th>7 </th>
+      <td> control3</td>
+      <td> dw</td>
+      <td> 13052572</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-10-31 23:45:00</td>
+      <td>  5111</td>
+      <td>  9831</td>
+      <td> 15866</td>
+      <td> 115458.534115</td>
+      <td> 275.898738</td>
+      <td> 2.312951</td>
+      <td> 495.179012</td>
+    </tr>
+
+    <tr>
+      <th>8 </th>
+      <td> control4</td>
+      <td> up</td>
+      <td> 13723612</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  4003</td>
+      <td>     1</td>
+      <td> 20000</td>
+      <td>  34171.921120</td>
+      <td>  33.196373</td>
+      <td> 1.137474</td>
+      <td>  31.718122</td>
+    </tr>
+
+    <tr>
+      <th>9 </th>
+      <td> control4</td>
+      <td> dw</td>
+      <td> 13749321</td>
+      <td> 2014-10-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  4003</td>
+      <td>     1</td>
+      <td> 20000</td>
+      <td> 125369.277995</td>
+      <td> 278.248516</td>
+      <td> 2.349696</td>
+      <td> 466.077135</td>
+    </tr>
+
+    <tr>
+      <th>10</th>
+      <td> control5</td>
+      <td> up</td>
+      <td> 12331989</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5114</td>
+      <td>   437</td>
+      <td>  6275</td>
+      <td>  27658.838681</td>
+      <td>  31.857455</td>
+      <td> 1.070972</td>
+      <td>  35.758068</td>
+    </tr>
+
+    <tr>
+      <th>11</th>
+      <td> control5</td>
+      <td> dw</td>
+      <td> 12352759</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5113</td>
+      <td>   437</td>
+      <td>  6275</td>
+      <td> 112299.499106</td>
+      <td> 303.261471</td>
+      <td> 1.590052</td>
+      <td> 629.987769</td>
+    </tr>
+
+    <tr>
+      <th>12</th>
+      <td> control6</td>
+      <td> up</td>
+      <td> 13020452</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5370</td>
+      <td>  6275</td>
+      <td> 12293</td>
+      <td>  37745.151684</td>
+      <td>  34.186911</td>
+      <td> 1.096398</td>
+      <td>  36.566790</td>
+    </tr>
+
+    <tr>
+      <th>13</th>
+      <td> control6</td>
+      <td> dw</td>
+      <td> 13040318</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5370</td>
+      <td>  6275</td>
+      <td> 12293</td>
+      <td>  87593.774106</td>
+      <td> 313.071678</td>
+      <td> 2.049340</td>
+      <td> 655.835754</td>
+    </tr>
+
+    <tr>
+      <th>14</th>
+      <td> control7</td>
+      <td> up</td>
+      <td> 12709513</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5231</td>
+      <td>     1</td>
+      <td> 18000</td>
+      <td>  20878.370365</td>
+      <td>  30.149616</td>
+      <td> 1.139175</td>
+      <td>  28.138481</td>
+    </tr>
+
+    <tr>
+      <th>15</th>
+      <td> control7</td>
+      <td> dw</td>
+      <td> 12734395</td>
+      <td> 2014-11-01 00:00:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5231</td>
+      <td>     1</td>
+      <td> 18000</td>
+      <td> 120172.734080</td>
+      <td> 266.800347</td>
+      <td> 2.732361</td>
+      <td> 423.682274</td>
+
+    </tr>
+    <tr>
+      <th>16</th>
+      <td> control8</td>
+      <td> up</td>
+      <td> 12247471</td>
+      <td> 2014-12-01 00:15:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5440</td>
+      <td>   136</td>
+      <td>  6015</td>
+      <td>  23936.472813</td>
+      <td>  31.696581</td>
+      <td> 1.076745</td>
+      <td>  36.126484</td>
+    </tr>
+
+    <tr>
+      <th>17</th>
+      <td> control8</td>
+      <td> dw</td>
+      <td> 12253308</td>
+      <td> 2014-12-01 00:15:00</td>
+      <td> 2014-12-29 23:45:00</td>
+      <td>  5440</td>
+      <td>   136</td>
+      <td>  6015</td>
+      <td> 118422.126233</td>
+      <td> 313.311940</td>
+      <td> 1.603056</td>
+      <td> 636.402971</td>
+    </tr>
+  </tbody>
+  <p> Table 1: Raw Dataset Description </p>
+</table>
+
+
+<br><br>
+<hr>
+<br><br>
+
+<h2>Questions on data collection mechanism:</h2>
+
+<ol>
+  <li>Please confirm: this data is collected at home gateways of Comcast customers
+  in Salt Lake City.</li>
+  <li>What layer are these octets_passed counters calculated on?
+  (I&#39;m assuming Network layer, not Transport layer (per flow))</li>
+  <li>I see that a lot of devices become unresponsive at certain time slots in a
+  correlated manner. For example, for the 250-test dataset:
+  <ol>
+    <li> Only 25% of the devices sent their byte counters on 2014-11-25 [Fig 1a].</li>
+    <li> Only 1500 of the 2200 devices have a responsiveness over 80% [Fig 1b].</li>
+  </ol>
+  <li>Any reason why? (more details about other plots in ppt)</li>
+</ol>
+<br>
+<br>
+
+<div class="container">
+  <img src="http://sites.noise.gatech.edu/~sarthak/files/comcast/sanitized/availability/250-test_dw-availability-by-date.png" width="400" />
+  <p>Fig 1a: Availability by Date</p>
+</div>
+<div class="container">
+  <img src="http://sites.noise.gatech.edu/~sarthak/files/comcast/sanitized/availability/250-test_dw-availability-CDF.png" width="400" />
+  <p>Fig 1b: Availability CDF</p>
+</div>
+
+<hr>
+<br><br>
+
+<h2>Questions on data fields [Table 2]:</h2>
+
+<ol>
+  <li><h4>Device_number</h4></li>
+  <ol>
+    <li>I wanted to confirm: does every gateway have a unique device identifier?</li>
+    <li>How many devices are shared between control sets?</li>
+  </ol>
+  <li><h4>end_time</h4></li>
+  <ol>
+    <li>What are the expected date ranges for each control set?  Do they correspond to the table above [Table 1]?</li>
+    <ul>
+      <li>control 1, 2, 3: Oct</li>
+      <li>control 4, 250-test: Oct, Nov, Dec</li>
+      <li>control 5,6,7: Nov (most), Dec (only some)</li>
+      <li>control 8: Dec</li>
+    </ul>
+    <li>Can you estimate how off this synchronized time stamp is (under 30 seconds?)</li>
+  </ol>
+  <li><h4>cmts_inet</h4></li>
+  <ol>
+    <li>Converting these to IP addresses, I notices the pool of different IP
+      addresses is very low. I think I only see 25 distinct IPs in the whole 250-test set.</li>
+    <li>Why are the IP addresses shared between many devices across sets?</li>
+    <li>Were both control and test sets chosen only from Salt Lake City, Utah?</li>
+  </ol>
+  <li><h4>service_class_name</h4></li>
+  <ol>
+    <li>What is the relevance of this field? Does it in any way relate to the
+      application generating the data on the users&#39; home network? Or is it 
+      internal to a Comcast application?</li>
+    <li>Does xwifi_up actually mean data on wifi? Or is it the name of a 
+      Comcast data counter application I shouldn\'t be concerned with?</li>
+    <li>extrm_5 has the maximum share of data throughout the 250-test set: what is it?</li>
+    <li>I am currently disregarding this field and only looking at the sum of
+      octets_passed in each end_time slot for each Device_number. I want to
+      confirm if that is relevant to Comcast (or if I should be choosing some
+      other aggregates).</li>
+  </ol>
+  <li><h4>octets_passed</h4></li>
+  <ol>
+    <li>What is the access link bandwidth of each control set: 105 Mbps?</li>
+    <li>How hard is this limit, i.e., any idea how much extra Comcast lets a
+      user push through in a 15 min time slot? I saw some transfers as high as
+      150 Mbps average data rate or so...</li>
+  </ol>
+</ol>
+
+<br><br>
+<hr>
+<br><br>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+.tg .tg-e3zv{font-weight:bold}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">Field</th>
+    <th class="tg-e3zv">Description</th>
+  </tr>
+  <tr>
+    <td class="tg-031e">Device_number</td>
+    <td class="tg-031e">Arbitrarily assigned CM device identifier</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">end_time</td>
+    <td class="tg-031e">Fifteen minute sample period end time</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">date_service_created</td>
+    <td class="tg-031e">Service start (not used in our analysis)</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">service_class_name</td>
+    <td class="tg-031e">Used to differentiate data application</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">cmts_inet</td>
+    <td class="tg-031e">Cmts identifier (derived from ip address)</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">service_direction</td>
+    <td class="tg-031e">1-downstream, 2-upstream</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">port_name</td>
+    <td class="tg-031e">Cmts port descriptor</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">octets_passed</td>
+    <td class="tg-031e">Byte count</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">device_key</td>
+    <td class="tg-031e">not used in our analysis</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">service_identifier</td>
+    <td class="tg-031e">Service id (not used in our analysis)</td>
+  </tr>
+  <p> Table 2: Field Descriptors (recap) </p>
+</table>
+
+
+</body>
