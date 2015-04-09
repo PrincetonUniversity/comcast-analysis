@@ -6,7 +6,7 @@
 %% Note:  Authors is hardcoded below, this line only used for the PDF info
 \newcommand{\AUTHORS}{authors}
 % Title needs work
-\newcommand{\TITLE}{something}
+\newcommand{\TITLE}{Broadband Benchmarking in America: On the FCC Issues for Inquiry}
 \newcommand{\KEYWORDS}{Put your keywords here}
 \newcommand{\CONFERENCE}{Somewhere}
 \newcommand{\PAGENUMBERS}{yes}       % "yes" or "no"
@@ -338,8 +338,9 @@ bookmarksopen = {true}
 
 %\newcommand{\system}{BISMark}
 %\newcommand{\name}{BISMark}
+\newcommand{\FCC}{FCC}
 
-\newcommand{\hypoth}{\hspace{2pt}\textbf{Hypothesis }}
+\newcommand{\hypoth}[1]{\hspace{2pt}\textbf{Issue $\#$#1.}}
 \newcommand{\test}{test}
 \newcommand{\control}{control}
 \newcommand{\fp}{\vspace*{0.02in}\noindent}
@@ -414,6 +415,7 @@ bookmarksopen = {true}
 %\input{introduction}
 %\input{background}			%combine to intro
 \input{introduction2}
+\input{hypothesis}
 \input{dataset}
 \input{methodology}
 \input{results}
