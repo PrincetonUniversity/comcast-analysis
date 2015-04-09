@@ -32,9 +32,17 @@ In particular, we believe that there is a need to: (a) define benchmarks based o
 % para4: contributions
 % brief results + discussion
 % Methodology + Data + contributions
-To analyze usage characteristics we study byte counter data collected by Comcast home gateways for their customers in Salt Lake City, Utah, with a high capacity access link (105 Mbps) [section ~\ref{sec:data}]. Although we limit our analysis to a particular high access link ISP and a single city, this avoids any biases in usage patterns especially during peak time, as well as different pricing models. And with this controlled setting, we motivate the need of multiple benchmarks based on varying usage, as well a need to study peak usage for different types of users [section ~\ref{sec:results}]. Based on our analysis, we comment on the issues raised by \FCC to investigate a better benchmarking solution for the US [section ~\ref{sec:discussion}]. Our contributions in this work are as follows:
+To analyze usage characteristics we study byte counter data collected by Comcast home gateways for their customers in Salt Lake City, Utah, with a high capacity access link (105 Mbps) [section ~\ref{sec:data}]. Although we limit our analysis to a particular high access link ISP and a single city, this avoids any biases in usage patterns especially during peak time, as well as different pricing models. We proceed by analyzing spacio-temporal usage patterns for from the usage data collected from multiple home gateways, as well as peak usage (during prime-time) [section ~\ref{sec:methodology}]. Our analysis indicates that for high capacity access links, increasing capacity does not result in higher utilization, and motivate the need of multiple benchmarks based on varying usage within the same tier [section ~\ref{sec:results}]. Finally, we comment on the issues raised by \FCC to investigate a better benchmarking solution for the US [section ~\ref{sec:discussion}].
+
+Based on our dataset analysis, our major contributions in this work are as follows:
 \begin{itemize}
-\item ???
+\item Need for price regulation: Users buy high bandwidth but don't use it, even max usage per user is low. Some users in high bandwidth set can even survive with DSL usage. %~\ref{fig:usage-cdf}
+\item Comment on importance of peak usage: comment of FCC issue, capacity planning needs to be based on peak hours not 24 hour averages. 
+\item no dips by median/mean in usage pattern of a day (or a week). Shows a peak at 8-12, different from FCC. Peak timings are getting late (8-12pm) and this may be a trend of high bandwidth tiers that use loads of entertainment traffic during this time. We come up with a "peak usage" parameter to show the variance per day and compare it with prime time. (in discussion)
+%~\ref{sec:peak-hour-importance}
+\item Asymmetry of data in high tier %result still needed
+\item Show that there is no major change in usage with increasing tier capacity, but there might be subtle changes (short flows) %distribution is same
+\item Discuss segregating users (business, average, high peak + load, low peak + load) to motivate multiple benchmarks even in the same tier! %result still needed
 \end{itemize}
 
 
