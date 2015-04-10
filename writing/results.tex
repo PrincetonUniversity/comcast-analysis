@@ -11,9 +11,9 @@ We present a comparison between the usage characteristics of the control\footnot
 \hypoth{1}. Does aggregate user behavior differ?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t!]
+\begin{figure}[ht!]
 %\hspace*{-0.2in}
-\begin{minipage}{1\linewidth}
+\begin{minipage}{\linewidth}
 \centering
 %
 %\hfill
@@ -26,7 +26,7 @@ We present a comparison between the usage characteristics of the control\footnot
 %
 \vspace{-1em}
 %
-\begin{subfigure}[b]{\linewidth}
+\begin{subfigure}[b]{0.45\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-all-bytes.png}
   \caption{CDF of data rate per time slot for all devices (agg view of data)}
   \vspace{1em}
@@ -53,13 +53,13 @@ usage is similar
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t!]
+\begin{figure}[ht!]
 %\hspace*{-0.2in}
-\begin{minipage}{1\linewidth}
+\begin{minipage}{0.45\linewidth}
 \centering
 %
 %\hfill
-\begin{subfigure}[b]{\linewidth}
+\begin{subfigure}[b]{0.45\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-max-per-device.png}
   \caption{CDF of max per device}
   %http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-max-per-device.png
@@ -68,7 +68,7 @@ usage is similar
 %
 \vspace{-1em}
 %
-\begin{subfigure}[b]{\linewidth}
+\begin{subfigure}[b]{0.45\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-max-per-day-per-device.png}
   \caption{CDF of max per device daily}
   \vspace{1em}
@@ -96,15 +96,15 @@ Measure PT = avg data rate during a peak hour period : off-peak period
 
 updated to 8-12 PM as seen from ~\ref{fig:TS-data-rate-daily}.
 
-\sg{can also include PT table from ppt if worth it -- table shows the "no dip" pattern similar to time series in first subsection.}
+%\sg{can also include PT table from ppt if worth it -- table shows the "no dip" pattern similar to time series in first subsection.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[t!]
-\begin{minipage}{1\linewidth}
+\begin{figure}[ht!]
+\begin{minipage}{0.45\linewidth}
 \centering
-\includegraphics[width=\linewidth]{figures/prime-time-ratio-by-date[replace].png}
+\includegraphics[width=0.45\linewidth]{figures/prime-time-ratio-by-date[replace].png}
 \caption{Prime Time ratio showing weekly pattern + differences during holiday periods (Thanksgiving, Christmas)}
 %http://riverside.noise.gatech.edu:8083/separated/full/prime-time-ratio-by-date.png
 \label{fig:TS-prime-time-ratio}
@@ -124,10 +124,10 @@ updated to 8-12 PM as seen from ~\ref{fig:TS-data-rate-daily}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[t!]
-\begin{minipage}{1\linewidth}
+\begin{figure}[ht!]
+\begin{minipage}{0.45\linewidth}
 \centering
-\includegraphics[width=\linewidth]{figures/peakratio-CDF-devices-MEDIAN.png}
+\includegraphics[width=0.45\linewidth]{figures/peakratio-CDF-devices-MEDIAN.png}
 \caption{Median peak ratio per device showing that test set has higher daily variance, which goes upto 50 times)}
 %http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/peakratio-CDF-devices-MEDIAN.png
 \label{fig:CDF-peak-ratio-median}

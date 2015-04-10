@@ -6,13 +6,14 @@
 
 
 The large impact of broadband Internet in our daily lives, and it’s rapid increase in providing
-services require regulation on all interested parties, such as all transit and content providers.
+services, requires regulation of all involved parties, such as all transit and content providers.
 The Federal Communications Commission (FCC) holds the important responsibility of overlooking public
 and private sector initiatives to ensure advanced broadband deployment throughout the US. As part of
-this responsibility, the \FCC has been reporting results of its annual inquiry regarding the
-availability and timely deployment of ``advanced telecommunications capability'' to all Americans,
-since the amendment to the Telecommunications Act of 1996 (section 706~\cite{fcc1996telecom-act})
-\footnote{This issue is discussed in point $1$, and point $12$ of the Eleventh Broadband Progress Report, FCC No. 15-10A1, respectively ~\cite{fcc2015progress-report}\label{foot:fcc-issues}}.
+this responsibility (since the amendment to the Telecommunications Act of 1996 (section 706~\cite{fcc1996telecom-act})
+\footnote{This issue is discussed in point $1$, and point $12$ of the Eleventh Broadband Progress Report,
+FCC No. 15-10A1, respectively ~\cite{fcc2015progress-report}\label{foot:fcc-issues}}), 
+the \FCC has been reporting results of its annual inquiry regarding the
+availability and timely deployment of ``advanced telecommunications capability'' to all Americans.
 
 % para2: why its important to us as consumers
 
@@ -20,10 +21,10 @@ If the \FCC determines that \emph{``advanced telecommunications capability''} is
 to all Americans in a reasonable and timely fashion, the Commission is required to ``take immediate
 action to accelerate deployment of such capability by removing barriers to infrastructure investment
 and by promoting competition in the telecommunications market.'' \footref{foot:fcc-issues}.
-The \FCC accomplish this major role by following three major steps:
+The \FCC accomplishes this role by following three major steps:
 (a) \emph{defining a benchmark} of ``advanced telecommunications capability'', (b) \emph{auditing
 capabilities} of services offered by Internet Service Providers (ISPs), and (c) \emph{spending the
-federal budget} on increasing ISP’s capabilities, to accomplish their defined standards.
+federal budget} to increase ISP capabilities, and accomplish their defined standards.
 
 % para3: speed benchmarking and broadband deployment
 % define advanced telecom capability, speed benchmarking
@@ -40,16 +41,17 @@ In January 2015, ISPs rallied against FCC in response to
 it’s decision to suddenly increase the broadband benchmark standard from 4 Mbps/1 Mbps to 25 Mbps/3
 Mbps~\cite{fcc-redefine-ieee}. Although we support the move to a higher broadband
 standard based on the increasing share of high quality entertainment traffic in home broadband
-consumption~\cite{sandvine2014report1,sandvine2014report2}, as well as possibility of offering
-advanced capability such as telemedicine, we disagree with the methodology followed by the
-Commission in reaching these standards. By declaring fixed broadband a regulated commodity, it is
-necessary that in the future, broadband pricing policy take into account usage characteristics.
+consumption~\cite{sandvine2014report1,sandvine2014report2}, as well as the possibility of offering
+advanced capability (such as telemedicine), we disagree with the methodology followed by the
+Commission in reaching these standards.
+%By declaring fixed broadband a regulated commodity, it is
+%necessary that in the future, broadband pricing policy take into account usage characteristics.
 
 In particular, we believe that there is a need to: (a) define benchmarks based on standards other
 than broadband speed, such as usage, (b) define multiple benchmarks rather than aggregates based on
-type of usage, and (c) re-examine peak time usage with recent changes in usage patterns, to estimate
+type of usage, and (c) re-examine peak time usage with recent changes in usage patterns to estimate
 for capacity planning. We also realize that the \FCC requests comments on the issues of broadband
-benchmarking [section ~\ref{sec:issues}]. To this aim, we use a dataset collected purposefully to
+benchmarking [section ~\ref{sec:issues}] in future. To this aim, we use a dataset collected purposefully to
 validate and improve the \FCC policy on broadband benchmark.
 
 
@@ -58,18 +60,16 @@ Salt Lake City, Utah. This data consists of byte transfers collected continuousl
 from two types of users; control: users that pay and use a high capacity access link (105 Mbps), and
 test: users that pay for 105 Mbps but are actually offered a much higher capacity access link
 (250Mbps) without their knowledge. This decision was specifically anticipated to enable researchers
-to investigate the question: does increase in bandwidth change usage behavior? We limit our analysis
-to a particular high access link ISP and a single city because this avoids any biases in usage
-patterns especially during peak time, as well as different pricing models. 
+to investigate the question: does increase in bandwidth change usage behavior?
+% We also limit our analysis
+%to a particular high access link ISP and a single city because this avoids any biases in usage
+%patterns, especially during peak time, as well as different pricing models. 
 
-
-In this work, after offering details about our data and how data is sanitizaed in [section
-~\ref{sec:data}], we proceed by analyzing spacio-temporal usage patterns for the usage data
-collected from multiple home gateways, as well as peak usage (during prime-time) [section
-~\ref{sec:methodology}]. Our analysis indicates that for high capacity access links, increasing
-capacity does not result in higher utilization, and motivate the need of multiple benchmarks based
-on varying usage within the same tier [section ~\ref{sec:results}]. In the last section, we comment
-on the issues raised by \FCC to investigate a better benchmarking solution for the US [section
-~\ref{sec:discussion}].
-
-
+In this work, after offering details about our data and how it is sanitized in 
+[section~\ref{sec:data}], we proceed by describing our methodology and evaluation criteria to study
+changes in broadband usage [section~\ref{sec:methodology}]. Next, we analyze spacio-temporal
+usage patterns as well as peak usage (during prime-time). Our analysis indicates that for high
+capacity access links, increasing capacity does not result in higher utilization, and
+motivates the need of multiple benchmarks based on varying usage within the same tier
+[section~\ref{sec:results}]. In the last section, we comment on the issues raised by
+ \FCC to investigate a better benchmarking solution for the US [section~\ref{sec:discussion}].

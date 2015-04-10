@@ -1,7 +1,7 @@
 \section{Data Source}
 \label{sec:data}
 % Comcast dataset quick overview, dates, usage, tiers
-Our dataset consists of network usage byte counters reported by Comcast gateways every 15 minutes from October 1, 2014 to December 29, 2014. There are two sets of broadband tiers that were used to collect this data: \control set, consisting of homes and businesses with a 105 Mbps access link, and the \test set, consisting of homes and businesses that were paying for a 105 Mbps access link, yet were receiving 250 Mbps instead. Users in the test set were selected randomly and were not told that their access bandwidth has been increased. There were more than 15000 gateway devices in the control set, with varying usage over the three months, and about 2200 gateway devices in the test set.
+Our dataset consists of network usage byte counters reported by Comcast gateways every 15 minutes from October 1, 2014 to December 29, 2014. There are two sets of broadband tiers that were used to collect this data: \control set, consisting of households with a 105 Mbps access link, and the \test set, consisting of households that were paying for a 105 Mbps access link, yet were receiving 250 Mbps instead. Users in the test set were selected randomly and were not told that their access bandwidth has been increased. There were more than 15000 gateway devices in the control set, with varying usage over the three months, and about 2200 gateway devices in the test set.
 % test 2200 are unsanitized, after is 1481
 % control ?? unsanitized. control4 itself has 15000 for the first 6 days that drops to 5k later. 16015 is after sanitization
 \todo{confirm - these were reported by Comcast gateways right?}
@@ -11,9 +11,9 @@ Our dataset consists of network usage byte counters reported by Comcast gateways
 
 %8 control sets, different devices, different times
 %more details about data, fields, direction, locations?
-Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
+The raw data sets provided by Comcast consisted of the \test set, and 8 separate \control sets consisting of more that 15k unique households, over different date ranges within the three months. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}.
+%\todo{find out more about service class name, and IP addresses being the same across all sets}
 
-Note that the 15 minute time slots were synchronized to the same time stamp. They were off only by a few seconds (under 30, as claimed by Comcast). As our analysis deals with aggregated patterns on a granularity of 15 minutes, we believe this time synchronization to be irrelevant.
 
 %\begin{table}[ht]
 %\small
@@ -36,7 +36,7 @@ Note that the 15 minute time slots were synchronized to the same time stamp. The
 %\end{table}
 
 
-\begin{table}[ht]
+\begin{table}[ht!]
 \small
 \begin{tabular}{|l|l|}
 \hline
@@ -70,7 +70,7 @@ We evaluate the fraction of responsiveness of a gateway throughout the dataset, 
 %On exploring \control 4, we noticed that the dataset spanned the October-December period, but for the first week there were 15000 unique devices reporting their usage statistics, while after the first week, the number dropped to 5000. Furthermore, \control 5 and \control 6 reported usage for 5000 devices in the month of November, but only a 100 devices in December. We did not want stray devices impacting our measure of availability, therefore we sliced the \control datasets to monthly date ranges with a minimum of 4000, or at least half the total unique devices present.
 % why 4000? --- eyeballing availability plots -- 3k to 4k seemed to be the right choice for control4
 
-\begin{figure}[t!]
+\begin{figure}[ht!]
 %\hspace*{-0.2in}
 \begin{minipage}{1\linewidth}
 \centering
