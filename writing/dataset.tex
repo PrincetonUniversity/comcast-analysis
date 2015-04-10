@@ -13,6 +13,8 @@ Our dataset consists of network usage byte counters reported by Comcast gateways
 %more details about data, fields, direction, locations?
 Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
 
+Note that the 15 minute time slots were synchronized to the same time stamp. They were off only by a few seconds (under 30, as claimed by Comcast). As our analysis deals with aggregated patterns on a granularity of 15 minutes, we believe this time synchronization to be irrelevant.
+
 %\begin{table}[ht]
 %\small
 %\begin{tabular}{|l|l|}
