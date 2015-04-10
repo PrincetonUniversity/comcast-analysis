@@ -15,8 +15,7 @@ Limiting ourselves to just byte counters makes our analysis easily extendible to
 %granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns
 \paragraph{Granularity of 15 minutes:} Broadband usage evaluated by commercial groups ~\cite{}, or governmental survey bodies, usually employed by the FCC, tends to focus on aggregated usage statistics over months, long term trends, and applications. In our work we specifically focus on data transferred in 15 minutes, to avoid short term bursts that max out the capacity, but account for long term heavy flows (such as real time entertainment and voip calls) that will continuously max out the access link. This gives us a granularity fine grained enough to study major changes in usage characteristics (such as peak trends) while ignoring short term bursts of traffic (such as browsing)
 
-Byte counter readings
-Note that the 15 minute time slots were synchronized to the same time stamp. They were off only by a few seconds (under 30, as claimed by Comcast). As our analysis deals with aggregated patterns on a granularity of 15 minutes, we believe this time synchronization to be irrelevant.
+Note that byte counter readings collected every 15 minutes from multiple households were synchronized for consistency in measurements.
 
 
 
@@ -34,26 +33,46 @@ This gives us a highly controlled setting to study usage behaviors in an unbiase
 
 
 
-
-
-
-
 \subsection{Evaluation Criteria}
-we analyze based on three criteria\\
-usage patterns\\
-peak utilization\\
-prime time ratio\\
-asymmetry in data\\
-user taxonomy
+
+We analyze based on three criteria:
+\begin{itemize}
+\itemsep0em 
+\item usage patterns
+\item peak utilization
+\item prime time ratio
+\item peak ratio
+\item traffic asymmetry 
+\end{itemize}
+
 
 
 \paragraph{The Importance of Measuring Peak Usage:}
- importance of measuring peak
+\begin{itemize}
+\itemsep0em 
+\item Capacity planning is concerned about “prime-time” and peak behavior, i.e., max data rate per device is more important than the average rate of that device.
+\item Idle hour behavior is expected to stay the same, regardless of access link
+\item peak utilization definition
+\end{itemize}
+
 
 \paragraph{Prime-Time Ratio} definition of prime time
-definition of peak-ratio
-based on our results we propose a metric peak ratio to segregate users
+\begin{itemize}
+\itemsep0em 
+\item Sandvine defines Network Prime-Time ratio to measure the concentration of network usage during the prime-time evening hours.
+\item FCC says prime-time is 7-11 PM.
+\item Prime-Time ratio = absolute levels of network traffic during an average peak period hour with an average off-peak hour.
+\item Measure PT = avg data rate during a peak hour period : off-peak period.
+\end{itemize}
 
-\subsection{Limitations}
- 
- shortcomings of data + advantages (user end instead of sandvine which is core internet?? so we can comment on per user patterns??)
+
+\paragraph{Peak Ratio}
+\begin{itemize}
+\itemsep0em
+\item define to measure imbalance in a day
+\item for each device,peak ratio  =    90-\%ile data rate per day / median data rate per day
+\item this metric can also be used to segregate users, based on who peaks at what time [section ~\ref{sec:discussion}]
+\end{itemize}
+
+%\subsection{Limitations}
+%shortcomings of data + advantages (user end instead of sandvine which is core internet?? so we can comment on per user patterns??)
