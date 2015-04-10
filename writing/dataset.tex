@@ -22,6 +22,27 @@ Both the \test and \control sets were collected from users in Salt Lake City, Ut
 %more details about data, fields, direction, locations?
 Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
 
+%\begin{table}[ht]
+%\small
+%\begin{tabular}{|l|l|}
+%\hline
+%\textbf{Field}         & \textbf{Description}                      \\ \hline
+%Device\_number         & Arbitrarily assigned CM device identifier \\ \hline
+%end\_time              & Fifteen minute sample period end time     \\ \hline
+%date\_service\_created & Service start (not used in our analysis)  \\ \hline
+%service\_class\_name   & Used to differentiate data application    \\ \hline
+%cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
+%service\_direction     & 1-downstream, 2-upstream                  \\ \hline
+%port\_name             & Cmts port descriptor                      \\ \hline
+%octets\_passed         & Byte count                                \\ \hline
+%device\_key            & not used in our analysis                  \\ \hline
+%service\_identifier    & Service id (not used in our analysis)     \\ \hline
+%\end{tabular}
+%\caption{Field Descriptions for Comcast Dataset by Comcast}
+%\label{tab:field-description}
+%\end{table}
+
+
 \begin{table}[ht]
 \small
 \begin{tabular}{|l|l|}
@@ -29,14 +50,9 @@ Comcast splits the \control set into 8 separate pools on different date ranges a
 \textbf{Field}         & \textbf{Description}                      \\ \hline
 Device\_number         & Arbitrarily assigned CM device identifier \\ \hline
 end\_time              & Fifteen minute sample period end time     \\ \hline
-date\_service\_created & Service start (not used in our analysis)  \\ \hline
-service\_class\_name   & Used to differentiate data application    \\ \hline
 cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
 service\_direction     & 1-downstream, 2-upstream                  \\ \hline
-port\_name             & Cmts port descriptor                      \\ \hline
 octets\_passed         & Byte count                                \\ \hline
-device\_key            & not used in our analysis                  \\ \hline
-service\_identifier    & Service id (not used in our analysis)     \\ \hline
 \end{tabular}
 \caption{Field Descriptions for Comcast Dataset by Comcast}
 \label{tab:field-description}
@@ -93,21 +109,21 @@ On exploring \control 4, we noticed that the dataset spanned the October-Decembe
 %final datasets for each control, each month, and full
 %\sg{after sanitization, we can either compare test to each control in the same time range and draw agg conclusions, or do it by month, or combo it into a huge control set and compare it with test set}
 %\sg{Present results for full sets, unless there is a significant difference in any trends or distributions}
-Finally, we sliced the sanitized \test set based on the date range of each individual \control set for comparison. We compared each of these tests individually to ensure that there are no outliers. We refer to the \test and \control sets in this case simply as datasets $1-8$. To analyze data by each month, we also sliced and combined the sanitized data to give us \control and \test data for October, November, and December, referred to as $oct$, $nov$, $dec$. Finally, we combine all \control sets to form a large concatenated dataset over the same date range as the complete \test dataset, and we refer to this simply as $full$. A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
+Finally, we sliced the sanitized \test set based on the date range of each individual \control set for comparison. We compared each of these tests individually to ensure that there are no outliers. We refer to the \test and \control sets in this case simply as datasets $1-8$. To analyze data by each month, we also sliced and combined the sanitized data to give us \control and \test data for October, November, and December, referred to as $oct$, $nov$, $dec$. Finally, we combine all \control sets to form a large concatenated dataset over the same date range as the complete \test dataset, and we refer to this simply as $full$. %A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
 
-\begin{table*}[ht]
-\small
-\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-\hline
-\textbf{Dataset}            & set$_1$      & set$_2$      & set$_3$      & set$_4$      & set$_5$      & set$_6$      & set$_7$      & set$_8$      & set$_{oct}$  & set$_{nov}$  & set$_{dec}$  & set$_{full}$ \\ \hline
-\textbf{Start Time}         & 2014-09-30  & 2014-10-01  & 2014-10-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-12-01  & 2014-10-01  & 2014-11-01  & 2014-12-01  & 2014-09-30  \\ \hline
-\textbf{End Time}           & 2014-10-31  & 2014-10-31  & 2014-10-312 & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-10-30  & 2014-11-29  & 2014-12-29  & 2014-12-29  \\ \hline
-\textbf{Devices$_{\control}$} & 3627                & 4033                & 3969                & 1266                & 3632                & 3852                & 3644                & 4277                & 11629               & 12394               & 13405               & 16015               \\ \hline
-\textbf{Devices$_{\test}$}    & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                \\ \hline
-\end{tabular}
-\caption{Sanitized Dataset Description: Most of our analysis will be based on set$_{full}$ unless otherwise stated }
-\label{tab:sanitized-description}
-\end{table*}
+%\begin{table*}[ht]
+%\small
+%\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+%\hline
+%\textbf{Dataset}            & set$_1$      & set$_2$      & set$_3$      & set$_4$      & set$_5$      & set$_6$      & set$_7$      & set$_8$      & set$_{oct}$  & set$_{nov}$  & set$_{dec}$  & set$_{full}$ \\ \hline
+%\textbf{Start Time}         & 2014-09-30  & 2014-10-01  & 2014-10-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-12-01  & 2014-10-01  & 2014-11-01  & 2014-12-01  & 2014-09-30  \\ \hline
+%\textbf{End Time}           & 2014-10-31  & 2014-10-31  & 2014-10-312 & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-10-30  & 2014-11-29  & 2014-12-29  & 2014-12-29  \\ \hline
+%\textbf{Devices$_{\control}$} & 3627                & 4033                & 3969                & 1266                & 3632                & 3852                & 3644                & 4277                & 11629               & 12394               & 13405               & 16015               \\ \hline
+%\textbf{Devices$_{\test}$}    & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                \\ \hline
+%\end{tabular}
+%\caption{Sanitized Dataset Description: Most of our analysis will be based on set$_{full}$ unless otherwise stated }
+%\label{tab:sanitized-description}
+%\end{table*}
 
 
 
@@ -115,6 +131,7 @@ Finally, we sliced the sanitized \test set based on the date range of each indiv
 
 \sg{Figure~\ref{fig:availability-device} should show why we chose 0.5 as threshold, Figure~\ref{fig:availability-date} should show why we expected 3k-4k sanitized devices per set} 
 
-\todo{Table~\ref{tab:sanitized-description} recheck all numbers and rewrite para accordingly, it seems control4 did not end at just one month - continued till December}
+\todo{%Table~\ref{tab:sanitized-description}
+ recheck all numbers and rewrite para accordingly, it seems control4 did not end at just one month - continued till December}
 
-\todo{Table~\ref{tab:sanitized-description} turn it around}
+%\todo{Table~\ref{tab:sanitized-description} turn it around}
