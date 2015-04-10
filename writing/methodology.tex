@@ -1,8 +1,25 @@
 \section{Methodology}
 \label{sec:methodology}
 
+In this section we describe how the dataset collected is both granular as well as unbiased, and enables us to study usage behavior in a controlled setting. We specify the evaluation criteria we use to compare usage patterns of the \test and \control sets.
 
-\todo{this explains our methodology}
+\subsection{Relevance of the Data}
+
+% why only byte counters are okay for this work
+\paragraph{Study Byte Counters:} The purpose of this work is to study the usage characteristics, irrespective of the application responsible for such usage. 
+%This is bolstered by FCC's decision of net neutrality 
+Limiting ourselves to just byte counters makes our analysis easily extendible to any ISP, and the FCC, interested in doing a similar study at a larger scale, without the risk of leaking PII. A study of applications has already been performed extensively by Sandvine ~\cite{}, as well as other researchers.
+
+%granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns
+\paragraph{Granularity of 15 minutes:} Broadband usage evaluated by commercial groups ~\cite{}, or governmental survey bodies, usually employed by the FCC, tends to focus on aggregated usage statistics over months, long term trends, and applications. In our work we specifically focus on data transferred in 15 minutes, to avoid short term bursts that max out the capacity, but account for long term heavy flows (such as real time entertainment and voip calls) that will continuously max out the access link. This gives us a granularity fine grained enough to study major changes in usage characteristics (such as peak trends) while ignoring short term bursts of traffic (such as browsing)
+
+
+\paragraph{•}
+
+\paragraph{•}
+
+\paragraph{•}
+
 
 not telling users that the connection was upgraded lets us study correlation between usage and capacity without the bias of user changing his behavior due to external factors (buying a device, being more aggressive as they bought a new plan)
 
@@ -13,6 +30,15 @@ DASU supports correlation by measuring usage on each ISP tier, even for those wh
  explain that due to no bias in city, and large number of users, this can be interpreted as change or no change in behavior due to increase in capacity of the link. We expect the baseline behavior of these users to be exactly the same. Thus we will put our questions as "change in behavior due to increase in capacity" rather than analysis of two different datasets as we have attempted to eliminate all biases.
 
 
+% Representativeness of dataset
+Both the \test and \control sets were collected from users in Salt Lake City, Utah, to avoid any biases in behavior based on location. Although this dataset corresponds to just one ISP, we believe that it is broadly representative of urban users in the US in the same, or higher broadband bandwidth tier ($\>$ 100 Mbps). Thus, we use this data to draw general conclusions about behavioral change with link capacity \todo{(add more here...) }
+
+
+
+
+
+
+\subsection{Evaluation Criteria}
 we analyze based on three criteria\\
 usage patterns\\
 peak utilization\\
@@ -21,17 +47,13 @@ asymmetry in data\\
 user taxonomy
 
 
-
+\paragraph{The Importance of Measuring Peak Usage:}
  importance of measuring peak
 
- definition of prime time
-
+\paragraph{Prime-Time Ratio} definition of prime time
 definition of peak-ratio
 based on our results we propose a metric peak ratio to segregate users
 
-
- user taxonomy
- the segregation splits business and casual users based on usage and motivates our discussion on multiple benchmarks
-
-
+\subsection{Limitations}
+ 
  shortcomings of data + advantages (user end instead of sandvine which is core internet?? so we can comment on per user patterns??)
