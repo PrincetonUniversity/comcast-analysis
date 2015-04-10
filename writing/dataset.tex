@@ -22,6 +22,27 @@ Both the \test and \control sets were collected from users in Salt Lake City, Ut
 %more details about data, fields, direction, locations?
 Comcast splits the \control set into 8 separate pools on different date ranges and gateways \todo{confirm if there is repeated device IDs in control1-8.}. Each dataset contains the following relevant fields: Device ID, sample period time, service class, service direction, IP address, and the bytes transferred in the 15 minute sample slot, as described in table~\ref{tab:field-description}. \todo{find out more about service class name, and IP addresses being the same across all sets}
 
+%\begin{table}[ht]
+%\small
+%\begin{tabular}{|l|l|}
+%\hline
+%\textbf{Field}         & \textbf{Description}                      \\ \hline
+%Device\_number         & Arbitrarily assigned CM device identifier \\ \hline
+%end\_time              & Fifteen minute sample period end time     \\ \hline
+%date\_service\_created & Service start (not used in our analysis)  \\ \hline
+%service\_class\_name   & Used to differentiate data application    \\ \hline
+%cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
+%service\_direction     & 1-downstream, 2-upstream                  \\ \hline
+%port\_name             & Cmts port descriptor                      \\ \hline
+%octets\_passed         & Byte count                                \\ \hline
+%device\_key            & not used in our analysis                  \\ \hline
+%service\_identifier    & Service id (not used in our analysis)     \\ \hline
+%\end{tabular}
+%\caption{Field Descriptions for Comcast Dataset by Comcast}
+%\label{tab:field-description}
+%\end{table}
+
+
 \begin{table}[ht]
 \small
 \begin{tabular}{|l|l|}
@@ -29,14 +50,9 @@ Comcast splits the \control set into 8 separate pools on different date ranges a
 \textbf{Field}         & \textbf{Description}                      \\ \hline
 Device\_number         & Arbitrarily assigned CM device identifier \\ \hline
 end\_time              & Fifteen minute sample period end time     \\ \hline
-date\_service\_created & Service start (not used in our analysis)  \\ \hline
-service\_class\_name   & Used to differentiate data application    \\ \hline
 cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
 service\_direction     & 1-downstream, 2-upstream                  \\ \hline
-port\_name             & Cmts port descriptor                      \\ \hline
 octets\_passed         & Byte count                                \\ \hline
-device\_key            & not used in our analysis                  \\ \hline
-service\_identifier    & Service id (not used in our analysis)     \\ \hline
 \end{tabular}
 \caption{Field Descriptions for Comcast Dataset by Comcast}
 \label{tab:field-description}
