@@ -4,62 +4,69 @@
 % para1 : FCC background and importance
 % telecom act + responsibility
 
-With the large impact of broadband Internet in daily lives, the high speed of its evolution and capabilities, and the exponential increase in services, it is imperative that all interested parties, such as the transit and content providers, collaborate to satisfy the broadband demands of the user. The Federal Communications Commission (henceforth \FCC) holds the important responsibility of overlooking public and private sector initiatives to ensure advanced broadband deployment throughout the US. As part of this responsibility, the \FCC has been reporting results of its annual inquiry regarding the availability and timely deployment of ``advanced telecommunications capability'' to all Americans, since the amendment to the Telecommunications Act of 1996 (section 706~\cite{fcc1996telecom-act}) \footnote{\hypoth{1} ~\cite{fcc2015progress-report}}.
 
+The large impact of broadband Internet in our daily lives, and it’s rapid increase in providing
+services require regulation on all interested parties, such as all transit and content providers.
+The Federal Communications Commission (FCC) holds the important responsibility of overlooking public
+and private sector initiatives to ensure advanced broadband deployment throughout the US. As part of
+this responsibility, the \FCC has been reporting results of its annual inquiry regarding the
+availability and timely deployment of ``advanced telecommunications capability'' to all Americans,
+since the amendment to the Telecommunications Act of 1996 (section 706~\cite{fcc1996telecom-act})
+\footnote{\hypoth{1} ~\cite{fcc2015progress-report}}.
 
 % para2: why its important to us as consumers
 
-If the \FCC determines that \emph{``advanced telecommunications capability''} is not being deployed to all Americans in a reasonable and timely fashion, the Commission is required to ``take immediate action to accelerate deployment of such capability by removing barriers to infrastructure investment and by promoting competition in the telecommunications market.'' \footnote{\hypoth{12} ~\cite{fcc2015progress-report}}. Thus, the \FCC follows a three step program: (a) \emph{define the benchmark} of ``advanced telecommunications capability'', (b) \emph{audit the capability} of services offered by Internet Service Providers (henceforth ISPs), and (c) \emph{spend the federal budget} on increasing ISP capabilities, to accomplish their defined standards.
-
+If the \FCC determines that \emph{``advanced telecommunications capability''} is not being deployed
+to all Americans in a reasonable and timely fashion, the Commission is required to ``take immediate
+action to accelerate deployment of such capability by removing barriers to infrastructure investment
+and by promoting competition in the telecommunications market.'' \footnote{\hypoth{12}
+~\cite{fcc2015progress-report}}. The \FCC accomplish this major role by following three major steps:
+(a) \emph{defining a benchmark} of ``advanced telecommunications capability'', (b) \emph{auditing
+capabilities} of services offered by Internet Service Providers (ISPs), and (c) \emph{spending the
+federal budget} on increasing ISP’s capabilities, to accomplish their defined standards.
 
 % para3: speed benchmarking and broadband deployment
 % define advanced telecom capability, speed benchmarking
 % FCC reports 2010, 2014, 2015
 % our proposal ??
-As independent researchers in the measurement community, it is our responsibility to ensure that the \FCC defines broadband benchmarks and standards in a sensible manner. Until recently, efforts to define such benchmarks were based on aggregated data analysis by the \FCC, where all users were treated similarly without studying their actual usage requirements~\cite{report2010-2014}. This resulted in a sudden increase of the benchmark standard from 1 Mbps/200 kbps to 4 Mbps/1 Mbps in 2010~\cite{}, and to 25 Mbps/3 Mbps in 2015~\cite{} \todo{check years and standards}. Although we support the move to a higher broadband standard based on the increasing share of high quality entertainment traffic in home broadband consumption~\cite{sandvine2014report1}~\cite{sandvine2014report2}, as well as possibility of offering advanced capability such as telemedicine, we disagree with the methodology followed by the Commission in reaching these standards. By declaring fixed broadband a regulated commodity, it is necessary that in the future, broadband pricing policy take into account usage characteristics.
+As independent researchers in the measurement community, it is our responsibility to ensure that the
+\FCC defines broadband benchmarks and standards in a sensible manner. Efforts to define such
+benchmarks have always been based on aggregated data analysis by the \FCC. The source of data are
+mixed across tiers and locations and collected using different methodologies; particularly vantage
+points in the data were treated similarly without studying their actual usage
+requirements~\cite{report2010-2014}. \re{Therefore, FCC’s regulations can be subjected to biased to
+unknown factors.} In January 2015, ISPs rallied against FCC~\cite{fcc-redefine-ieee} in response to
+it’s decision to suddenly increase the broadband benchmark standard from 4 Mbps/1 Mbps to 25 Mbps/3
+Mbps~\cite{}. \todo{check years and standards}. Although we support the move to a higher broadband
+standard based on the increasing share of high quality entertainment traffic in home broadband
+consumption~\cite{sandvine2014report1,sandvine2014report2}, as well as possibility of offering
+advanced capability such as telemedicine, we disagree with the methodology followed by the
+Commission in reaching these standards. By declaring fixed broadband a regulated commodity, it is
+necessary that in the future, broadband pricing policy take into account usage characteristics.
+
+In particular, we believe that there is a need to: (a) define benchmarks based on standards other
+than broadband speed, such as usage, (b) define multiple benchmarks rather than aggregates based on
+type of usage, and (c) re-examine peak time usage with recent changes in usage patterns, to estimate
+for capacity planning. We also realize that the \FCC requests comments on the issues of broadband
+benchmarking [section ~\ref{sec:issues}]. To this aim, we use a dataset collected purposefully to
+validate and improve the \FCC policy on broadband benchmark.
 
 
-In particular, we believe that there is a need to: (a) define benchmarks based on standards other than broadband speed, such as usage, (b) define multiple benchmarks rather than aggregates based on type of usage, and (c) re-examine peak time usage with recent changes in usage patterns, to estimate for capacity planning. We also realize that the \FCC requests comments on the issues of broadband benchmarking [section ~\ref{sec:issues}], and this work presents a first attempt in the direction of supplementing \FCC policy with measured usage data from home users.
+Our study is based on Comcast’s analytic data collected from home gateways for their customers in
+Salt Lake City, Utah. This data consists of byte transfers collected continuously every 15 minutes
+from two types of users; control: users that pay and use a high capacity access link (105 Mbps), and
+test: users that pay for 105 Mbps but are actually offered a much higher capacity access link
+(250Mbps) without their knowledge. This decision was specifically anticipated to enable researchers
+to investigate the question: does increase in bandwidth change usage behavior? We limit our analysis
+to a particular high access link ISP and a single city because this avoids any biases in usage
+patterns especially during peak time, as well as different pricing models. 
+In this work, after offering details about our data and how data is sanitizaed in [section
+~\ref{sec:data}], we proceed by analyzing spacio-temporal usage patterns for the usage data
+collected from multiple home gateways, as well as peak usage (during prime-time) [section
+~\ref{sec:methodology}]. Our analysis indicates that for high capacity access links, increasing
+capacity does not result in higher utilization, and motivate the need of multiple benchmarks based
+on varying usage within the same tier [section ~\ref{sec:results}]. In the last section, we comment
+on the issues raised by \FCC to investigate a better benchmarking solution for the US [section
+~\ref{sec:discussion}].
 
 
-% what is wrong with FCC report, what we can do better ???
-% there must be a better way/better dataset, instead of comparing average across countries
-% Power of FCC: its decisions change the economies of play, some policy papers
-% read some policy work here ??
-% should this be related work instead of intro??
-
-
-% para4: contributions
-% brief results + discussion
-% Methodology + Data + contributions
-To analyze usage characteristics we study byte counter data collected by Comcast home gateways for their customers in Salt Lake City, Utah, with a high capacity access link (105 Mbps) [section ~\ref{sec:data}]. Although we limit our analysis to a particular high access link ISP and a single city, this avoids any biases in usage patterns especially during peak time, as well as different pricing models. We proceed by analyzing spacio-temporal usage patterns for from the usage data collected from multiple home gateways, as well as peak usage (during prime-time) [section ~\ref{sec:methodology}]. Our analysis indicates that for high capacity access links, increasing capacity does not result in higher utilization, and motivate the need of multiple benchmarks based on varying usage within the same tier [section ~\ref{sec:results}]. Finally, we comment on the issues raised by \FCC to investigate a better benchmarking solution for the US [section ~\ref{sec:discussion}].
-
-Based on our dataset analysis, our major contributions in this work are as follows:
-\begin{itemize}
-\item Need for price regulation: Users buy high bandwidth but don't use it, even max usage per user is low. Some users in high bandwidth set can even survive with DSL usage. %~\ref{fig:usage-cdf}
-\item Comment on importance of peak usage: comment of FCC issue, capacity planning needs to be based on peak hours not 24 hour averages. 
-\item no dips by median/mean in usage pattern of a day (or a week). Shows a peak at 8-12, different from FCC. Peak timings are getting late (8-12pm) and this may be a trend of high bandwidth tiers that use loads of entertainment traffic during this time. We come up with a "peak usage" parameter to show the variance per day and compare it with prime time. (in discussion)
-%~\ref{sec:peak-hour-importance}
-\item Asymmetry of data in high tier %result still needed
-\item Show that there is no major change in usage with increasing tier capacity, but there might be subtle changes (short flows) %distribution is same
-\item Discuss segregating users (business, average, high peak + load, low peak + load) to motivate multiple benchmarks even in the same tier! %result still needed
-\end{itemize}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\input{hypothesis}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Why FCC measurements may not mean jack shit -- needs policy paper references
-%But (as we see in policy papers) this may not be the right way to go about stuff. Aggregates do not show the right representation of users. And aggregates will not give the right policy model for offering broadband. Now that ISPs are regulated it is important that broadband be offered based on the users demands instead of extracting money out of users who don't need to, or letting users buy highly expensive plans of the ISP when the trouble is that the service they are connecting to is not fast enough.
-
-%Also section 706 [Section 706 Advanced Services Inquiry] is shit (based on policy papers) and may not be the right way to go. Although this deals with deployment, hard limits don't make sense. We need to look at sliced measurements from home users, how much data do they use even when given the ability to max out their limits. 
-
-%Thus we do Comcast experiment to get data directly from urban city home user gateways on uploads and downloads. We want to comment on high tier users to find out if FCC limits even make sense with usage patterns at all??
-
-%	- To evaluate some of FCC decisions we chose broadband usage data from comcast in an urban city with high tier usage. 
-%We get data from Comcast to comment on some of these questions in urban single city high tier controlled set. Our analysis sets the baseline and framework for sanitizing the FCC with real measurements, easily available at ISPs, so that future Internet deployment and categorization is not a fuck up.
-
-%Sections: Data + Sanitization + Specifications, Methodololy, Analysis of observations vs FCC Hypothesis
-%(A roadmap of the paper as follows: ... )
