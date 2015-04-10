@@ -1,7 +1,9 @@
 \section{Methodology}
 \label{sec:methodology}
 
-\subsection{Relevance of the Dataset}
+In this section we describe how the dataset collected is both granular as well as unbiased, and enables us to study usage behavior in a controlled setting. We 
+
+\subsection{Relevance of the Data}
 
 not telling users that the connection was upgraded lets us study correlation between usage and capacity without the bias of user changing his behavior due to external factors (buying a device, being more aggressive as they bought a new plan)
 
@@ -10,6 +12,17 @@ DASU supports correlation by measuring usage on each ISP tier, even for those wh
 
 
  explain that due to no bias in city, and large number of users, this can be interpreted as change or no change in behavior due to increase in capacity of the link. We expect the baseline behavior of these users to be exactly the same. Thus we will put our questions as "change in behavior due to increase in capacity" rather than analysis of two different datasets as we have attempted to eliminate all biases.
+
+
+% Representativeness of dataset
+Both the \test and \control sets were collected from users in Salt Lake City, Utah, to avoid any biases in behavior based on location. Although this dataset corresponds to just one ISP, we believe that it is broadly representative of urban users in the US in the same, or higher broadband bandwidth tier ($\>$ 100 Mbps). Thus, we use this data to draw general conclusions about behavioral change with link capacity \todo{(add more here...) }
+
+%granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns
+Note that 15 minute time slots were synchronized to the same time stamp. They were off only by a few seconds (under 30, as claimed by Comcast). As our analysis deals with aggregated patterns on a granularity of 15 minutes, we believe this time synchronization to be irrelevant.
+
+
+
+
 
 \subsection{Evaluation Criteria}
 we analyze based on three criteria\\
