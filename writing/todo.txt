@@ -85,3 +85,100 @@ RESULT PLOTS
 ###############################################################################
 
 COPY ALL FCC HYPOTHESIS FROM GOOGLE DOC HERE
+
+###############################################################################
+
+DATA:
+
+
+%explain that due to no bias in city, and large number of users, this can be 
+%interpreted as change or no change in behavior due to increase in capacity of 
+%the link. We expect the baseline behavior of these users to be exactly the 
+%same. 
+%Thus we will put our questions as "change in behavior due to increase in 
+%capacity" rather than analysis of two different datasets as we have attempted 
+%to 
+%eliminate all biases.
+
+
+%final datasets for each control, each month, and full
+%\sg{after sanitization, we can either compare test to each control in the same 
+%time range and draw agg conclusions, or do it by month, or combo it into a 
+%huge control set and compare it with test set}
+%\sg{Present results for full sets, unless there is a significant difference in 
+%any trends or distributions}
+
+% not telling users that the connection was upgraded lets us study correlation 
+%between usage and capacity without the bias of user changing his behavior due 
+%to external factors (buying a device, being more aggressive as they bought a 
+%new plan)
+% DASU supports correlation by measuring usage on each ISP tier, even for those 
+%who changed tiers, but that is biased by user buying a higher tier when they 
+%feel unsatisfied. It does not have a good representation of the case when the 
+%ISP offers extra bandwidth without charging. Even if it does, the user knows 
+%about the capacity bump inducing a change in behavior. Our dataset is unbiased 
+%in that manner, we don't expect users to know they have a higher capacity and 
+%still study if there is change in behavior
+
+
+%Both the \test and \control sets were collected from users in Salt Lake City, 
+%Utah, to avoid any biases in behavior based on location. Although this dataset 
+%corresponds to just one ISP, we believe that it is broadly representative of 
+%urban users in the US in the same, or higher broadband bandwidth tier ($\>$ 
+%100 Mbps). Thus, we use this data to draw general conclusions about behavioral 
+%change with link capacity \todo{(add more here...) }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
+
+%\begin{table*}[ht]
+%\small
+%\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+%\hline
+%\textbf{Dataset}            & set$_1$      & set$_2$      & set$_3$      & set$_4$      & set$_5$      & set$_6$      & set$_7$      & set$_8$      & set$_{oct}$  & set$_{nov}$  & set$_{dec}$  & set$_{full}$ \\ \hline
+%\textbf{Start Time}         & 2014-09-30  & 2014-10-01  & 2014-10-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-12-01  & 2014-10-01  & 2014-11-01  & 2014-12-01  & 2014-09-30  \\ \hline
+%\textbf{End Time}           & 2014-10-31  & 2014-10-31  & 2014-10-312 & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-10-30  & 2014-11-29  & 2014-12-29  & 2014-12-29  \\ \hline
+%\textbf{Devices$_{\control}$} & 3627                & 4033                & 3969                & 1266                & 3632                & 3852                & 3644                & 4277                & 11629               & 12394               & 13405               & 16015               \\ \hline
+%\textbf{Devices$_{\test}$}    & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                \\ \hline
+%\end{tabular}
+%\caption{Sanitized Dataset Description: Most of our analysis will be based on set$_{full}$ unless otherwise stated }
+%\label{tab:sanitized-description}
+%\end{table*}
+
+%\todo{Table~\ref{tab:sanitized-description} turn it around}
+
+%date\_service\_created & Service start (not used in our analysis)  \\ \hline
+%service\_class\_name   & Used to differentiate data application    \\ \hline
+%cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
+%port\_name             & Cmts port descriptor                      \\ \hline
+%device\_key            & not used in our analysis                  \\ \hline
+%service\_identifier    & Service id (not used in our analysis)     \\ \hline
+
+
+%\subsection{Data Processing}
+
+% split database by direction, combine service class name
+%To process the large amount of data (more than 15000 unique devices, 96 time 
+%slots per day, 3 months, multiple service classes per time-slot), we first 
+%split the data by direction into uplink and downlink. The nature of the 
+%questions we ask in section~\ref{sec:intro} encourages us to concentrate on 
+%the downstream data, although we present similar results for upstream data in 
+%section~\ref{sec:results}. We also do not use the service class name 
+%identifier in our analysis, which is internal to Comcast. \todo{Our analysis 
+%showed that ignoring the service class identifier does not change our 
+%conclusions on usage patterns and statistics.} Thus we only considered overall 
+%usage for each gateway device in each time slot, in uplink and downlink 
+%direction.
+
+
+
+% remove weird dates with very low machines
+%On exploring \control 4, we noticed that the dataset spanned the 
+%October-December period, but for the first week there were 15000 unique 
+%devices reporting their usage statistics, while after the first week, the 
+%number dropped to 5000. Furthermore, \control 5 and \control 6 reported usage 
+%for 5000 devices in the month of November, but only a 100 devices in December. 
+%We did not want stray devices impacting our measure of availability, therefore 
+%we sliced the \control datasets to monthly date ranges with a minimum of 4000, 
+%or at least half the total unique devices present.
+% why 4000? --- eyeballing availability plots -- 3k to 4k seemed to be the right 
+%choice for control4

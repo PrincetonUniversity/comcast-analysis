@@ -2,7 +2,6 @@
 \label{subsec:utilization}
 
 The prime-time ratio showed that there is a possible change in behavior of the \test due to an increase in capacity from 105 Mbps to 250 Mbps. Now, we try to answer the question: \emph{Is there any change in user behavior due to the upgrade, and if so, where?}
-% the average user pattern from first subsection should also show the hours when avg usage is different => intuition for prime time and peak ratio.
 
 \begin{figure}[ht!]
 \centering
@@ -12,7 +11,7 @@ The prime-time ratio showed that there is a possible change in behavior of the \
   \label{fig:CDF-data-rate-all}
 \end{figure}
 
-We thus investigate the distribution of the average data rate (a measure of data sent per time slot) for both sets. Figure ~\ref{fig:CDF-data-rate-all} shows that the the \control and \test set have a very similar usage behavior overall characterizing the bytes transferred throughout the day. Figure ~\ref{fig:TS-data-rate-daily} shows that the peak hour behavior of both sets is very similar, but during the day, the median data rate of \test set devices is slightly higher \todo{quantify} than the \control set.
+We compare the distribution of the data transferred per time slot for all devices in the \test and \control sets. Figure ~\ref{fig:CDF-data-rate-all} shows that the both sets have a very similar usage behavior distribution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht!]
@@ -50,9 +49,12 @@ Next we investigate the distribution of maximum data rate achieved by each house
 % large data transfers, there is a certain difference in the maximum data
 %rate per device for lower data rates \todo{needs a better more intuitive explanation}.
 
-To confirm this, we plot the maximum data rate achieved \emph{daily} by each household (figure ~\ref{fig:CDF-data-rate-max-daily}). This showed that the maximum data rate achieved daily by low usage devices was higher for the \test set than the control set. We believe that this is an unbiased way to confirm the correlation between usage and capacity as the users did not know of the increased capacity, nor did they require it. The user's behavior does change when offered a higher capacity link, even though the overall capacity utilization stops increasing after a certain upper limit
+To confirm this behavior over each day, we plot the maximum data rate achieved \emph{daily} by each household (figure ~\ref{fig:CDF-data-rate-max-daily}). We observed that the maximum rate per device, for  devices with overall low usage , was higher for the \test set than the control set. We believe that this is an unbiased way to confirm the correlation between usage and capacity as the users were unaware of their increased capacity, nor did they require it. 
+%The user's behavior does change when offered a higher capacity link,
+%even though the overall capacity utilization stops increasing after a
+%certain upper limit
 
-We explore the reasons for such behavior: Discounting the possibility of this being a baseline behavior (i.e., \test set would show this even if it had the same capacity), we speculate that there could be two possible reasons for such a behavioral change: (1) short term downloads and usage achieves a slightly better data rate on a small time scale, or (2) real-time video quality is slightly higher, but not enough to completely saturate the access link capacity. Unfortunately, we miss these events due to a higher granularity of viewing data transferred only after 15 minutes.
+We explore the reasons for such a consistent behavioral change: Discounting the possibility of this being a baseline behavior (i.e., \test set would show this even if it had the same capacity), we speculate that there could be two possible reasons for it: (1) short term downloads and/or web browsing achieves a slightly better data rate on a small time scale, or (2) real-time video quality is slightly higher, but not enough to completely saturate the access link capacity. Unfortunately, we miss these events due to a higher granularity of viewing data transferred only after 15 minutes.
 
 %This agrees with the FCC's opinion that if given the option, users will
 %adopt a higher tier bandwidth, even though they do not saturate the capacity~\cite{}.
