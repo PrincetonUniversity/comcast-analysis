@@ -86,6 +86,8 @@ processed/*
 sliced/*
 data/*
 
+*.tex.kate-swp
+*.tex.backup
 
 ###############################################################################
 # except these files
