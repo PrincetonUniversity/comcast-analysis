@@ -22,7 +22,7 @@ to all Americans in a reasonable and timely fashion, the Commission is required 
 action to accelerate deployment of such capability by removing barriers to infrastructure investment
 and by promoting competition in the telecommunications market.'' \footref{foot:fcc-issues}.
 The \FCC accomplishes this role by following three major steps:
-(a) \emph{defining a benchmark} of ``advanced telecommunications capability'', (b) \emph{auditing
+(a) \emph{defining a benchmark\footnote{This refers to a threshold, beyond which the access link will be considered broadband capable.}} to evaluate ``advanced telecommunications capability'', (b) \emph{auditing
 capabilities} of services offered by Internet Service Providers (ISPs), and (c) \emph{spending the
 federal budget} to increase ISP capabilities, and accomplish their defined standards.
 
@@ -33,27 +33,18 @@ federal budget} to increase ISP capabilities, and accomplish their defined stand
 As independent researchers in the measurement community, it is our responsibility to ensure that the
 \FCC defines broadband benchmarks and standards in a sensible manner. Efforts to define such
 benchmarks have always been based on aggregated data analysis by the \FCC. The source of data are
-mixed across tiers and locations and collected using different methodologies; particularly vantage
+mixed across tiers and locations, and collected using different methodologies; particularly vantage
 points in the data were treated similarly without studying their actual usage
-requirements~\cite{fcc2015progress-report}.
-% \re{Therefore, FCC’s regulations can be subjected to biased to unknown factors.}
-In January 2015, ISPs rallied against FCC in response to
-it’s decision to suddenly increase the broadband benchmark standard from 4 Mbps/1 Mbps to 25 Mbps/3
-Mbps~\cite{fcc-redefine-ieee}. Although we support the move to a higher broadband
-standard based on the increasing share of high quality entertainment traffic in home broadband
-consumption~\cite{sandvine2014report1,sandvine2014report2}, as well as the possibility of offering
-advanced capability (such as telemedicine), we disagree with the methodology followed by the
-Commission in reaching these standards.
+requirements~\cite{fcc2015progress-report}. Based on such data, the \FCC made a decision to aggressively increase the broadband benchmark threshold from 4 Mbps/1 Mbps to 25 Mbps/3 Mbps~\cite{fcc-redefine-ieee}. This prompted a sharp response from ISPs offering technologies that suddenly did not qualify as broadband (such as DSL).
+
+We support the move to a higher broadband standard based on the increasing share of high quality entertainment traffic in home broadband consumption~\cite{sandvine2014report1,sandvine2014report2}, as well as the possibility of offering advanced capability (such as telemedicine). But, we strongly motivate the Commission to revisit their evaluation criteria in reaching more meaningful standards. We also realize that the \FCC requests comments on the issues of broadband benchmarking [section ~\ref{sec:issues}] in future. To this aim, we use a dataset collected purposefully to validate and improve the \FCC policy on broadband benchmark.
 %By declaring fixed broadband a regulated commodity, it is
 %necessary that in the future, broadband pricing policy take into account usage characteristics.
 
-In particular, we believe that there is a need to: (a) define benchmarks based on standards other
-than broadband speed, such as usage, (b) define multiple benchmarks rather than aggregates based on
-type of usage, and (c) re-examine peak time usage with recent changes in usage patterns to estimate
-for capacity planning. We also realize that the \FCC requests comments on the issues of broadband
-benchmarking [section ~\ref{sec:issues}] in future. To this aim, we use a dataset collected purposefully to
-validate and improve the \FCC policy on broadband benchmark.
-
+%: (a) define benchmarks based on standards other
+%than broadband speed, such as usage, (b) define multiple benchmarks rather than aggregates based on
+%type of usage, and (c) re-examine peak time usage with recent changes in usage patterns to estimate
+%for capacity planning. 
 
 Our study is based on Comcast’s analytic data collected from home gateways for their customers in
 Salt Lake City, Utah. This data consists of byte transfers collected continuously every 15 minutes
@@ -64,6 +55,13 @@ to investigate the question: does increase in bandwidth change usage behavior?
 % We also limit our analysis
 %to a particular high access link ISP and a single city because this avoids any biases in usage
 %patterns, especially during peak time, as well as different pricing models. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LIST OF CONTRIBUTIONS BASED ON THE RESULTS
+% TODO currently does not flow well from the previous paragraph
+\input{contributions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this work, after offering details about our data and how it is sanitized in 
 [section~\ref{sec:data}], we proceed by describing our methodology and evaluation criteria to study
