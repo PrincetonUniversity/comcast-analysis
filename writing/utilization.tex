@@ -1,21 +1,18 @@
-\subsection{Utilization}
-\label{subsec:peak-util}
+\subsection{Interpreting Utilization}
+\label{subsec:utilization}
 
-% We shed light on the user's and ISP's \textbf{differing perspectives of \emph{capacity utilization}}, and show that indeed, the user's behavior does change when offered a higher capacity link even though the overall utilization stops increasing after a certain upper limit.
+The prime-time ratio showed that there is a possible change in behavior of the \test due to an increase in capacity from 105 Mbps to 250 Mbps. Now, we try to answer the question: \emph{Is there any change in user behavior due to the upgrade, and if so, where?}
+% the average user pattern from first subsection should also show the hours when avg usage is different => intuition for prime time and peak ratio.
 
-The prime-time ratio showed that households in the 
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.90\linewidth]{figures/cdf-all-bytes.png}
+  \caption{CDF of data rate per time slot for all devices (agg view of data): Overall not much change due to capacity increase. Median data rate ~ 2bps for 3 months x thousands of devices!}
+  %http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-all-bytes.png
+  \label{fig:CDF-data-rate-all}
+\end{figure}
 
-we investigate the maximum (average) data rate observed by households in the 
-
-\hypoth{2}. Does the maximum (or 90-\%ile) data transferred by the device differ?
-
-\begin{itemize}
-\itemsep0em 
-\item Figure ~\ref{fig:CDF-data-rate-max}
-\item Calculate the maximum data rate for a device over the three months, and compare max rate (per device) for test set and max rate (per device) for control set
-\item test set has higher (max) average data rate below 10 kbps \todo{sanity check numbers, redo plot}
-\item 30\% of devices in the control set have a max data rate of 2 kbps while 30\% of test set has a max data rate of 10 kbps.
-\end{itemize}
+We thus investigate the distribution of the average data rate (a measure of data sent per time slot) for both sets. Figure ~\ref{fig:CDF-data-rate-all} shows that the the \control and \test set have a very similar usage behavior overall characterizing the bytes transferred throughout the day. Figure ~\ref{fig:TS-data-rate-daily} shows that the peak hour behavior of both sets is very similar, but during the day, the median data rate of \test set devices is slightly higher \todo{quantify} than the \control set.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht!]
@@ -26,7 +23,7 @@ we investigate the maximum (average) data rate observed by households in the
 %\hfill
 \begin{subfigure}[b]{0.90\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-max-per-device.png}
-  \caption{CDF of max per device}
+  \caption{CDF of max per device: test set has higher (max) average data rate below 10 kbps.  30\% of devices in the control set have a max data rate of 2 kbps while 30\% of test set has a max data rate of 10 kbps. (sanity check numbers, redo plot)}
   %http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-max-per-device.png
   \label{fig:CDF-data-rate-max}
 \end{subfigure}
@@ -48,36 +45,24 @@ we investigate the maximum (average) data rate observed by households in the
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{itemize}
-\itemsep0em 
-\item Figure ~\ref{fig:CDF-data-rate-max-daily}
-\item Max seen by a device per day, in 3 months
-\item Consistent increase for daily max data rate per device
-\item 15 min granularity misses information
-	\begin{itemize}
-	\itemsep0em
-	\item short faster data bursts
-	\item better video quality
-	\item baseline is different
-	\end{itemize}
-\end{itemize}
+Next we investigate the distribution of maximum data rate achieved by each household (figure~\ref{fig:CDF-data-rate-max}) over the three month period. Our results show that although the high utilizing households ($>$ 90\%-ile data rate) were similar throughout the set, showing no significant change in the maximum data rate, about 20\%-ile of the \test set devices saw a slight increase in the maximum data rate, which was much lower than link capacities. 
+%the capacity utilization of both sets was similar during time slots with
+% large data transfers, there is a certain difference in the maximum data
+%rate per device for lower data rates \todo{needs a better more intuitive explanation}.
 
+To confirm this, we plot the maximum data rate achieved \emph{daily} by each household (figure ~\ref{fig:CDF-data-rate-max-daily}). This showed that the maximum data rate achieved daily by low usage devices was higher for the \test set than the control set. We believe that this is an unbiased way to confirm the correlation between usage and capacity as the users did not know of the increased capacity, nor did they require it. The user's behavior does change when offered a higher capacity link, even though the overall capacity utilization stops increasing after a certain upper limit
 
-%------------------------------------------------------------------------------
+We explore the reasons for such behavior: Discounting the possibility of this being a baseline behavior (i.e., \test set would show this even if it had the same capacity), we speculate that there could be two possible reasons for such a behavioral change: (1) short term downloads and usage achieves a slightly better data rate on a small time scale, or (2) real-time video quality is slightly higher, but not enough to completely saturate the access link capacity. Unfortunately, we miss these events due to a higher granularity of viewing data transferred only after 15 minutes.
 
-\begin{figure}[b]{0.90\linewidth}
-\includegraphics[width=\linewidth]{figures/cdf-all-bytes.png}
-  \caption{CDF of data rate per time slot for all devices (agg view of data): Overall not much change due to capacity increase}
-  \vspace{1em}
-  %http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-all-bytes.png
-  \label{fig:CDF-data-rate-all}
-\end{figure}
-%\hfill
+%This agrees with the FCC's opinion that if given the option, users will
+%adopt a higher tier bandwidth, even though they do not saturate the capacity~\cite{}.
+%This also motivates the FCC to study deployment and adoption differently.
+% Users may not adopt a higher bandwidth connection as they 
+\paragraph{Different Perspectives of Utilization: }We take this opportunity to reflect on the issue of increasing broadband availability, deployment, and adoption being faced by the FCC~\cite{fcc2015progress-report}. The network usage increases slightly for low link utilization, without the user actively changing his/her behavior to saturate the link capacity.
 
-\begin{itemize}
-\itemsep0em 
-\item Figure ~\ref{fig:CDF-data-rate-all}
-\item Distribution of average data rate (kbps) per 15-min time slot 
-\item Very similar distributions of bytes transferred
-\item Median data rate ~ 2bps for 3 months x thousands of devices!
-\end{itemize}
+The user, and therefore the FCC (representing the users' rights and demands), and the ISPs, are both correct, but have a different perspective of broadband utilization and adoption; the slight change in behavior for low utilization could motivate a user to adopt a higher bandwidth tier. From the ISP perspective though, the users link capacity utilization does not show any change due to the upgrade in connectivity and is therefore a deterrent to offering the higher tier.
+
+Vice versa, an ISP may tell the user that they need to upgrade their broadband access link to achieve higher data rate for low throughput periods too. And the user might not need it, as their link capacity is clearly not saturated. \todo{... doesn't make sense yet something missing ...}
+
+% some conclusion
+We recommend that the FCC add multiple benchmarks, including \sg{ ... what comes here?}
