@@ -414,21 +414,14 @@ bookmarksopen = {true}
 %{\bf Keywords:}
 %home networks; Broadband Utilization; FCC; Comcast
 
-%\input{introduction}
-%\input{background}			%combine to intro
 \input{introduction2}
-
 \input{dataset}
 \input{methodology}
 \input{results}
 \input{discussion}
-\input{issues}
 %\input{related}
-\label{lastpage}
+%\label{lastpage}
 \end{sloppypar}
-
-%\appendix
-%\input{appendix_sources}
 
 %\vspace{-0.1in}
 %\section*{Acknowledgments}
@@ -440,12 +433,14 @@ bookmarksopen = {true}
 \small
 \bibliographystyle{abbrv}
 \flushleft\balance\bibliography{paper} 	% sigproc.bib is the name of the
-										% Bibliography in this case 
+%Bibliography in this case 
 %\bibliographystyle{abbrvnat_noaddr} % SPACE
 %\theendnotes % ENDNOTES
 }{% !onlyAbstract
 }
 %\input{appendix}
+\appendix
+\input{issues}
 
 \end{document}
 

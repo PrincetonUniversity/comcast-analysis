@@ -1,35 +1,17 @@
 \section{Methodology}
 \label{sec:methodology}
 
-In this section we describe how the dataset collected is both granular as well as unbiased, and enables us to study usage behavior in a controlled setting. We specify the evaluation criteria we use to compare usage patterns of the \test and \control sets.
+We specify the evaluation criteria we use to compare usage 
+patterns of the \test 
+and \control sets.
 
-In the following, we define capacity as the access link capacity offered by the ISP to the user. In the case of the Comcast dataset, capacity is 105 Mbps for the \control set and 250 Mbps for the \test set. Similarly, we define usage as the actual traffic (bytes uploaded or downloaded) by the household being studied. We use usage across 15 min time slots to derive the average data rate and compare it to the capacity in our analysis.
+In the following, we define capacity as the access link capacity offered by the 
+ISP to the user. In the case of the Comcast dataset, capacity is 105 Mbps for 
+the \control set and 250 Mbps for the \test set. Similarly, we define usage as 
+the actual traffic (bytes uploaded or downloaded) by the household being 
+studied. We use usage across 15 min time slots to derive the average data rate 
+and compare it to the capacity in our analysis.
 
-\subsection{Relevance of the Data}
-
-% why only byte counters are okay for this work
-\paragraph{Study Byte Counters:} The purpose of this work is to study the usage characteristics, irrespective of the application responsible for such usage. 
-%This is bolstered by FCC's decision of net neutrality 
-Limiting ourselves to just byte counters makes our analysis easily extendible to any ISP, and the FCC, interested in doing a similar study at a larger scale, without the risk of leaking PII. A study of applications has already been performed extensively by Sandvine ~\cite{}, as well as other researchers.
-
-%granularity of 15 mins, usually not perfectly synchronized but off by a very few seconds that shouldn't matter much when seeing larger aggregated patterns
-\paragraph{Granularity of 15 minutes:} Broadband usage evaluated by commercial groups ~\cite{}, or governmental survey bodies, usually employed by the FCC, tends to focus on aggregated usage statistics over months, long term trends, and applications. In our work we specifically focus on data transferred in 15 minutes, to avoid short term bursts that max out the capacity, but account for long term heavy flows (such as real time entertainment and voip calls) that will continuously max out the access link. This gives us a granularity fine grained enough to study major changes in usage characteristics (such as peak trends) while ignoring short term bursts of traffic (such as browsing)
-
-Note that byte counter readings collected every 15 minutes from multiple households were synchronized for consistency in measurements.
-
-
-
-% not telling users that the connection was upgraded lets us study correlation between usage and capacity without the bias of user changing his behavior due to external factors (buying a device, being more aggressive as they bought a new plan)
-% DASU supports correlation by measuring usage on each ISP tier, even for those who changed tiers, but that is biased by user buying a higher tier when they feel unsatisfied. It does not have a good representation of the case when the ISP offers extra bandwidth without charging. Even if it does, the user knows about the capacity bump inducing a change in behavior. Our dataset is unbiased in that manner, we don't expect users to know they have a higher capacity and still study if there is change in behavior
-\paragraph{High Tier Measurements:} We limit ourselves to analyzing usage patterns in the high capacity access link tier only. The \test dataset was collected by increasing the capacity from 105 Mbps to to 250 Mbps for 2200 randomly selected users, without their knowledge. This served a two-fold purpose in avoiding biases that studies on usage and capacity suffer from: (a) \emph{Avoid behavioral change bias:} offering users with high capacity a further increase without their knowledge avoids the risk of behavioral changes that may occur when one purposefully buys a higher bandwidth connection; and (b) \emph{Avoid frustrated user bias:} users already have a high capacity that gets upgraded, instead of opting for an upgrade because their previous capacity was insufficient for their usage. Studying datasets with these biases will always show a positive correlation between usage and capacity, and by examining a single high capacity tier, we avoid this.
-
-
-
-%Both the \test and \control sets were collected from users in Salt Lake City, Utah, to avoid any biases in behavior based on location. Although this dataset corresponds to just one ISP, we believe that it is broadly representative of urban users in the US in the same, or higher broadband bandwidth tier ($\>$ 100 Mbps). Thus, we use this data to draw general conclusions about behavioral change with link capacity \todo{(add more here...) }
-\paragraph{Single ISP, Same Location:} No bias between service plans, pricing model, and traffic treatment. Controlled setting. Paths + performance should be similar and unbiased by the ISP as data is from one city. Also avoids local behavioral biases (if any).
-
-%explain that due to no bias in city, and large number of users, this can be interpreted as change or no change in behavior due to increase in capacity of the link. We expect the baseline behavior of these users to be exactly the same. Thus we will put our questions as "change in behavior due to increase in capacity" rather than analysis of two different datasets as we have attempted to eliminate all biases.
-This gives us a highly controlled setting to study usage behaviors in an unbiased manner across a very large set of users (15k \control and 1500 \test households). Thus we believe that are conclusions will be representative of broadband behavior in a general American urban city. We expect the baseline behavior of all users to be similar, and in fact, interpret any differences between the \control and \test set behavior as aggregate changes that occurred due to the an increase in access link capacity.
 
 
 
@@ -66,8 +48,6 @@ We analyze based on three criteria:
 \end{itemize}
 
  Previous studies and reports ~\ref{sandvine} have indicated that peaks in prime-time occur mainly due to downlink video traffic, and may result in higher latency.
- 
- We also noticed that there is a discrepancy in the definition of prime time: the sandvine reports say 8-11p (3 hrs only)
 
 \paragraph{Peak Ratio}
 \begin{itemize}
