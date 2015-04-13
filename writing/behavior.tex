@@ -13,7 +13,8 @@ We estimate the mean spacio-temporal usage behavior of a household by aggregatin
 Based on previous findings, we analyzed weekly patterns and confirmed that households have a higher variance in daily network usage during evenings on weekdays as compared to weeknights and holidays. We thus divide our analysis based on weekday and show show the daily mean, median, and 90-\%ile of the total data rate as seen by the ISP for households the \control and \test sets in figure~\ref{fig:TS-data-rate-daily}. We find that the daily usage behavior on the weekend and holiday usage has four parts: (a) an initial sharp rise, (b) a flatter rise, (c) sharp rise to evening, (d) sharp decrease after 12 am.
 In contrast, weekdays have two simple parts: (a) a rise in data usage from 7:00 AM that peaks in late evening around 8:00 PM, and (b) a sharp fall in usage from 12:00 PM to 6:00 AM in the morning. This is in contrast to the widely expected usage patterns network usage patterns analyzed after aggregation at ISPs that show a local small peak in network load in the morning (10AM), then dip in the afternoon, and then rise up again in the late evening ~\cite{sandvine2014report1}, \todo{check if dasu shows this, check other studies.}
 
-\todo{also, test set seems to have this small peak, but control doesn't. Why?? see: http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/describe-total-throughput-per-day-ALL.png}
+\todo{also, test set seems to have this small peak, but control doesn't. Why??}
+%see: http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/describe-total-throughput-per-day-ALL.png
 
 This lack of troughs could be the result of the users' behavior in higher tier bandwidth, and motivated us  to further study user taxonomy in section~\ref{subsec:peakratio}.
 
