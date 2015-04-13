@@ -8,23 +8,15 @@
 
 In section ~\ref{sec:methodology}, we established the importance of measuring behavior during prime time hours. To reiterate, the prime time hours as defined by the FCC is the period between 7:00 PM -- 11:00 PM on weeknights when the network is under peak load~\cite{fcc2014measuring-broadband}. \todo{The first occurrence of this definition was ... should this be in methodology?? }
 
-Our analysis of the peak usage in figure~\ref{fig:TS-data-rate-daily} motivated us to revisit this definition. We observed that in our dataset the four hour period 8:00 PM -- 12:00 AM is a much better indicator of prime-time hours than the FCC's original definition over both sets of data. This discrepancy could be limited to high tier households only, or it could imply that due to the flexibility of video-on-demand, consumers across the country are opting for a later time to watch video.
+Our analysis of the peak usage in figure~\ref{fig:TS-data-rate-daily} motivated us to revisit this definition. We observed that in our dataset the four hour period 8:00 PM -- 12:00 AM is a much better indicator of prime-time hours than the FCC's original definition over both sets of data. This discrepancy could be limited to high tier households only, or it could imply that due to the flexibility of video-on-demand, consumers across the country are opting for a later time to watch video. 
 
-\begin{itemize}
-\itemsep0em 
-\item Figure ~\ref{fig:TS-prime-time-ratio}
-\item 8p - 12a shows a higher prime-time ratio than 7p - 11p (as stated by FCC) in the Comcast data set. The curve in convex, i.e. there is only one peak time in a day.
-\item Distribution of prime time ratios over control and test set is very similar
-\item The average prime-time ratio for control sets is consistently higher than test set
-\item Test set has 10\% lower PT than control set
-\item Diurnal pattern shows high ratio for 5 weekdays, and low ratio on weekends.
-\item Also easy to see Thanksgiving, black friday, Christmas, etc. holidays
-\end{itemize}
+We use the updated definition of prime-time (as 8:00 PM -- 12:00 AM) to examine the aggregate prime-time ratio each day for both \test and \control sets. Figure ~\ref{fig:TS-prime-time-ratio} shows that the prime-time ratio for the \test set is 10\% less than the control set, implying that the ratio of average data rates in peak (prime-time) hours and off-peak hours in a day reduces due to the capacity upgrade from 105 Mbps to 250 Mbps. This is a surprising result as one would expect that a higher capacity would allow the user to push more data through their links during peak hours (maximize usage) while maintaining the same low throughput during off-peak hours, thus \emph{increasing} the prime-time ratio.
 
-
+%measures the variance in prime-time hours and off-peak hours
+Based on these observations, we recommend that the FCC studies prime-time via network usage characteristics, and standardizes its definition. One way is to update the common baseline time seen across ISPs when network usage is at its peak, similar to our analysis. Another definition might be local to each agent examining their peak network load as the approx time when aggregated traffic is 90\%-ile of the maximum load, which can cause latency delays. \todo{ should this be in the discussion instead }
 
 %\sg{can also include PT table from ppt if worth it -- table shows the "no dip" pattern similar to time series in first subsection.}
-
+% \sg{ http://riverside.noise.gatech.edu:8083/separated/full/cdf-prime-time-ratio-per-device.png not needed ? }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,7 +34,7 @@ Our analysis of the peak usage in figure~\ref{fig:TS-data-rate-daily} motivated 
 
 
 
-% \sg{ http://riverside.noise.gatech.edu:8083/separated/full/cdf-prime-time-ratio-per-device.png not needed ? }
+
 
 
 
