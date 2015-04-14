@@ -1,4 +1,4 @@
-\section{Data Source}
+\section{Data Source and Characterization}
 \label{sec:data}
 % Comcast dataset quick overview, dates, usage, tiers
 Our dataset consists of network usage byte counters reported by Comcast gateways 
@@ -17,6 +17,7 @@ and about 2200 gateway devices in the test set.
 
 
 \subsection{Data Description}
+\label{subsec:data-description}
 
 %8 control sets, different devices, different times
 %more details about data, fields, direction, locations?
@@ -44,6 +45,7 @@ octets\_passed         & Byte count                                \\ \hline
 \end{table}
 
 \subsection{Data Sanitization}
+\label{subsec:data-sanitization}
 
 %correlated drops at times or devices that contributed only 2-3 days of the whole month
 Our initial analysis of data transferred per time slot showed that certain 
@@ -107,6 +109,7 @@ behavior of an individual dataset varies significantly from the overall behavior
 and requires mention.
 
 \subsection{Relevance of the Data}
+\label{subsec:data-relevance}
 
 In this section we describe how the Comcast database collected is both granular 
 as well as unbiased. This database enables us to study usage behavior in a 

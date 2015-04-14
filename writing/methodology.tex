@@ -22,10 +22,11 @@ a significant number of households \emph{need} it. Thus, both parties are asking
 question: do people \emph{need} a higher capacity, i.e., what is their \emph{utilization}
 as compared to the capacity?
 
-Previous research claims that the utilization will increase as the capacity of the access
-link increases~\cite{dasu, ?}. However, such studies have been biased by (1) studying only low tier
-links that were already bottlenecked, and (2) studying only the users that actually required a
-higher capacity for their usage. It is inevitable that such a correlation would exist for 
+Previous research shows that the utilization will increase as the capacity of the access
+link increases~\cite{}, and also that utilization\footnote{called demand in their work} and capacity
+follow a law of diminishing returns~\cite{bischof2014broadband-behavior}. However, such
+studies have been biased by studying users that actually required a higher capacity
+for their usage. It is inevitable that such a correlation would exist for 
 such households, whose utilization is bottlenecked by the ISP.
 
 In this work, we ask a more fundamental question: \emph{how much does the user behavior
@@ -66,7 +67,8 @@ for development, such as the FCC, when considering policy decisions.
 households naturally requires the provider to design networks capable of handling 
 load at the peak times in a day. Such peak times are usually observed during
 evening hours, and the data transferred at this time is called peak usage.
-The FCC defines \emph{Prime Time} as the local time from 7:00 PM to 11:00 PM, when many
+The FCC defines \emph{Prime Time} as the local time from 7:00 PM to 11:00
+PM~\cite{fcc2014measuring-broadband}, when many
 households heavily consume real-time entertainment traffic (video), seen as primarily
 responsible for high usage during these hours. Latency and performance are adversely
 affected during prime-time, causing bottlenecks at home, the last mile, in
@@ -83,7 +85,7 @@ in section~\ref{subsec:primetime}.
 
 \paragraph{Peak Ratio: }The Sandvine Reports show that although the mean usage has remained
 stable for the past few years, usage during peak-times has increased
-drastically~\cite{sandvine1}. To measure this growth, they introduce the
+drastically~\cite{sandvine2014report1}. To measure this growth, they introduce the
 concept of peak period, measured when the network is within 95\% of its highest point.
 Although, these reports present a good view into aggregate usage patterns over a month,
 they neglect to analyze usage characteristics individually. Inspired by their
