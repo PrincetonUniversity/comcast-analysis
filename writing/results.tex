@@ -3,8 +3,24 @@
 
 \todo{This is the results section}
 
-We present a comparison between the usage characteristics of the control\footnote{household byte counters from users with a 105 Mbps access link} and test\footnote{household byte counters from users with a 105 Mbps access link}. We interpret the any variation between the results of both sets as a change in usage behavior due to increase in access link bandwidth.
+We present a comparison between the usage characteristics of the control\footnote{household byte counters from users with a 105 Mbps access link} and test\footnote{household byte counters from users with a 105 Mbps access link}. The results are evaluated based on the criteria in table~\ref{tab:eval-criteria}. We interpret the any variation between the results of both sets as a change in usage behavior due to increase in access link bandwidth.
 %although these are two separate sets of devices we interpret them as changes as explained in "methodology" or "data"
+
+\begin{table}[ht!]
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Parameter}        & \textbf{Definition}                                                                     & \textbf{Agency}  \\ \hline
+Prime Time       & 7:00 PM - 11:00 PM                                                             & FCC       \\
+Prime Time (updated)       & 8:00 PM - 12:00 AM                                                             & Authors       \\
+
+Prime Time Ratio & \( \frac{ \text{avg usage in peak (prime-time) hour}}{ \text{avg usage in off-peak hour}}\) & Sandvine  \\
+Peak Period      & Time of network 95\% of max                                              & Sandvine \\
+Peak Ratio       & \(\frac{\text{90\%-ile of max daily usage}}{\text{median of daily usage}}\)                & Authors \\\hline
+\end{tabular}
+\caption{Evaluation Criteria}
+\label{tab:eval-criteria}
+\end{table}
+
 
 \input{behavior}
 \input{primetime}

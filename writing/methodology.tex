@@ -1,60 +1,98 @@
 \section{Methodology}
 \label{sec:methodology}
 
-We specify the evaluation criteria we use to compare usage 
-patterns of the \test 
-and \control sets.
-
 In the following, we define capacity as the access link capacity offered by the 
 ISP to the user. In the case of the Comcast dataset, capacity is 105 Mbps for 
-the \control set and 250 Mbps for the \test set. Similarly, we define usage as 
+the \control set and 250 Mbps for the \test set. We define usage as 
 the actual traffic (bytes uploaded or downloaded) by the household being 
-studied. We use usage across 15 min time slots to derive the average data rate 
-and compare it to the capacity in our analysis.
+studied. Similarly, the average data rate is derived by calculating the 
+usage in a 15 min time slot (in kbps). We also refer to this as utilization,
+and compare it to the access link capacity in our analysis.
 
-\todo{This section is not complete}
+\subsection{Different Perspectives of Utilization}
 
-\subsection{Evaluation Criteria}
+The FCC has the responsibility to increase the availability and deployment of broadband
+throughout the US (with the broadband threshold benchmark defined as 25 Mbps in downlink and
+3 Mbps in uplink). Their progress report states that: given the option, users will adopt a
+higher tier bandwidth~\cite{}, thereby meriting the high investment. However, a survey
+conducted by NCTA showed that the largest deterrent to broadband adoption is that users
+do not \emph{need} broadband (the second largest is the cost). The conflicting view of 
+the ISP is that the cost of deployment in an unchartered area is too high, unless
+a significant number of households \emph{need} it. Thus, both parties are asking the same
+question: do people \emph{need} a higher capacity, i.e., what is their \emph{utilization}
+as compared to the capacity?
 
-We analyze based on three criteria:
-\begin{itemize}
-\itemsep0em 
-\item usage patterns
-\item peak utilization
-\item prime time ratio
-\item peak ratio
-\item traffic asymmetry 
-\end{itemize}
+Previous research claims that the utilization will increase as the capacity of the access
+link increases~\cite{dasu, ?}. However, such studies have been biased by (1) studying only low tier
+links that were already bottlenecked, and (2) studying only the users that actually required a
+higher capacity for their usage. It is inevitable that such a correlation would exist for 
+such households, whose utilization is bottlenecked by the ISP.
 
+In this work, we ask a more fundamental question: \emph{how much does the user behavior
+change with increasing capacity}. Specifically, when the capacity is already very high
+and the user has not opted for an increase, does their utilization still vary with capacity?
+Both the FCC and the ISPs have a different perspective of the utilization:
 
+% the overall usage is very similar
+% max peak/day are the same, but on the lower end peak usage per device changes
+% much lesser than the capacity but it is still a change
+\paragraph{The FCC perspective: } In other words, do users always \emph{adopt} a higher capacity
+link when available (but not under the constraints of a much higher cost)? The answer to this
+question is important to the FCC to encourage further deployment of high tier links throughout
+the US. Essentially, if \emph{any} change is observed in link utilization due to the upgrade in our dataset,
+the FCC may interpret that as \emph{adoption} to the higher available tier.
 
-\paragraph{The Importance of Measuring Usage at Prime Time:}
-\begin{itemize}
-\itemsep0em 
-\item Capacity planning is concerned about “prime-time” and peak behavior, i.e., max data rate per device is more important than the average rate of that device.
-\item Idle hour behavior is expected to stay the same, regardless of access link
-\item peak utilization definition
-\end{itemize}
+% The max util DOES NOT change => we are not the bottleneck and users are satisfied.
+\paragraph{The ISP perspective: } In other words, at what point does utilization stop changing
+with increases in capacity, therefore showing that the ISP capacity is not the \emph{bottleneck}? 
+The ISP needs the answer to this question for future capacity planning, and the cost-analysis
+for the investment of new technology in any area.\
+For example, Google Fiber is now expanding to Salt Lake City, from where we received our dataset.
+The analysis of change in user behavior with capacity will estimate the number of users that
+actually \emph{need} the higher capacity service offered by Google.
 
+Thus there is a need to measure \emph{utilization} at times when users \emph{need} the Internet
+capacity the most: the peak usage.
 
-\paragraph{Prime-Time Ratio} definition of prime time
-\begin{itemize}
-\itemsep0em 
-\item Sandvine defines Network Prime-Time ratio to measure the concentration of network usage during the prime-time evening hours.
-\item FCC says prime-time is 7-11 PM.
-\item Prime-Time ratio = absolute levels of network traffic during an average peak period hour with an average off-peak hour.
-\item Measure PT = avg data rate during a peak hour period : off-peak period.
-\end{itemize}
+\subsection{Importance of Measuring Peak Usage}
 
- Previous studies and reports ~\ref{sandvine} have indicated that peaks in prime-time occur mainly due to downlink video traffic, and may result in higher latency.
+Internet usage throughout a day follows diurnal sleep-patterns, and researchers
+have shown that such patterns are in fact correlated with GDP, Internet allocations,
+as well as electrical consumption of a region~\cite{ant-diurnal-web}. This makes
+the study of usage behavior extremely relevant to the governmental bodies responsible
+for development, such as the FCC, when considering policy decisions. 
 
-\paragraph{Peak Ratio}
-\begin{itemize}
-\itemsep0em
-\item define to measure imbalance in a day
-\item for each device,peak ratio  =    90-\%ile data rate per day / median data rate per day
-\item this metric can also be used to segregate users, based on who peaks at what time [section ~\ref{sec:discussion}]
-\end{itemize}
+\paragraph{Prime Time: }The daily diurnal nature of usage patterns across many
+households naturally requires the provider to design networks capable of handling 
+load at the peak times in a day. Such peak times are usually observed during
+evening hours, and the data transferred at this time is called peak usage.
+The FCC defines \emph{Prime Time} as the local time from 7:00 PM to 11:00 PM, when many
+households heavily consume real-time entertainment traffic (video), seen as primarily
+responsible for high usage during these hours. Latency and performance are adversely
+affected during prime-time, causing bottlenecks at home, the last mile, in
+transit, or at the content server. For example, the Sandvine Global
+Internet Phenomena Report showed that devices in the same household selected Netflix's
+own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing performance)
+during prime-time. This may happen because Netflix OpenConnect is over-utilized during prime time.
 
-%\subsection{Limitations}
-%shortcomings of data + advantages (user end instead of sandvine which is core internet?? so we can comment on per user patterns??)
+\paragraph{Prime Time Ratio: }To measure the concentration of network usage during prime time,
+Sandvine defined the \emph{Prime-Time ratio} as the ``absolute levels of network traffic
+during an average peak period hour with an average off-peak hour''. Based on the FCC
+definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of $set_{full}$
+in section~\ref{sec:primetime}.
+
+\paragraph{Peak Ratio: }The Sandvine Reports show that although the mean usage has remained
+stable for the past few years, usage during peak-times has increased
+drastically~\cite{sandvine1}. To measure this growth, they introduce the
+concept of peak period, measured when the network is within 95\% of its highest point.
+Although, these reports present a good view into aggregate usage patterns over a month,
+they neglect to analyze usage characteristics individually. Inspired by their
+definition, we measure the disparity between the 90 percentile of the peak and median
+usage of each household within a day, and call this the \emph{Peak-Ratio}. In
+section~\ref{sec:peakratio} we show that the peak ratio can be used
+to divide users in the same tier based on their usage behavior.
+
+In the next section, we analyze spacio-temporal network usage behavior:
+\textbf{Time Series Behavior (TS): }aggregating the usage (and utilization) per household
+over time (daily or weekly, per time slot). \textbf{Distribution Across Devices (CDF): }aggregating over time slots per day to measure utilization per device. We use the prime-time ratio and peak usage
+as criteria to evaluate usage behavior and interpret utilization.
