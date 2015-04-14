@@ -37,17 +37,17 @@ Both the FCC and the ISPs have a different perspective of the utilization:
 % the overall usage is very similar
 % max peak/day are the same, but on the lower end peak usage per device changes
 % much lesser than the capacity but it is still a change
-\paragraph{The FCC perspective: } In other words, do users always \emph{adopt} a higher capacity
-link when available (but not under the constraints of a much higher cost)? The answer to this
+\paragraph{The FCC perspective: }\emph{Utilization as adoption} of a higher capacity
+link when available (but not under the constraints of a much higher cost). The answer to this
 question is important to the FCC to encourage further deployment of high tier links throughout
-the US. Essentially, if \emph{any} change is observed in link utilization due to the upgrade in our dataset,
-the FCC may interpret that as \emph{adoption} to the higher available tier.
+the US. Essentially, if \emph{any} change is observed in link utilization due to the upgrade in our dataset, the FCC may interpret that as \emph{adoption} to the higher available tier.
 
 % The max util DOES NOT change => we are not the bottleneck and users are satisfied.
-\paragraph{The ISP perspective: } In other words, at what point does utilization stop changing
-with increases in capacity, therefore showing that the ISP capacity is not the \emph{bottleneck}? 
+\paragraph{The ISP perspective: }\emph{Utilization as a capacity bottleneck}, i.e., if
+the ISP can show that the \emph{maximum utilization} of a household does not vary
+with increasing capacity, it will prove there is not enough demand to offer a higher tier.  
 The ISP needs the answer to this question for future capacity planning, and the cost-analysis
-for the investment of new technology in any area.\
+for the investment of new technology in any area.
 For example, Google Fiber is now expanding to Salt Lake City, from where we received our dataset.
 The analysis of change in user behavior with capacity will estimate the number of users that
 actually \emph{need} the higher capacity service offered by Google.
@@ -73,9 +73,14 @@ households heavily consume real-time entertainment traffic (video), seen as prim
 responsible for high usage during these hours. Latency and performance are adversely
 affected during prime-time, causing bottlenecks at home, the last mile, in
 transit, or at the content server. For example, the Sandvine Global
-Internet Phenomena Report showed that devices in the same household selected Netflix's
-own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing performance)
-during prime-time. This may happen because Netflix OpenConnect is over-utilized during prime time.
+Internet Phenomena Report \footnote{The Sandvine Reports ~\ref{sandvine2014report1,
+sandvine2014report2}are released bi-annually and
+contain a detailed analysis of aggregate Internet usage. They are also referred
+to in the FCC reports~\ref{fcc2015progress-report, fcc2014measuring-broadband,
+fcc2014progress-report}} showed that devices in the same household selected Netflix's
+own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing
+performance) during prime-time. This may happen because Netflix OpenConnect is over-utilized
+during prime time~\ref{sandvine2014report1}.
 
 \paragraph{Prime Time Ratio: }To measure the concentration of network usage during prime time,
 Sandvine defined the \emph{Prime-Time ratio} as the ``absolute levels of network traffic
