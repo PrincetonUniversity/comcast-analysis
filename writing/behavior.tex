@@ -2,8 +2,9 @@
 \label{subsec:behavior}
 
 To characterize diurnal user behavior as observed at the ISP, we first calculate
-aggregate data at each time slot, and then plot the median and 90\%-ile of total
-usage over a week for both \test and \control sets (Figure~\ref{fig:TS-data-rate-daily}).
+usage per subscriber (table ~\ref{tab:eval-criteria} and then plot the median and
+90\%-ile of total usage over a week for both \test and \control
+sets (figure~\ref{fig:TS-data-rate-daily}).
 
 We observe that the rise to the peak prime time hour usage on weekdays
 is not plateaued like the pattern observed on weekends (and holidays).
@@ -22,15 +23,13 @@ the case for overall usage observed at US Fixed access providers ~\cite{sandvine
 \end{minipage}
 \end{figure}
 
-To compare the \test and \control sets, we use the average data usage per subscriber
-metric (table~\ref{tab:eval-criteria}). We observe that the median prime time and late night
-behavior is very similar (7:00 PM -- 7:00 AM), but during off peak usage hours, the \test
-set has a higher median than the \control set. This discrepancy occurs completely during the
-other half of the day, during work hours. In conclusion, there was no change in
-prime time behavior, and an increased usage in off-peak daily hours.
+Comparing the \test and \control sets, we observe that the median prime time and late night
+behavior is very similar (7:00 PM -- 7:00 AM), but during off peak daytime (work) hours,
+the \test set has a higher median than the \control set. There was no change in
+prime time behavior in the evening, and an increased usage in off-peak daytime hours.
 
-%This lack of troughs could be the result of the users' behavior in higher tier
-%bandwidth, and motivated us  to further study user taxonomy in
-%section~\ref{subsec:peakratio}.
+% EXPLAIN:
+% LACK OF TROUGHS: users' behavior in higher tier bandwidth
+% DISCREPANCY IN DAYTIME OFFPEAK: ??? 
 
-\todo{see todo.txt for analysis comments}
+\todo{see todo.txt for analysis comments, things to explain, things to check}

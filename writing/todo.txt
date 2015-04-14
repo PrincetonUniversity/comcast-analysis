@@ -1,22 +1,32 @@
 Apr 13, 2015: RESULTS TODO
 
-Usage Behavior
-- Fig 2 aggregates
-- make two sub plots for (a) test and (b) control: (mean of day)
-(sum of device) bytes, include (perc90 of day) (sum of device) bytes and
-(median of day) (sum of device) bytes. Purpose is to show patterns individually,
-not compare differences. Patterns to show are (1) no troughs in usage,
-(2) prime-time hours shift(subsection~\ref{subsec:primetime}), (3) difference
-between 90\%-ile and median (subsection ~\ref{subsec:peakratio})}
+1) Usage Behavior
 
-- plot for 1000 random chosen devices with full heartbeat to confirm if peak perc/medians
-are same in peak and diff in off peak. Plot both usage per subs and avg data rate.
-
-- separate subplots for M-F and S/S/holidays for test and control -- may not need to show all as weekend graphs are not so surprising.
-
-- Also, test set seems to have this small peak and a trough, but control doesn't. Why??. Test and control medians differ during office hours (10:00 AM to 6:00 PM) but are similar in peak hours...
+- test set seems to have this small peak and a trough, but control doesn't. Why??. Test and control medians differ during office hours (10:00 AM to 6:00 PM) but are similar in peak hours...
 %see: http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/describe-total-throughput-per-day-ALL.png
 
+- EXPLAIN:
+	- LACK OF TROUGHS: users' behavior in higher tier bandwidth
+	- DISCREPANCY IN DAYTIME OFFPEAK: ??? 
+
+CHECK
+	- plot for 1000 random chosen devices with full heartbeat to confirm if peak perc/medians
+	are same in peak and diff in off peak. Plot both usage per subs and avg data rate.
+
+- Fig 2 REPLACEMENT
+	- make two sub plots for (a) test and (b) control: (mean of day)
+	(sum of device) bytes, include (perc90 of day) (sum of device) bytes and
+	(median of day) (sum of device) bytes. Purpose is to show patterns individually,
+	not compare differences. Patterns to show are (1) no troughs in usage,
+	(2) prime-time hours shift(subsection~\ref{subsec:primetime}), (3) difference
+	between 90\%-ile and median (subsection ~\ref{subsec:peakratio})}
+
+	- separate subplots for M-F and S/S/holidays for test and control -- may not need to show
+	all as weekend graphs are not so surprising.
+
+%----------------------------------------------------------------------------------------------------
+
+2) 
 
 
 
