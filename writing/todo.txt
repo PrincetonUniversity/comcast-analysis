@@ -1,11 +1,11 @@
 Apr 13, 2015: RESULTS TODO
 
-1) Usage Behavior
+1) Usage Behavior: ISP perspective
 
 - test set seems to have this small peak and a trough, but control doesn't. Why??. Test and control medians differ during office hours (10:00 AM to 6:00 PM) but are similar in peak hours...
 %see: http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/describe-total-throughput-per-day-ALL.png
 
-- EXPLAIN:
+EXPLAIN:
 	- LACK OF TROUGHS: users' behavior in higher tier bandwidth
 	- DISCREPANCY IN DAYTIME OFFPEAK: ??? 
 
@@ -13,7 +13,7 @@ CHECK
 	- plot for 1000 random chosen devices with full heartbeat to confirm if peak perc/medians
 	are same in peak and diff in off peak. Plot both usage per subs and avg data rate.
 
-- Fig 2 REPLACEMENT
+Fig 2 REPLACEMENT
 	- make two sub plots for (a) test and (b) control: (mean of day)
 	(sum of device) bytes, include (perc90 of day) (sum of device) bytes and
 	(median of day) (sum of device) bytes. Purpose is to show patterns individually,
@@ -24,15 +24,58 @@ CHECK
 	- separate subplots for M-F and S/S/holidays for test and control -- may not need to show
 	all as weekend graphs are not so surprising.
 
+CONCLUSIONS
+	- for FCC
+	- for ISP
 %----------------------------------------------------------------------------------------------------
 
-2) 
+2) Prime Time: ISP perspective
 
+EXPLAIN:
+	- done
 
+CHECK
+	- redo 1000
+	- Analyze 1 hour to 5 hour prime time series slots ratios
+	- Analyze peak time = 95\% of max => get time and value
+
+FIG 3 REPLACEMENT
+	- Think about a better plot (maybe histo? -- what do we want to show?)
+	- Prime time defined as time for 95\% OR 1-6 hour slots OR each 15 min slot data rate
+	
+CONCLUSIONS:
+	- for ISP: 
+	- for FCC: We also noticed that multiple agencies define prime-time differently causing
+difficulty in comparing studies ~\cite{sandvine2014report1, independent-rush-hour}. We recommend that the FCC studies prime-time usage behavior and standardizes its definition. If supported by analysis, the FCC should update prime-time to a later hour.
+	- Another definition might be local to each agent examining their peak network load as the approx time when aggregated traffic is 90\%-ile of the maximum load, which can cause latency delays. \todo{ should this be in the discussion instead }
+
+%---------------------------------------------------------------------------------------------------
+
+3) Interpreting Utilization: User Perspecive
 
 
 %---------------------------------------------------------------------------------------------------
 
+4) Peak Ratio: User perspective
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-----------------------------------------------------------------------------------------------------
 
 Meeting with Roya 04/04/2015
 

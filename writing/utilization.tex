@@ -1,7 +1,16 @@
 \subsection{Interpreting Utilization}
 \label{subsec:utilization}
 
-The prime-time ratio showed that there is a possible change in behavior of the \test due to an increase in capacity from 105 Mbps to 250 Mbps. Now, we try to answer the question: \emph{Is there any change in user behavior due to the upgrade, and if so, where?}
+Utilization can be characterized in many ways, and each definition can answer
+a particular question. Furthermore, as stated in the previous section, multiple
+parties may interpret utilization differently, based on their aims and requirements.
+
+
+Utilization as the average data rate for each device in each time slot 
+portrays the overall spacio-temporal aspect of our dataset. We plot a distribution
+of the rate per device-time in figure~\ref{fig:CDF-data-rate-all}. This shows that
+median utilization of household users is the same in both sets (50 kbps). A comparison
+between the \test and \control set shows that there is no affect on the overall adoption.
 
 \begin{figure}[ht!]
 \centering
@@ -11,9 +20,53 @@ The prime-time ratio showed that there is a possible change in behavior of the \
   \label{fig:CDF-data-rate-all}
 \end{figure}
 
-We compare the distribution of the data transferred per time slot for all devices in the \test and \control sets. Figure ~\ref{fig:CDF-data-rate-all} shows that the both sets have a very similar usage behavior distribution.
+Based on the measurement methodology, we study the highest utilization seen by a household
+both in its lifetime, and on each day. Our aim is to examine the peak usage per household, and
+study if the behavior changes due to an upgrade.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Figure~\ref{fig:CDF-data-rate-max} provides a distribution of the highest average
+data rate a household achieves. To avoid outliers, we also plot the 90\%-ile of the max
+data rate achieved by households in both \test and \control sets. We see that a median
+household is expected to achieve the highest data rate of between 1 -- 10 Mbps over its
+lifetime. This is much lower than the access link capacity,
+indicating that the median device has a utilization ratio (avg data rate:capacity) under
+0.1 in our dataset. The number of households that increased their peak utilization beyond
+the \control set's 105 Mbps capacity were negligible.
+
+Surprisingly, we see that 30\% of the households from the \test set have a low peak
+utilization (under 0.1 Mbps), while 40\% of the \control set households are under 0.1 Mbps.
+Thus, the absolute peak utilization does not increase when compared to the access link
+capacity, but there is certainly an increase in peak utilization of devices that had a low
+requirement, due to the change in capacity.
+
+To investigate this further, we also study the \emph{peak utilization per device on a daily basis}.
+Figure~\ref{fig:CDF-data-rate-max-daily} shows that for 30\% of the devices,
+the maximum data rate in the \test set is consistently higher than the \control set, albeit
+no where near the actual access link capacity.
+
+This is similar to the behavior observed in figure~\ref{fig:TS-data-rate-daily}, showing that the peak
+usage during prime-time is unaffected, but lower utilization throughout the day is higher
+for the test set. We speculate that there could be two possible reasons for this increase
+in utilization: (1) short term downloads and/or web browsing achieves a slightly better
+data rate on a small time scale, or (2) real-time video quality is slightly higher, but
+not enough to completely saturate the access link capacity. Unfortunately, we miss these
+short lived, or consistent, events due to a 15 minute time slot granularity and only
+looking at byte counters.
+
+
+\paragraph{Different Perspectives of Utilization: }We take this opportunity to reflect on the
+interpretation of the disparity of peak utilization per device, as shown in
+figure~\ref{fig:CDF-data-rate-max}. The ISP may interpret this as no change in peak usage, as
+the prime-time usage remained the same based on aggregated usage, even in prime-time. Thus, we
+believe that given the opportunity, the provider will not invest to offer a higher access
+link unless it in a region showing such low demand unless it is guaranteed profit, or is forced
+into deployment by an external agency.
+
+In contrast, the consumer (and therefore the FCC) might be convinced that individually
+the usage behavior of a household is affected by the increase in access link
+capacity, especially for households with a lower utilization. We believe that this is
+the perspective the FCC takes when considering deployment and adoption of broadband services.
+
 \begin{figure}[ht!]
 %\hspace*{-0.2in}
 \begin{minipage}{0.90\linewidth}
@@ -42,31 +95,9 @@ We compare the distribution of the data transferred per time slot for all device
 \label{fig:peak-utilization}
 % created using docs/metadata-separated.log
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Next we investigate the distribution of maximum data rate achieved by each household (figure~\ref{fig:CDF-data-rate-max}) over the three month period. Our results show that although the high utilizing households ($>$ 90\%-ile data rate) were similar throughout the set, showing no significant change in the maximum data rate, about 20\%-ile of the \test set devices saw a slight increase in the maximum data rate, which was much lower than link capacities. 
-%the capacity utilization of both sets was similar during time slots with
-% large data transfers, there is a certain difference in the maximum data
-%rate per device for lower data rates \todo{needs a better more intuitive explanation}.
-
-To confirm this behavior over each day, we plot the maximum data rate achieved \emph{daily} by each household (figure ~\ref{fig:CDF-data-rate-max-daily}). We observed that the maximum rate per device, for  devices with overall low usage , was higher for the \test set than the control set. We believe that this is an unbiased way to confirm the correlation between usage and capacity as the users were unaware of their increased capacity, nor did they require it. 
-%The user's behavior does change when offered a higher capacity link,
-%even though the overall capacity utilization stops increasing after a
-%certain upper limit
-
-We explore the reasons for such a consistent behavioral change: Discounting the possibility of this being a baseline behavior (i.e., \test set would show this even if it had the same capacity), we speculate that there could be two possible reasons for it: (1) short term downloads and/or web browsing achieves a slightly better data rate on a small time scale, or (2) real-time video quality is slightly higher, but not enough to completely saturate the access link capacity. Unfortunately, we miss these events due to a higher granularity of viewing data transferred only after 15 minutes.
-
-
-
-
-\paragraph{Different Perspectives of Utilization: }We take this opportunity to reflect on the issue of increasing broadband availability, deployment, and adoption being faced by the FCC~\cite{fcc2015progress-report}. The network usage increases slightly for low link utilization, without the user actively changing his/her behavior to saturate the link capacity.
-
-The user, and therefore the FCC (representing the users' rights and demands), and the ISPs, are both correct, but have a different perspective of broadband utilization and adoption; the slight change in behavior for low utilization could motivate a user to adopt a higher bandwidth tier. From the ISP perspective though, the users link capacity utilization does not show any change due to the upgrade in connectivity and is therefore a deterrent to offering the higher tier.
-
-Vice versa, an ISP may tell the user that they need to upgrade their broadband access link to achieve higher data rate for low throughput periods too. And the user might not need it, as their link capacity is clearly not saturated. \todo{... doesn't make sense yet something missing ...}
-
-
-
-\todo{this subsection needs a better transition to takeaway...}
-% some conclusion
-We recommend that the FCC add multiple benchmarks, including \sg{ ... what comes here?}
+% conclusion
+\todo{needs work on conclusion}
+Although our unbiased experiment still
+shows a certain correlation between utilization and capacity, it also contradicts the
+law of diminishing returns ~\cite{bischof2014broadband-behavior}. \todo{sanity check}
