@@ -1,5 +1,6 @@
 import pandas as pd
-import os
+import os, sys
+from collections import defaultdict
 
 '''
 Aim: select only those control devices that exist throughout
@@ -51,19 +52,50 @@ valid = timeslots_per_dev [timeslots_per_dev > 0.8x]
 final_control = df['Device_number'].isin(valid.index)
 '''
 
-def sanitize(direction='dw'):
-    DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_"+direction+"/"
+def load_test_and_control(direction, processed=1):
+    if processed:
+        DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_"+direction+"/"
+        df1 = pd.read_pickle(DATAFOLDER+"test.pkl")
+        df2 = pd.read_pickle(DATAFOLDER+"control.pkl")
+        return df1, df2
+    else:
+        DATAFOLDER = "/data/users/sarthak/comcast-data/data/"
+        header_row= ['Device_number', 'end_time', 'date_service_created',
+                    'service_class_name', 'cmts_inet', 'service_direction',
+                    'port_name', 'octets_passed', 'device_key',
+                    'service_identifier']
+
+        datafilename = '250-test.dat'
+        df1 = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum().reset_index()
+        df1['name'] = datafilename
+        print "Done test set load"
+
+        all_df = defaultdict(int)
+        for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
+            print "load " + datafilename
+            all_df[datafilename] = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum()
+        df2 = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
+        print "Done control set load"
+
+        if direction == 'dw':
+            return df1[df1['service_direction']==1], df2[df2['service_direction']==1]
+        elif direction == 'up':
+            return df1[df1['service_direction']==2], df2[df2['service_direction']==2]
+
+        return None, None
+
+
+def sanitize(direction='dw', THRESH=0.8):
     FINALFOLDER="/data/users/sarthak/comcast-data/final_"+direction+"/"
     if not os.path.exists(FINALFOLDER):
         os.makedirs(FINALFOLDER)
 
     # load test and control sets
-    df1 = pd.read_pickle(DATAFOLDER+"test.pkl")
-    df2 = pd.read_pickle(DATAFOLDER+"control.pkl")
+    df1, df2 = load_test_and_control(direction, 0)
 
     # max avail threshold = 0.8 of full range
     ts = pd.date_range('2014-09-30', '2014-12-29', freq='15min')
-    HEARTBEAT_THRESH = 0.8 * len(ts)
+    HEARTBEAT_THRESH = THRESH * len(ts)
 
     # get only devices with more than thresh entries in timeslots
     test_count = df1.groupby('Device_number')['datetime'].count()
@@ -74,14 +106,14 @@ def sanitize(direction='dw'):
     # filter devices and save to pkl (only octets and end_time)
     df_test = df1[ df1['Device_number'].isin(best_test) ]
     df_cont = df2[ df2['Device_number'].isin(best_cont) ]
-    df_test[['Device_number','end_time']].to_pickle(FINALFOLDER + 'test.pkl')
-    df_cont[['Device_number','end_time']].to_pickle(FINALFOLDER + 'control.pkl')
+    df_test[['name', 'Device_number','end_time', 'octets_passed']].to_pickle(FINALFOLDER + 'test.pkl')
+    df_cont[['name', 'Device_number','end_time', 'octets_passed']].to_pickle(FINALFOLDER + 'control.pkl')
 
     print "Sanitized test size = ", len(df_test['Device_number'].unique())
     print "Sanitized cont size = ", len(df_cont['Device_number'].unique())
 
     return
 
-    #
-
-
+if __name__=='__main__':
+    sanitize('dw', 0.8)
+    sanitize('up', 0.8)
