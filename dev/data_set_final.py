@@ -7,6 +7,8 @@ from collections import defaultdict
 Aim: select only those control devices that exist throughout
 the date range 30 sept to 29 dec
 '''
+DATE_START = '2014-09-30'
+DATE_END = '2014-12-29'
 
 DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_dw"
 #DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_up/"
@@ -53,7 +55,7 @@ valid = timeslots_per_dev [timeslots_per_dev > 0.8x]
 final_control = df['Device_number'].isin(valid.index)
 '''
 
-def load_df(name='test', direction, processed=1):
+def load_df(name, direction, processed=1):
     if processed:
         DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_"+direction+"/"
         if name=='test':
@@ -80,7 +82,6 @@ def load_df(name='test', direction, processed=1):
                 return df1[df1['service_direction']==2]
 
         else:
-
             all_df = defaultdict(int)
             for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
                 print "load " + datafilename
@@ -119,7 +120,7 @@ def sanitize(direction='dw', THRESH=0.8):
     df2 = load_df('control', direction, 0)
 
     # max avail threshold = 0.8 of full range
-    ts = pd.date_range('2014-09-30', '2014-12-29', freq='15min')
+    ts = pd.date_range(DATE_START, DATE_END, freq='15min')
     HEARTBEAT_THRESH = THRESH * len(ts)
 
     # get only devices with more than thresh entries in timeslots
