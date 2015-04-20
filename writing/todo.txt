@@ -1,3 +1,17 @@
+
+broadband relationship figure:
+- supply/demand
+- availability, deployment, adoption
+- availability -- price, quality, etc complicated relationship
+
+
+data description
+- total usage per user cdf for both capacities
+- total usage per day per user cdf
+- total usage per 15 min per user cdf
+- total usage [total peak hours] per user vs total usage [total non peak hours] per user cdf both capacities
+
+% ----------------------------------------------------------------------------------------------------
 Apr 13, 2015: RESULTS TODO
 
 1) Usage Behavior: ISP perspective
