@@ -6,7 +6,7 @@
 %% Note:  Authors is hardcoded below, this line only used for the PDF info
 \newcommand{\AUTHORS}{authors}
 % Title needs work
-\newcommand{\TITLE}{Different Perspectives of Interpreting Usage Patterns}
+\newcommand{\TITLE}{\red{Interpreting} Usage Patterns to Improve Broadband Deployment}
 %Interpreting Usage Patterns to Improve Broadband Deployment
 \newcommand{\KEYWORDS}{Put your keywords here}
 \newcommand{\CONFERENCE}{Somewhere}
@@ -16,8 +16,9 @@
 \newcommand{\comment}[1]{}
 \newcommand{\onlyAbstract}{no}
 
-\newcommand{\lv}[1]{\textcolor{red}{(\textbf{LV:#1} )}}
-
+%
+\newcommand{\red}[1]{\textcolor{red}{#1}}		% things to redo
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ACM Fonts
@@ -317,9 +318,10 @@ bookmarksopen = {true}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\re}[1]{\note{green}{Roya: #1}}		%use for comments
-\newcommand{\sg}[1]{\note{red}{SG: #1}}			%use for questions
-\newcommand{\todo}[1]{\note{blue}{TODO: #1}}		%use for todo
+\newcommand{\re}[1]{\note{green}{Roya: #1}}		% Roya comments
+\newcommand{\sg}[1]{\note{red}{SG: #1}}			% Sarthak comments
+\newcommand{\todo}[1]{\note{blue}{TODO: #1}}	% use for todo
+\newcommand{\nick}[1]{\note{magenta}{Nick: #1}}	% use for todo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%
@@ -405,7 +407,7 @@ bookmarksopen = {true}
 %{\bf Keywords:}
 %home networks; Broadband Utilization; FCC; Comcast
 
-\input{introduction2}
+\input{introduction3}
 \input{dataset}
 \input{methodology}
 \input{results}
