@@ -56,7 +56,7 @@ final_control = df['Device_number'].isin(valid.index)
 '''
 
 def load_df(name, direction, processed=1):
-    if processed:
+    if processed==1:
         DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_"+direction+"/"
         if name=='test':
             df1 = pd.read_pickle(DATAFOLDER+"test.pkl")
@@ -71,17 +71,26 @@ def load_df(name, direction, processed=1):
                     'port_name', 'octets_passed', 'device_key',
                     'service_identifier']
 
+
         if name == 'test':
+            if os.path.isfile(DATAFOLDER + "full_test_"+direction+".pkl"):
+                return pd.read_pickle(DATAFOLDER+"full_test_"+direction+".pkl")
             datafilename = '250-test.dat'
             df1 = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum().reset_index()
             df1['name'] = datafilename
             print "Done test set load"
             if direction == 'dw':
-                return df1[df1['service_direction']==1]
+                df = df1[df1['service_direction']==1]
+                df.to_pickle(DATAFOLDER+"full_test_"+direction+".pkl")
+                return df
             elif direction == 'up':
-                return df1[df1['service_direction']==2]
+                df = df1[df1['service_direction']==2]
+                df.to_pickle(DATAFOLDER+"full_test_"+direction+".pkl")
+                return df
 
         else:
+            if os.path.isfile(DATAFOLDER + "full_control_"+direction+".pkl"):
+                return pd.read_pickle(DATAFOLDER+"full_control_"+direction+".pkl")
             all_df = defaultdict(int)
             for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
                 print "load " + datafilename
@@ -90,9 +99,13 @@ def load_df(name, direction, processed=1):
             print "Done control set load"
 
             if direction == 'dw':
-                return df2[df2['service_direction']==1]
-            elif direction == 'up':
-                return df2[df2['service_direction']==2]
+                df = df2[df2['service_direction']==1]
+                df.to_pickle(DATAFOLDER+"full_control_"+direction+".pkl")
+                return df
+            elif direction=='up':
+                df = df2[df2['service_direction']==2]
+                df.to_pickle(DATAFOLDER+"full_control_"+direction+".pkl")
+                return df
 
         return None
 
