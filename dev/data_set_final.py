@@ -1,3 +1,4 @@
+from __future__ import division
 import pandas as pd
 import os, sys
 from collections import defaultdict
@@ -52,12 +53,15 @@ valid = timeslots_per_dev [timeslots_per_dev > 0.8x]
 final_control = df['Device_number'].isin(valid.index)
 '''
 
-def load_test_and_control(direction, processed=1):
+def load_df(name='test', direction, processed=1):
     if processed:
         DATAFOLDER="/data/users/sarthak/comcast-data/separated/full_"+direction+"/"
-        df1 = pd.read_pickle(DATAFOLDER+"test.pkl")
-        df2 = pd.read_pickle(DATAFOLDER+"control.pkl")
-        return df1, df2
+        if name=='test':
+            df1 = pd.read_pickle(DATAFOLDER+"test.pkl")
+            return df1
+        else:
+            df2 = pd.read_pickle(DATAFOLDER+"control.pkl")
+            return df2
     else:
         DATAFOLDER = "/data/users/sarthak/comcast-data/data/"
         header_row= ['Device_number', 'end_time', 'date_service_created',
@@ -65,25 +69,45 @@ def load_test_and_control(direction, processed=1):
                     'port_name', 'octets_passed', 'device_key',
                     'service_identifier']
 
-        datafilename = '250-test.dat'
-        df1 = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum().reset_index()
-        df1['name'] = datafilename
-        print "Done test set load"
+        if name == 'test':
+            datafilename = '250-test.dat'
+            df1 = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum().reset_index()
+            df1['name'] = datafilename
+            print "Done test set load"
+            if direction == 'dw':
+                return df1[df1['service_direction']==1]
+            elif direction == 'up':
+                return df1[df1['service_direction']==2]
 
-        all_df = defaultdict(int)
-        for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
-            print "load " + datafilename
-            all_df[datafilename] = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum()
-        df2 = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
-        print "Done control set load"
+        else:
 
-        if direction == 'dw':
-            return df1[df1['service_direction']==1], df2[df2['service_direction']==1]
-        elif direction == 'up':
-            return df1[df1['service_direction']==2], df2[df2['service_direction']==2]
+            all_df = defaultdict(int)
+            for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
+                print "load " + datafilename
+                all_df[datafilename] = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time'], as_index=False).sum()
+            df2 = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
+            print "Done control set load"
 
-        return None, None
+            if direction == 'dw':
+                return df2[df2['service_direction']==1]
+            elif direction == 'up':
+                return df2[df2['service_direction']==2]
 
+        return None
+
+def add_extra_cols(df1, CONVERT_OCTETS= 8/(15 * 60 * 1024) ):
+    """
+    default convert from octets per 15 min to kbps
+    """
+
+    df1['datetime'] = pd.to_datetime(df1['end_time'])
+    df1['time'] = df1['end_time'].apply(lambda x: x.time())
+    df1['date'] = df1['end_time'].apply(lambda x: x.date())
+    df1['day'] = df1['datetime'].apply(lambda x: x.weekday())
+    #df2['datetime'] = pd.to_datetime(df2['end_time'])
+    df1['throughput'] = df1['octets_passed'] * CONVERT_OCTETS
+    #df2['throughput'] = df2['octets_passed'] * CONVERT_OCTETS
+    return df1
 
 def sanitize(direction='dw', THRESH=0.8):
     FINALFOLDER="/data/users/sarthak/comcast-data/final_"+direction+"/"
@@ -91,21 +115,23 @@ def sanitize(direction='dw', THRESH=0.8):
         os.makedirs(FINALFOLDER)
 
     # load test and control sets
-    df1, df2 = load_test_and_control(direction, 0)
+    df1 = load_df('test', direction, 0)
+    df2 = load_df('control', direction, 0)
 
     # max avail threshold = 0.8 of full range
     ts = pd.date_range('2014-09-30', '2014-12-29', freq='15min')
     HEARTBEAT_THRESH = THRESH * len(ts)
 
     # get only devices with more than thresh entries in timeslots
-    test_count = df1.groupby('Device_number')['datetime'].count()
-    cont_count = df2.groupby('Device_number')['datetime'].count()
+    test_count = df1.groupby('Device_number')['end_time'].count()
+    cont_count = df2.groupby('Device_number')['end_time'].count()
     best_test = (test_count[ test_count > HEARTBEAT_THRESH ]).index
     best_cont = (cont_count[ cont_count > HEARTBEAT_THRESH ]).index
 
     # filter devices and save to pkl (only octets and end_time)
     df_test = df1[ df1['Device_number'].isin(best_test) ]
     df_cont = df2[ df2['Device_number'].isin(best_cont) ]
+
     df_test[['name', 'Device_number','end_time', 'octets_passed']].to_pickle(FINALFOLDER + 'test.pkl')
     df_cont[['name', 'Device_number','end_time', 'octets_passed']].to_pickle(FINALFOLDER + 'control.pkl')
 
