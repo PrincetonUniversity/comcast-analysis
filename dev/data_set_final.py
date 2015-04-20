@@ -122,6 +122,8 @@ def sanitize(direction='dw', THRESH=0.8):
     # max avail threshold = 0.8 of full range
     ts = pd.date_range(DATE_START, DATE_END, freq='15min')
     HEARTBEAT_THRESH = THRESH * len(ts)
+    #df1 = df1[df1['end_time'] <= DATE_END]
+    #df2 = df2[df2['end_time'] <= DATE_END]
 
     # get only devices with more than thresh entries in timeslots
     test_count = df1.groupby('Device_number')['end_time'].count()
