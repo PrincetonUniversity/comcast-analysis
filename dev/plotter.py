@@ -552,6 +552,7 @@ def get_primetime_ratio(peak_t, nonpeak_t, peak_c, nonpeak_c):
 def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     # Timeseries
     fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
+    tit = param
 
     r_test_g = r_test.groupby('date')['ratio']
     r_control_g = r_control.groupby('date')['ratio']
@@ -559,9 +560,33 @@ def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     if param in ['mean', 'median', 'max']:
         r_t = getattr(r_test_g, param)()
         r_c = getattr(r_control_g, param)()
+
     elif param=='perc90':
         r_t = getattr(r_test_g, 'quantile')(0.95)
         r_c = getattr(r_control_g, 'quantile')(0.95)
+
+    elif param=='all1':
+        logger.debug("Plot: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='250')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='105')
+
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+        tit = 'median, perc95'
+
+    elif param=='all2':
+        logger.debug("Plot: mean, max")
+        r_t2 = getattr(r_test_g, 'mean')()
+        r_c2 = getattr(r_control_g, 'mean')()
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='250')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='105')
+
+        r_t = getattr(r_test_g, 'max')()
+        r_c = getattr(r_control_g, 'max')()
+        tit = 'mean, max'
+
     else:
         logger.debug("Plot all: median, perc90")
         r_t2 = getattr(r_test_g, 'median')()
@@ -577,7 +602,7 @@ def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
 
     ax1.set_ylabel('Prime-time ratio')
     #ax1.set_yscale('log')
-    ax1.set_title("Prime-time Ratio every Date - "+param)
+    ax1.set_title("Prime-time Ratio every Date - "+tit)
 
     filename_label=param.upper()
     plotname = 'prime-time-ratio-by-date-timeseries-'+filename_label
@@ -594,6 +619,7 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
     fig1, ax1 = plt.subplots(1,1)
     r_test_g = r_test.groupby('Device_number')['ratio']
     r_control_g = r_control.groupby('Device_number')['ratio']
+    tit = param
 
     if param in ['mean', 'median', 'max']:
         r_t = getattr(r_test_g, param)()
@@ -601,6 +627,33 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
     elif param=='perc90':
         r_t = getattr(r_test_g, 'quantile')(0.95)
         r_c = getattr(r_control_g, 'quantile')(0.95)
+
+    elif param=='all1':
+        logger.debug("Plot: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        x,y = getSortedCDF(r_t2)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='250', markevery=len(y)//10)
+        x,y = getSortedCDF(r_c2)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='105', markevery=len(y)//10)
+
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+        tit = 'median, perc95'
+
+    elif param=='all2':
+        logger.debug("Plot: mean, max")
+        r_t2 = getattr(r_test_g, 'mean')()
+        r_c2 = getattr(r_control_g, 'mean')()
+        x,y = getSortedCDF(r_t2)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='250', markevery=len(y)//10)
+        x,y = getSortedCDF(r_c2)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='105', markevery=len(y)//10)
+
+        r_t = getattr(r_test_g, 'max')()
+        r_c = getattr(r_control_g, 'max')()
+        tit = 'mean, max'
+
     else:
         logger.debug("Plot all: median, perc90")
         r_t2 = getattr(r_test_g, 'median')()
@@ -621,7 +674,7 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
     ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
     ax1.set_ylabel('CDF')
-    ax1.set_title('Prime-time Ratio per Device - '+param)
+    ax1.set_title('Prime-time Ratio per Device - '+tit)
 
     filename_label=param.upper()
     plotname = 'prime-time-ratio-per-device-cdf-'+filename_label

@@ -73,10 +73,15 @@ def primetime(test_full, control_full, PLOTPATH):
     #logger.debug("draw a scatter plot of device vs datetime with colormap for ratio")
     #plot_primetime_ratio_scatter(r_test, r_control, PLOTPATH)
 
-    param='all'
+    param='all1'
     logger.debug("plot prime time ratio by date, group devices by "+param)
     plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH)
+    logger.debug("plot primetime ratio per device, group dates by "+param)
+    plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH)
 
+    param = 'all2'
+    logger.debug("plot prime time ratio by date, group devices by "+param)
+    plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH)
     logger.debug("plot primetime ratio per device, group dates by "+param)
     plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH)
     del r_test, r_control
