@@ -1,6 +1,7 @@
 from __future__ import division
 import pandas as pd
-import os, sys
+import os, sys, datetime
+import numpy as np
 from collections import defaultdict
 
 '''
@@ -83,6 +84,8 @@ def load_df(name, processed=1):
             df1['name'] = datafilename
             print "Done test set load"
             df1['datetime'] = pd.to_datetime(df1['end_time'])
+            # ADJUST DATETIME
+            df1['datetime']-=datetime.timedelta(hours=6)
             df1.to_pickle(DATAFOLDER + "full_test.pkl")
 
             #direction = 'dw'
@@ -105,6 +108,8 @@ def load_df(name, processed=1):
             df2 = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
             print "Done control set load"
             df2['datetime'] = pd.to_datetime(df2['end_time'])
+            # ADJUST DATETIME
+            df2['datetime']-=datetime.timedelta(hours=6)
             df2.to_pickle(DATAFOLDER + "full_control.pkl")
 
             #direction = 'dw':
@@ -122,25 +127,30 @@ def add_extra_cols(df1, CONVERT_OCTETS= 8/(15 * 60 * 1024) ):
     default convert from octets per 15 min to kbps
     """
 
-    df1['datetime'] = pd.to_datetime(df1['end_time'])
+    if not 'datetime' in df1.columns:
+        df1['datetime'] = pd.to_datetime(df1['end_time'])
+        # ADJUST DATETIME
+        df1['datetime']-=datetime.timedelta(hours=6)
+
     df1['time'] = df1['datetime'].apply(lambda x: x.time())
     df1['date'] = df1['datetime'].apply(lambda x: x.date())
     df1['day'] = df1['datetime'].apply(lambda x: x.weekday())
-    #df2['datetime'] = pd.to_datetime(df2['end_time'])
     df1['throughput'] = df1['octets_passed'] * CONVERT_OCTETS
-    #df2['throughput'] = df2['octets_passed'] * CONVERT_OCTETS
     return df1
 
 def stream_sanitize(df):
     print "Heartbeat Threshold expected = ", HEARTBEAT_THRESH
 
     df['datetime'] = pd.to_datetime(df['end_time'])
+    # ADJUST DATETIME
+    df1['datetime']-=datetime.timedelta(hours=6)
 
     #df1 = df1[df1['end_time'] <= DATE_END]
     #df2 = df2[df2['end_time'] <= DATE_END]
 
     # get only devices with more than thresh entries in timeslots
-    test_count = df.groupby('Device_number')['datetime'].count()
+    #test_count = df.groupby('Device_number')['datetime'].count()
+    test_count = df.groupby('Device_number')['datetime'].unique().apply(lambda x: len(x))
     best_test = (test_count[ test_count > HEARTBEAT_THRESH ]).index
 
     # filter devices and save to pkl (only octets and end_time)
@@ -177,8 +187,8 @@ def main2(name = 'test', direction='dw'):
     else:
         df = pd.read_pickle(DATAFOLDER+"control.pkl")
 
-    df = stream_sanitize(df)
-    df[['name', 'Device_number','datetime', 'octets_passed', 'throughput', 'day', 'time']].to_pickle(FINALFOLDER + name + '.pkl')
+    df2 = stream_sanitize(df)
+    df2[['name', 'Device_number','datetime', 'octets_passed', 'throughput', 'day', 'time']].to_pickle(FINALFOLDER + name + '.pkl')
     print "DONE"
     return
 
@@ -196,7 +206,7 @@ def main(name='test'):
         df['name'] = datafilename
         # SANITIZE
         print "Unique devices before sanitize "+datafilename+" = ", len(df['Device_number'].unique())
-        df = stream_sanitize(df)
+        df2 = stream_sanitize(df)
         print "Unique devices in "+datafilename+" = ", len(df['Device_number'].unique())
 
     else:
@@ -210,13 +220,13 @@ def main(name='test'):
             print "Unique devices before sanitize "+datafilename+" = ", len(df_temp['Device_number'].unique())
         df = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
         # SANITIZE
-        df = stream_sanitize(df)
-        print "Unique devices in "+datafilename+" = ", len(df['Device_number'].unique())
+        df2 = stream_sanitize(df)
+        print "Unique devices len = ", len(df['Device_number'].unique())
 
-    df = add_extra_cols(df)
-    print "Save by direction ", len(df), df.columns, name
-    save_by_direction(df, name, 'up')
-    save_by_direction(df, name, 'dw')
+    df3 = add_extra_cols(df2)
+    print "df features ", len(df3), df3.columns, name
+    save_by_direction(df3, name, 'up')
+    save_by_direction(df3, name, 'dw')
 
     return
 
@@ -260,6 +270,29 @@ def sanitize(df_t, df_c, direction='dw', THRESH=0.8):
 
     return
 
+def choose_random(df, NUMBER=1000):
+    devices = df.Device_number.unique()
+    np.random.shuffle( devices )
+    df_c = df[df.Device_number.isin(devices[:NUMBER])]
+    return df_c
+
+def main3(name='test'):
+
+    for direction in ['dw', 'up']:
+        FINALFOLDER="/data/users/sarthak/comcast-data/separated/final_"+direction+"/"
+        FINALFOLDER1k="/data/users/sarthak/comcast-data/separated/final_1k_"+direction+"/"
+        if not os.path.exists(FINALFOLDER1k):
+            os.makedirs(FINALFOLDER1k)
+
+        df = pd.read_pickle(FINALFOLDER + name + ".pkl")
+        print "unique dev in full "+name+" "+direction+" set: ", len(df.Device_number.unique())
+        df1 = choose_random(df)
+        print "unique dev in chosen "+name+" "+direction+" set: ", len(df1.Device_number.unique())
+        df1.to_pickle(FINALFOLDER1k + name + '.pkl')
+
+    print "DONE"
+    return
+
 if __name__=='__main__':
     #sanitize('dw', 0.8)
     #sanitize('up', 0.8)
@@ -268,5 +301,7 @@ if __name__=='__main__':
     #sanitize(df1, df2, 'dw', 0.8)
     #sanitize(df1, df2, 'up', 0.8)
     #main()
-    #main('test')
+    main('test')
     main('control')
+    main3('test')
+    main3('control')

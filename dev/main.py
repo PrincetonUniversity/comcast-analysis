@@ -11,6 +11,7 @@ logger.setLevel('DEBUG')
 
 from plotter import *
 
+CHANGE_TIMEZONE = 0     # for final_dw and final_up convert time during sanitization
 INPUTPATH = "/data/users/sarthak/comcast-data/separated/"
 OUTPUTPATH = "/data/users/sarthak/comcast-data/plots/"
 #OUTPUTPATH = "/data/users/sarthak/comcast-analysis/plots/"
@@ -38,8 +39,9 @@ def init_setup(folder):
         raise
 
     # CHANGE TIMEZONE TO MST
-    test_full['datetime']-=datetime.timedelta(hours=6)
-    control_full['datetime']-=datetime.timedelta(hours=6)
+    if CHANGE_TIMEZONE:
+        test_full['datetime']-=datetime.timedelta(hours=6)
+        control_full['datetime']-=datetime.timedelta(hours=6)
 
     # Add date and time
     logger.info("Add the time column for datasets")
@@ -157,8 +159,8 @@ def throughput_weekday(test_full, control_full, PROCPATH, PLOTPATH):
     # devices, so should use mean to unbias that
     # can also try 'perc90' across all devices or 'median' across all devices
     # and then take mean or median when we fold on time
-    g1 = os1.groupby([ 'weekday', 'time'])
-    g2 = os2.groupby([ 'weekday', 'time'])
+    g1 = os1.groupby([ 'day', 'time'])
+    g2 = os2.groupby([ 'day', 'time'])
 
     # parameter to aggregate over devices
     param_device = 'mean'
@@ -166,11 +168,16 @@ def throughput_weekday(test_full, control_full, PROCPATH, PLOTPATH):
     # parameter to aggregate over a week
     param_time = 'all'
 
-    logger.debug("plot aggregated bytes per day")
+    logger.debug("plot aggregated bytes throughput medians, perc95 per day")
+    param_time = 'all1'
     plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH)
-
-    logger.debug("plot aggregated bytes per day")
     plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH)
+
+    logger.debug("plot aggregated bytes + throughput max, mean per day")
+    param_time = 'all2'
+    plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH)
+    plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH)
+
 
     del g1, g2, os1, os2
 
