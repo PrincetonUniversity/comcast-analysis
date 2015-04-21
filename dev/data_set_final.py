@@ -145,7 +145,7 @@ def stream_sanitize(df):
 
     df['datetime'] = pd.to_datetime(df['end_time'])
     # ADJUST DATETIME
-    df1['datetime']-=datetime.timedelta(hours=6)
+    df['datetime']-=datetime.timedelta(hours=6)
 
     #df1 = df1[df1['end_time'] <= DATE_END]
     #df2 = df2[df2['end_time'] <= DATE_END]
