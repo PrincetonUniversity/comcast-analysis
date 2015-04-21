@@ -122,10 +122,12 @@ def load_df(name, processed=1):
             return df2
     return
 
-def add_extra_cols(df1, CONVERT_OCTETS= 8/(15 * 60 * 1024) ):
+def add_extra_cols(dfin, CONVERT_OCTETS= 8/(15 * 60 * 1024) ):
     """
     default convert from octets per 15 min to kbps
     """
+
+    df1 = dfin.copy()
 
     if not 'datetime' in df1.columns:
         df1['datetime'] = pd.to_datetime(df1['end_time'])
@@ -150,12 +152,11 @@ def stream_sanitize(df):
 
     # get only devices with more than thresh entries in timeslots
     #test_count = df.groupby('Device_number')['datetime'].count()
-    test_count = df.groupby('Device_number')['datetime'].unique().apply(lambda x: len(x))
-    best_test = (test_count[ test_count > HEARTBEAT_THRESH ]).index
+    unique_count = df.groupby('Device_number')['datetime'].unique().apply(lambda x: len(x))
+    best_devices = (unique_count[ unique_count > HEARTBEAT_THRESH ]).index
 
     # filter devices and save to pkl (only octets and end_time)
-    df_test = df[ df['Device_number'].isin(best_test) ]
-
+    df_test = df[ df['Device_number'].isin(best_devices) ]
 
     return df_test
 
