@@ -203,10 +203,13 @@ def main(name='test'):
         all_df = defaultdict(int)
         for datafilename in ['control'+str(x)+'.dat' for x in range(1,9)]:
             df_temp = pd.read_csv(DATAFOLDER + datafilename, delimiter='|', names=header_row)[['Device_number', 'end_time', 'service_direction', 'octets_passed']].groupby(['Device_number','end_time', 'service_direction'], as_index=False).sum()
-            # SANITIZE
+            # SANITIZE can be applied here instead: only control4 contributes
+            # (1500 devices)
+            #df_temp = stream_sanitize(df_temp)
             all_df[ datafilename ] = df_temp
             print "Unique devices before sanitize "+datafilename+" = ", len(df_temp['Device_number'].unique())
         df = pd.concat(all_df).reset_index().rename(columns={'level_0':'name'})
+        # SANITIZE
         df = stream_sanitize(df)
         print "Unique devices in "+datafilename+" = ", len(df['Device_number'].unique())
 
