@@ -41,7 +41,7 @@ def throughput_stats_per_device_per_date(dfin):
     df['date'] = df['datetime'].apply(lambda x: x.date())
     # df['time'] = df['datetime'].apply(lambda x: x.time())
     g = df.groupby(['Device_number', 'date'], as_index=False)
-    perc90_per_day = g['throughput'].apply(lambda x: np.percentile(x, 90))
+    perc90_per_day = g['throughput'].apply(lambda x: np.percentile(x, 95))
 
     throughput_stats['perc90'] = perc90_per_day
     throughput_stats = throughput_stats.rename(columns={'datetime':'date'})
@@ -51,11 +51,11 @@ def throughput_stats_per_device_per_date(dfin):
 def aggregate_octets_stats_per_datetime(df):
     """
     aggregate bytes across devices for each datetime
-    return pandas dataframe; Index=datetime; Columns=[weekday, time, sum, len, perc90, median, max, min, std, ...]
+    return pandas dataframe; Index=datetime; Columns=[day, time, sum, len, perc90, median, max, min, std, ...]
     """
 
     # when applied on df.agg() this field gets renamed to '<lambda>'
-    perc90 = lambda x: x.quantile(0.9)
+    perc90 = lambda x: x.quantile(0.95)
 
     # dataframe indexed by datetime with aggregate columns
     g = df.groupby('datetime')
@@ -63,7 +63,7 @@ def aggregate_octets_stats_per_datetime(df):
 
     # add corresponding timestamp and weekday to columns
     agg_octets['time'] = agg_octets.index.time
-    agg_octets['weekday'] = agg_octets.index.weekday
+    agg_octets['day'] = agg_octets.index.weekday
 
     return agg_octets
 
@@ -109,8 +109,8 @@ def ratios_per_date(peak_ratio, param='mean'):
     if param in ['mean', 'sum', 'median', 'max', 'min']:
         ratios = getattr(g, param)()
     elif param == 'perc90':
-        #ratios = g.quantile(0.9)
-        ratios = getattr(g, 'quantile')(0.9)
+        #ratios = g.quantile(0.95)
+        ratios = getattr(g, 'quantile')(0.95)
     else:
         logger.warning("unknown parameter to aggregate peak-ratio per date")
         return None
@@ -133,8 +133,8 @@ def ratios_per_device(peak_ratio, param='mean'):
     if param in ['mean', 'sum', 'median', 'max', 'min']:
         ratios = getattr(g, param)()
     elif param == 'perc90':
-        #ratios = g.quantile(0.9)
-        ratios = getattr(g, 'quantile')(0.9)
+        #ratios = g.quantile(0.95)
+        ratios = getattr(g, 'quantile')(0.95)
     else:
         logger.warning("unknown parameter to aggregate peak-ratio per device")
         return None
@@ -164,16 +164,16 @@ def plot_initial_timeseries(g1, g2, param, PLOTPATH):
         ts1 = getattr(g1['throughput'], param)()
         ts2 = getattr(g2['throughput'], param)()
     elif param == 'perc90':
-        ts1 = getattr(g1['throughput'], 'quantile')(0.9)
-        ts2 = getattr(g2['throughput'], 'quantile')(0.9)
+        ts1 = getattr(g1['throughput'], 'quantile')(0.95)
+        ts2 = getattr(g2['throughput'], 'quantile')(0.95)
     else:
         logger.warning("unknown parameter to plot throughput timeseries")
         plt.close()
         return
 
     # plot the time series
-    ts1.plot(ax=ax1, marker='o', alpha=.5, linestyle='', markersize=4, label='test')
-    ts2.plot(ax=ax1, marker='d', alpha=.5, linestyle='', markersize=4, label='control')
+    ts1.plot(ax=ax1, marker='o', alpha=.5, linestyle='', markersize=4, label='250')
+    ts2.plot(ax=ax1, marker='d', alpha=.5, linestyle='', markersize=4, label='105')
 
     # save with a filename containing the aggregation parameter
     filename_label = param.upper()
@@ -197,13 +197,13 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     fig1, ax1 = plt.subplots(1, 1, figsize=(12,5))
 
     # x-axis: DAY, y-axis: agg (param) ratio over devices
-    rperday1.plot(ax=ax1, marker='o', linestyle='--', label='test')
-    rperday2.plot(ax=ax1, marker='d', linestyle='--', label='control')
+    rperday1.plot(ax=ax1, marker='o', linestyle='--', label='250')
+    rperday2.plot(ax=ax1, marker='d', linestyle='--', label='105')
 
     filename_label = agg_param.upper()
     ax1.set_ylabel(agg_param+' peak-ratio')
     ax1.set_yscale('log')
-    ax1.set_title("Daily peak-ratio aggregated "+agg_param+" over devices")
+    ax1.set_title("Daily peak-ratio (95%:average) aggregated "+agg_param+" over devices")
 
     plotname = 'peakratio-timeseries-'+filename_label
     ax1.grid(1)
@@ -224,13 +224,13 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     # x-axis: peak-ratio per device, y-axis: agg (param) ratio over days
     x1,y1 = getSortedCDF(rperdev1.values)
     x2,y2 = getSortedCDF(rperdev2.values)
-    ax1.plot(x1, y1, marker='o', markevery=len(y1)//10, linestyle='--', label='test')
-    ax1.plot(x2, y2, marker='d', markevery=len(y2)//10, linestyle='--', label='control')
+    ax1.plot(x1, y1, marker='o', markevery=len(y1)//10, linestyle='--', label='250')
+    ax1.plot(x2, y2, marker='d', markevery=len(y2)//10, linestyle='--', label='105')
 
     filename_label = agg_param.upper()
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
     ax1.set_xscale('log')
-    ax1.set_title("Distribution of peak-ratio per device aggregated "+agg_param+" over days")
+    ax1.set_title("Distribution of peak-ratio (95%:average) per device aggregated "+agg_param+" over days")
 
     plotname = 'peakratio-CDF-devices-'+filename_label
     ax1.grid(1)
@@ -243,42 +243,67 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
 
 def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
     """
-    Input: pandas groupedby; Index=['time', 'weekday']; Columns=[sum, perc90, max, min, median, ...]
+    Input: pandas groupedby; Index=['time', 'day']; Columns=[sum, perc90, max, min, median, ...]
     param_device: denotes the agg of bytes in a particular datetime over devices for the timeseries
     param_time: denotes the agg over [week, time] group: median, mean, perc90, max
     """
 
     fig1, ax1 = plt.subplots(1, 1, figsize=(18,8))
+    tit=param_time
 
     if param_time in ['mean', 'max', 'min', 'median']:
         ts1 = getattr(g1[param_device], param_time)
         ts2 = getattr(g2[param_device], param_time)
 
-        ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test')
-        ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control')
-    elif param_time == 'perc90':
-        ts1 = g1[param_device].quantile(0.9)
-        ts2 = g2[param_device],quantile(0.9)
+        ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='250')
+        ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='105')
 
-        ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test')
-        ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control')
+    elif param_time == 'perc90':
+        ts1 = g1[param_device].quantile(0.95)
+        ts2 = g2[param_device],quantile(0.95)
+
+        ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='250')
+        ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='105')
+
+    elif param_time == 'all1':
+        logger.debug("plot 90-%ile, median")
+
+        g1[param_device].quantile(0.95).plot(ax=ax1, color='b', linestyle='-', label='250')
+        g2[param_device].quantile(0.95).plot(ax=ax1, color='g', linestyle='-', label='105')
+
+        g1[param_device].median().plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        g2[param_device].median().plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
+
+        tit = 'perc95, median'
+
+    elif param_time == 'all2':
+        logger.debug("plot max, mean")
+
+        g1[param_device].max().plot(ax=ax1, color='b', linestyle='-', label='250')
+        g2[param_device].max().plot(ax=ax1, color='g', linestyle='-', label='105')
+
+        g1[param_device].mean().plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        g2[param_device].mean().plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
+
+        tit = 'max, mean'
+
     else:
         logger.debug("no param_time selected so plot 90-%ile, median, max, mean")
 
-        g1[param_device].max().plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-max')
-        g2[param_device].max().plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-max')
+        g1[param_device].max().plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='250')
+        g2[param_device].max().plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='105')
 
-        g1[param_device].quantile(0.9).plot(ax=ax1, color='k', linestyle='-', label='test-perc90')
-        g2[param_device].quantile(0.9).plot(ax=ax1, color='r', linestyle='-', label='control-perc90')
+        g1[param_device].quantile(0.95).plot(ax=ax1, color='k', linestyle='-', label='250')
+        g2[param_device].quantile(0.95).plot(ax=ax1, color='r', linestyle='-', label='105')
 
-        g1[param_device].mean().plot(ax=ax1, color='b', linestyle=':', linewidth=3, label='test-mean')
-        g2[param_device].mean().plot(ax=ax1, color='g', linestyle=':', linewidth=3, label='control-mean')
+        g1[param_device].mean().plot(ax=ax1, color='b', linestyle=':', linewidth=3, label='250')
+        g2[param_device].mean().plot(ax=ax1, color='g', linestyle=':', linewidth=3, label='105')
 
-        g1[param_device].median().plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='test-median')
-        g2[param_device].median().plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='control-median')
+        g1[param_device].median().plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        g2[param_device].median().plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
 
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Bytes')
-    ax1.set_title("Aggregate Bytes in a 15 min slot")
+    ax1.set_title(tit+" Bytes in a 15 min slot")
 
     filename_label = param_time.upper()
     plotname = 'describe-total-octets-per-day-'+filename_label
@@ -293,12 +318,13 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
 def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     """
     Same as above, just convert octets to throughput
-    Input: pandas groupedby; Index=['time', 'weekday']; Columns=[sum, perc90, max, min, median, ...]
+    Input: pandas groupedby; Index=['time', 'day']; Columns=[sum, perc90, max, min, median, ...]
     param_device: denotes the agg of bytes in a particular datetime over devices for the timeseries
     param_time: denotes the agg over [week, time] group: median, mean, perc90, max
     """
 
     fig1, ax1 = plt.subplots(1, 1, figsize=(18,8))
+    tit=param_time
 
     if param_time in ['mean', 'max', 'min', 'median']:
         ts1 = getattr(g1[param_device], param_time) * CONVERT_OCTETS
@@ -306,29 +332,51 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
 
         ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-'+param_time)
         ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-'+param_time)
+
     elif param_time == 'perc90':
-        ts1 = g1[param_device].quantile(0.9)* CONVERT_OCTETS
-        ts2 = g2[param_device],quantile(0.9)* CONVERT_OCTETS
+        ts1 = g1[param_device].quantile(0.95)* CONVERT_OCTETS
+        ts2 = g2[param_device],quantile(0.95)* CONVERT_OCTETS
 
         ts1.plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-'+param_time)
         ts2.plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-'+param_time)
+
+    elif param_time == 'all1':
+        logger.debug("plot perc90, median")
+        tit = 'perc95, median'
+
+        (g1[param_device].quantile(0.95)* CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle='-', label='250')
+        (g2[param_device].quantile(0.95)* CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle='-', label='105')
+
+        (g1[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        (g2[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
+
+    elif param_time == 'all2':
+        logger.debug("plot max, mean")
+        tit = 'max, mean'
+
+        (g1[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle='-', label='250')
+        (g2[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle='-', label='105')
+
+        (g1[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        (g2[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
+
     else:
         logger.debug("no param_time selected so plot 90-%ile, median, max, mean over time")
 
-        (g1[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='test-max')
-        (g2[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='control-max')
+        (g1[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle='-.', linewidth=3, label='250')
+        (g2[param_device].max() * CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle='-.', linewidth=3, label='105')
 
-        (g1[param_device].quantile(0.9)* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='-', label='test-perc90')
-        (g2[param_device].quantile(0.9)* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='-', label='control-perc90')
+        (g1[param_device].quantile(0.95)* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='-', label='250')
+        (g2[param_device].quantile(0.95)* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='-', label='105')
 
-        (g1[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle=':', linewidth=3, label='test-mean')
-        (g2[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle=':', linewidth=3, label='control-mean')
+        (g1[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='b', linestyle=':', linewidth=3, label='250')
+        (g2[param_device].mean()* CONVERT_OCTETS).plot(ax=ax1, color='g', linestyle=':', linewidth=3, label='105')
 
-        (g1[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='test-median')
-        (g2[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='control-median')
+        (g1[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='k', linestyle='--', linewidth=2, label='250')
+        (g2[param_device].median()* CONVERT_OCTETS).plot(ax=ax1, color='r', linestyle='--', linewidth=2, label='105')
 
     ax1.set_ylabel(param_time + '$_{time}$ '+param_device+'$_{device}$ Data Rate [kbps]')
-    ax1.set_title("Aggregate Data Rate in a 15 min slot")
+    ax1.set_title(tit + " Data Rate in a 15 min slot")
 
     filename_label = param_time.upper()
     plotname = 'describe-total-throughput-per-day-'+filename_label
@@ -504,6 +552,7 @@ def get_primetime_ratio(peak_t, nonpeak_t, peak_c, nonpeak_c):
 def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     # Timeseries
     fig1, ax1 = plt.subplots(1, 1, figsize=(13,8))
+    tit = param
 
     r_test_g = r_test.groupby('date')['ratio']
     r_control_g = r_control.groupby('date')['ratio']
@@ -511,25 +560,49 @@ def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     if param in ['mean', 'median', 'max']:
         r_t = getattr(r_test_g, param)()
         r_c = getattr(r_control_g, param)()
+
     elif param=='perc90':
-        r_t = getattr(r_test_g, 'quantile')(0.9)
-        r_c = getattr(r_control_g, 'quantile')(0.9)
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+
+    elif param=='all1':
+        logger.debug("Plot: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='250')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='105')
+
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+        tit = 'median, perc95'
+
+    elif param=='all2':
+        logger.debug("Plot: mean, max")
+        r_t2 = getattr(r_test_g, 'mean')()
+        r_c2 = getattr(r_control_g, 'mean')()
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='250')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='105')
+
+        r_t = getattr(r_test_g, 'max')()
+        r_c = getattr(r_control_g, 'max')()
+        tit = 'mean, max'
+
     else:
         logger.debug("Plot all: median, perc90")
         r_t2 = getattr(r_test_g, 'median')()
         r_c2 = getattr(r_control_g, 'median')()
-        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='test')
-        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='control')
+        r_t2.plot(ax=ax1, marker='o', color='k', linestyle='--', label='250')
+        r_c2.plot(ax=ax1, marker='d', color='r', linestyle='--', label='105')
 
-        r_t = getattr(r_test_g, 'quantile')(0.9)
-        r_c = getattr(r_control_g, 'quantile')(0.9)
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
 
-    r_t.plot(ax=ax1, color='b', marker='o', label='test')
-    r_c.plot(ax=ax1, color='g', marker='d', label='control')
+    r_t.plot(ax=ax1, color='b', marker='o', label='250')
+    r_c.plot(ax=ax1, color='g', marker='d', label='105')
 
     ax1.set_ylabel('Prime-time ratio')
     #ax1.set_yscale('log')
-    ax1.set_title("Prime-time Ratio every Date - "+param)
+    ax1.set_title("Prime-time Ratio every Date - "+tit)
 
     filename_label=param.upper()
     plotname = 'prime-time-ratio-by-date-timeseries-'+filename_label
@@ -546,34 +619,62 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
     fig1, ax1 = plt.subplots(1,1)
     r_test_g = r_test.groupby('Device_number')['ratio']
     r_control_g = r_control.groupby('Device_number')['ratio']
+    tit = param
 
     if param in ['mean', 'median', 'max']:
         r_t = getattr(r_test_g, param)()
         r_c = getattr(r_control_g, param)()
     elif param=='perc90':
-        r_t = getattr(r_test_g, 'quantile')(0.9)
-        r_c = getattr(r_control_g, 'quantile')(0.9)
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+
+    elif param=='all1':
+        logger.debug("Plot: median, perc90")
+        r_t2 = getattr(r_test_g, 'median')()
+        r_c2 = getattr(r_control_g, 'median')()
+        x,y = getSortedCDF(r_t2)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='250', markevery=len(y)//10)
+        x,y = getSortedCDF(r_c2)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='105', markevery=len(y)//10)
+
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
+        tit = 'median, perc95'
+
+    elif param=='all2':
+        logger.debug("Plot: mean, max")
+        r_t2 = getattr(r_test_g, 'mean')()
+        r_c2 = getattr(r_control_g, 'mean')()
+        x,y = getSortedCDF(r_t2)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='250', markevery=len(y)//10)
+        x,y = getSortedCDF(r_c2)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='105', markevery=len(y)//10)
+
+        r_t = getattr(r_test_g, 'max')()
+        r_c = getattr(r_control_g, 'max')()
+        tit = 'mean, max'
+
     else:
         logger.debug("Plot all: median, perc90")
         r_t2 = getattr(r_test_g, 'median')()
         r_c2 = getattr(r_control_g, 'median')()
         x,y = getSortedCDF(r_t2)
-        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='test-median', markevery=len(y)//10)
+        ax1.plot(x, y, marker='o', color='k', linestyle='--', label='250', markevery=len(y)//10)
         x,y = getSortedCDF(r_c2)
-        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='control-median', markevery=len(y)//10)
+        ax1.plot(x, y, marker='d', color='r', linestyle='--', label='105', markevery=len(y)//10)
 
-        r_t = getattr(r_test_g, 'quantile')(0.9)
-        r_c = getattr(r_control_g, 'quantile')(0.9)
+        r_t = getattr(r_test_g, 'quantile')(0.95)
+        r_c = getattr(r_control_g, 'quantile')(0.95)
 
     x,y = getSortedCDF(r_t)
-    ax1.plot(x, y, marker='o', color='b', label='test', markevery=len(y)//10)
+    ax1.plot(x, y, marker='o', color='b', label='250', markevery=len(y)//10)
     x,y = getSortedCDF(r_c)
-    ax1.plot(x, y, marker='d', color='g', label='control', markevery=len(y)//10)
+    ax1.plot(x, y, marker='d', color='g', label='105', markevery=len(y)//10)
 
     ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
     ax1.set_ylabel('CDF')
-    ax1.set_title('Prime-time Ratio per Device - '+param)
+    ax1.set_title('Prime-time Ratio per Device - '+tit)
 
     filename_label=param.upper()
     plotname = 'prime-time-ratio-per-device-cdf-'+filename_label
@@ -589,9 +690,9 @@ def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     fig1, ax1 = plt.subplots(1,1)
 
     x1, y1 = getSortedCDF( test_full['throughput'].values )
-    ax1.plot(x1, y1, marker='o', color='b', markevery=len(y1)//10, linestyle='--', label='test')
+    ax1.plot(x1, y1, marker='o', color='b', markevery=len(y1)//10, linestyle='--', label='250')
     x2, y2 = getSortedCDF( control_full['throughput'].values )
-    ax1.plot(x2, y2, marker='d', color='g', markevery=len(y2)//10, linestyle='--', label='control')
+    ax1.plot(x2, y2, marker='d', color='g', markevery=len(y2)//10, linestyle='--', label='105')
 
     #format_axes(ax1)
     ax1.set_xscale('log')
@@ -620,7 +721,7 @@ def plot_cdf_max_per_device(test_full, control_full, PLOTPATH):
     for df in [test_full, control_full]:
         #xdata = df.groupby('Device_number')['speed'].max()
         xdata = df.groupby('Device_number')['throughput'].max()
-        xdata2 = df.groupby('Device_number')['throughput'].quantile(0.9)
+        xdata2 = df.groupby('Device_number')['throughput'].quantile(0.95)
         x,y = getSortedCDF(xdata)
         ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr]+'-max')
         x,y = getSortedCDF(xdata2)
@@ -653,7 +754,7 @@ def plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH):
     for df in [test_full, control_full]:
         #xdata = df.groupby('Device_number')['speed'].max()
         xdata = df.groupby(['Device_number', 'date'])['throughput'].max()
-        xdata2 = df.groupby(['Device_number', 'date'])['throughput'].quantile(0.9)
+        xdata2 = df.groupby(['Device_number', 'date'])['throughput'].quantile(0.95)
         x,y = getSortedCDF(xdata)
         ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr]+'-max')
         x,y = getSortedCDF(xdata2)

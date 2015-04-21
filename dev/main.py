@@ -11,6 +11,7 @@ logger.setLevel('DEBUG')
 
 from plotter import *
 
+CHANGE_TIMEZONE = 0     # for final_dw and final_up convert time during sanitization
 INPUTPATH = "/data/users/sarthak/comcast-data/separated/"
 OUTPUTPATH = "/data/users/sarthak/comcast-data/plots/"
 #OUTPUTPATH = "/data/users/sarthak/comcast-analysis/plots/"
@@ -38,8 +39,9 @@ def init_setup(folder):
         raise
 
     # CHANGE TIMEZONE TO MST
-    test_full['datetime']-=datetime.timedelta(hours=6)
-    control_full['datetime']-=datetime.timedelta(hours=6)
+    if CHANGE_TIMEZONE:
+        test_full['datetime']-=datetime.timedelta(hours=6)
+        control_full['datetime']-=datetime.timedelta(hours=6)
 
     # Add date and time
     logger.info("Add the time column for datasets")
@@ -71,10 +73,15 @@ def primetime(test_full, control_full, PLOTPATH):
     #logger.debug("draw a scatter plot of device vs datetime with colormap for ratio")
     #plot_primetime_ratio_scatter(r_test, r_control, PLOTPATH)
 
-    param='all'
+    param='all1'
     logger.debug("plot prime time ratio by date, group devices by "+param)
     plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH)
+    logger.debug("plot primetime ratio per device, group dates by "+param)
+    plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH)
 
+    param = 'all2'
+    logger.debug("plot prime time ratio by date, group devices by "+param)
+    plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH)
     logger.debug("plot primetime ratio per device, group dates by "+param)
     plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH)
     del r_test, r_control
@@ -108,9 +115,13 @@ def peak_ratio(test_full, control_full, PROCPATH, PLOTPATH):
 
     # peak ratio (defined) =  [perc90 : median] of throughput (per day per device)
     # returns pandas dataframe [ Device_number | date | peakratio ]
-    logger.debug("Calculate peak ratio = [perc90:median] throughput per date per device")
-    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
-    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
+    logger.debug("Calculate peak ratio = [perc95:mean] throughput per date per device")
+    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'mean')
+    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'mean')
+
+    #logger.debug("Calculate peak ratio = [perc95:median] throughput per date per device")
+    #peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
+    #peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
     del tps1, tps2
 
     # use peak_ratio['peakratio'] to get all ratios regardless of day/time
@@ -157,8 +168,8 @@ def throughput_weekday(test_full, control_full, PROCPATH, PLOTPATH):
     # devices, so should use mean to unbias that
     # can also try 'perc90' across all devices or 'median' across all devices
     # and then take mean or median when we fold on time
-    g1 = os1.groupby([ 'weekday', 'time'])
-    g2 = os2.groupby([ 'weekday', 'time'])
+    g1 = os1.groupby([ 'day', 'time'])
+    g2 = os2.groupby([ 'day', 'time'])
 
     # parameter to aggregate over devices
     param_device = 'mean'
@@ -166,11 +177,16 @@ def throughput_weekday(test_full, control_full, PROCPATH, PLOTPATH):
     # parameter to aggregate over a week
     param_time = 'all'
 
-    logger.debug("plot aggregated bytes per day")
+    logger.debug("plot aggregated bytes throughput medians, perc95 per day")
+    param_time = 'all1'
     plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH)
-
-    logger.debug("plot aggregated bytes per day")
     plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH)
+
+    logger.debug("plot aggregated bytes + throughput max, mean per day")
+    param_time = 'all2'
+    plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH)
+    plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH)
+
 
     del g1, g2, os1, os2
 
