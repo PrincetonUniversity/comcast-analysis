@@ -85,7 +85,7 @@ filtered/*
 processed/*
 sliced/*
 data/*
-plots/*
+docs/plots/*
 
 *.tex.kate-swp
 *.tex.backup
