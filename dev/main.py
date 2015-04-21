@@ -115,9 +115,13 @@ def peak_ratio(test_full, control_full, PROCPATH, PLOTPATH):
 
     # peak ratio (defined) =  [perc90 : median] of throughput (per day per device)
     # returns pandas dataframe [ Device_number | date | peakratio ]
-    logger.debug("Calculate peak ratio = [perc90:median] throughput per date per device")
-    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
-    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
+    logger.debug("Calculate peak ratio = [perc95:mean] throughput per date per device")
+    peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'mean')
+    peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'mean')
+
+    #logger.debug("Calculate peak ratio = [perc95:median] throughput per date per device")
+    #peak_ratio1 = get_peak_ratios(tps1, 'perc90', 'median')
+    #peak_ratio2 = get_peak_ratios(tps2, 'perc90', 'median')
     del tps1, tps2
 
     # use peak_ratio['peakratio'] to get all ratios regardless of day/time

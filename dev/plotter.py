@@ -203,7 +203,7 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     filename_label = agg_param.upper()
     ax1.set_ylabel(agg_param+' peak-ratio')
     ax1.set_yscale('log')
-    ax1.set_title("Daily peak-ratio aggregated "+agg_param+" over devices")
+    ax1.set_title("Daily peak-ratio (95%:average) aggregated "+agg_param+" over devices")
 
     plotname = 'peakratio-timeseries-'+filename_label
     ax1.grid(1)
@@ -230,7 +230,7 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     filename_label = agg_param.upper()
     ax1.set_xlabel(agg_param + ' peak-ratio per device')
     ax1.set_xscale('log')
-    ax1.set_title("Distribution of peak-ratio per device aggregated "+agg_param+" over days")
+    ax1.set_title("Distribution of peak-ratio (95%:average) per device aggregated "+agg_param+" over days")
 
     plotname = 'peakratio-CDF-devices-'+filename_label
     ax1.grid(1)

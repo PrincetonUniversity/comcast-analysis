@@ -288,7 +288,7 @@ def main3(name='test'):
         df = pd.read_pickle(FINALFOLDER + name + ".pkl")
         print "unique dev in full "+name+" "+direction+" set: ", len(df.Device_number.unique())
         df1 = choose_random(df)
-        print "unique dev in chosen "+name+" "+direction+" set: ", len(df1.Device_number.unique())
+        print "save unique dev in chosen "+name+" "+direction+" set: ", len(df1.Device_number.unique())
         df1.to_pickle(FINALFOLDER1k + name + '.pkl')
 
     print "DONE"
