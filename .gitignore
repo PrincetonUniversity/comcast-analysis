@@ -78,6 +78,7 @@ intro2.tex
 flanc.bib
 *.brf
 *DPAL*
+*.backup
 
 # folders I'm ignoring (these have data)
 output/*
