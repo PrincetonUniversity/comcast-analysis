@@ -1,0 +1,277 @@
+
+broadband relationship figure:
+- supply/demand
+- availability, deployment, adoption
+- availability -- price, quality, etc complicated relationship
+
+
+data description
+- total usage per user cdf for both capacities
+- total usage per day per user cdf
+- total usage per 15 min per user cdf
+- total usage [total peak hours] per user vs total usage [total non peak hours] per user cdf both capacities
+
+% ----------------------------------------------------------------------------------------------------
+Apr 13, 2015: RESULTS TODO
+
+1) Usage Behavior: ISP perspective
+
+- test set seems to have this small peak and a trough, but control doesn't. Why??. Test and control medians differ during office hours (10:00 AM to 6:00 PM) but are similar in peak hours...
+%see: http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/describe-total-throughput-per-day-ALL.png
+
+EXPLAIN:
+	- LACK OF TROUGHS: users' behavior in higher tier bandwidth
+	- DISCREPANCY IN DAYTIME OFFPEAK: ??? 
+
+CHECK
+	- plot for 1000 random chosen devices with full heartbeat to confirm if peak perc/medians
+	are same in peak and diff in off peak. Plot both usage per subs and avg data rate.
+
+Fig 2 REPLACEMENT
+	- make two sub plots for (a) test and (b) control: (mean of day)
+	(sum of device) bytes, include (perc90 of day) (sum of device) bytes and
+	(median of day) (sum of device) bytes. Purpose is to show patterns individually,
+	not compare differences. Patterns to show are (1) no troughs in usage,
+	(2) prime-time hours shift(subsection~\ref{subsec:primetime}), (3) difference
+	between 90\%-ile and median (subsection ~\ref{subsec:peakratio})}
+
+	- separate subplots for M-F and S/S/holidays for test and control -- may not need to show
+	all as weekend graphs are not so surprising.
+
+CONCLUSIONS
+	- for FCC
+	- for ISP
+%----------------------------------------------------------------------------------------------------
+
+2) Prime Time: ISP perspective
+
+EXPLAIN:
+	- done
+
+CHECK
+	- redo 1000
+	- Analyze 1 hour to 5 hour prime time series slots ratios
+	- Analyze peak time = 95\% of max => get time and value
+
+FIG 3 REPLACEMENT
+	- Think about a better plot (maybe histo? -- what do we want to show?)
+	- Prime time defined as time for 95\% OR 1-6 hour slots OR each 15 min slot data rate
+	
+CONCLUSIONS:
+	- for ISP: 
+	- for FCC: We also noticed that multiple agencies define prime-time differently causing
+difficulty in comparing studies ~\cite{sandvine2014report1, independent-rush-hour}. We recommend that the FCC studies prime-time usage behavior and standardizes its definition. If supported by analysis, the FCC should update prime-time to a later hour.
+	- Another definition might be local to each agent examining their peak network load as the approx time when aggregated traffic is 90\%-ile of the maximum load, which can cause latency delays. \todo{ should this be in the discussion instead }
+
+%---------------------------------------------------------------------------------------------------
+
+3) Interpreting Utilization: User Perspecive
+
+
+%---------------------------------------------------------------------------------------------------
+
+4) Peak Ratio: User perspective
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%-----------------------------------------------------------------------------------------------------
+
+Meeting with Roya 04/04/2015
+
+Sanitizing the FCC
+
+
+- INTRODUCTION
+	- FCC background and importance
+	- Why it matters, why people should care about it, how many people care about it (eg: retweets on decisions). Do we understand it? (ask Ed about importance and if he would find my paper interesting)
+	- Power of FCC: its decisions change the economies of play, some policy papers
+	- Important that their decisions are based on valid measurements and hypothesis.
+	- Technical questions and Other types (?)
+	- FCC HYPOTHESIS:
+		- H1:
+		- H2:
+		- H3:
+		- ...
+	- To evaluate some of FCC decisions we chose broadband usage data from comcast in an urban city with high tier usage. 
+	- Sections: Data + Sanitization + Specifications, Methodololy, Analysis of observations vs FCC Hypothesis
+
+
+- Comcast Data
+
+- Methodology
+	- Challenges (including sanitization)
+	- Means, medians, percentiles
+	- Importance of measuring peak
+	- Measuring one city and tier: advantage [data characterization above??]
+	- Shorcomings of the data
+		- 15 mins granularity is low but way better than aggregate sandvine (hourly? monthly?) and FCC statistics
+		- user end instead of server end or inside the ISP: controlled environment (although bismark and samknows are the same - what is samknows granularity)
+
+
+- Results and Analysis
+	#- FCC perspective
+	- H1:
+	- How we approach
+	- results/figure
+	- comparison with sandvine/FCC
+	- Reject/Accept/Don't Know?
+	- H2: Latency
+	- We can't answer although important
+	- H3: Prime Time
+	- in next section we discuss a worst time scenario metric we came up with: peak ratio
+	- H4: Asymmetry
+	- results/fig
+	- Cisco alcatel cite + our thoughts
+	- H5: Price vs usage
+	- approach: histogram of max reached per device
+	- show usage didnt increase much apart from 1% outliers
+	- no usage change after a certain price limit.
+	- also show this doesn't agree with popular DASU util inc as capacity inc hypothesis
+	#- is it worth it Google Fiber?
+	#- Should ISPs be marketting plans to dumb consumers or give them unlimited BW but cap total Bytes during congestion hrs based on congestion IDK
+
+	#- ISP perspective?
+	
+
+- Discussion (suggestions for FCC)
+	- peak time
+	- user taxonomy
+		#- FCC family of 3 defines general limit of 25 Mbps
+		#- Sandvine simply heavy hitters, typical, non-streamer
+		#- we consider peak ratio + usage to classify in 4 types
+			#- use it coz business is a big contributer in urban cities
+
+
+- Related + Conclusion
+	- FCC is important
+	- should make policies based on true measurements
+	- ISP perspective
+
+	- Policy + Measurement techniques
+
+
+###############################################################################
+
+RESULT PLOTS
+- rationale for 25/3? Does that mean if there were outliers FCC will change definition? More attetion to evidence needed
+- 24 hrs avg vs peaktime [CDF max vs avg per day]
+- machines reaching threshhold byte rate in their lifetime [histogram]
+- asymmetry
+- machines total usage tier throughout 3 months [should be part of data characterization not the results]
+
+
+###############################################################################
+
+COPY ALL FCC HYPOTHESIS FROM GOOGLE DOC HERE
+
+###############################################################################
+
+DATA:
+
+
+%explain that due to no bias in city, and large number of users, this can be 
+%interpreted as change or no change in behavior due to increase in capacity of 
+%the link. We expect the baseline behavior of these users to be exactly the 
+%same. 
+%Thus we will put our questions as "change in behavior due to increase in 
+%capacity" rather than analysis of two different datasets as we have attempted 
+%to 
+%eliminate all biases.
+
+
+%final datasets for each control, each month, and full
+%\sg{after sanitization, we can either compare test to each control in the same 
+%time range and draw agg conclusions, or do it by month, or combo it into a 
+%huge control set and compare it with test set}
+%\sg{Present results for full sets, unless there is a significant difference in 
+%any trends or distributions}
+
+% not telling users that the connection was upgraded lets us study correlation 
+%between usage and capacity without the bias of user changing his behavior due 
+%to external factors (buying a device, being more aggressive as they bought a 
+%new plan)
+% DASU supports correlation by measuring usage on each ISP tier, even for those 
+%who changed tiers, but that is biased by user buying a higher tier when they 
+%feel unsatisfied. It does not have a good representation of the case when the 
+%ISP offers extra bandwidth without charging. Even if it does, the user knows 
+%about the capacity bump inducing a change in behavior. Our dataset is unbiased 
+%in that manner, we don't expect users to know they have a higher capacity and 
+%still study if there is change in behavior
+
+
+%Both the \test and \control sets were collected from users in Salt Lake City, 
+%Utah, to avoid any biases in behavior based on location. Although this dataset 
+%corresponds to just one ISP, we believe that it is broadly representative of 
+%urban users in the US in the same, or higher broadband bandwidth tier ($\>$ 
+%100 Mbps). Thus, we use this data to draw general conclusions about behavioral 
+%change with link capacity \todo{(add more here...) }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%A description of these sanitized sets is provided in table~\ref{tab:sanitized-description} 
+
+%\begin{table*}[ht]
+%\small
+%\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+%\hline
+%\textbf{Dataset}            & set$_1$      & set$_2$      & set$_3$      & set$_4$      & set$_5$      & set$_6$      & set$_7$      & set$_8$      & set$_{oct}$  & set$_{nov}$  & set$_{dec}$  & set$_{full}$ \\ \hline
+%\textbf{Start Time}         & 2014-09-30  & 2014-10-01  & 2014-10-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-11-01  & 2014-12-01  & 2014-10-01  & 2014-11-01  & 2014-12-01  & 2014-09-30  \\ \hline
+%\textbf{End Time}           & 2014-10-31  & 2014-10-31  & 2014-10-312 & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-12-29  & 2014-10-30  & 2014-11-29  & 2014-12-29  & 2014-12-29  \\ \hline
+%\textbf{Devices$_{\control}$} & 3627                & 4033                & 3969                & 1266                & 3632                & 3852                & 3644                & 4277                & 11629               & 12394               & 13405               & 16015               \\ \hline
+%\textbf{Devices$_{\test}$}    & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                & 1481                \\ \hline
+%\end{tabular}
+%\caption{Sanitized Dataset Description: Most of our analysis will be based on set$_{full}$ unless otherwise stated }
+%\label{tab:sanitized-description}
+%\end{table*}
+
+%\todo{Table~\ref{tab:sanitized-description} turn it around}
+
+%date\_service\_created & Service start (not used in our analysis)  \\ \hline
+%service\_class\_name   & Used to differentiate data application    \\ \hline
+%cmts\_inet             & Cmts identifier (derived from ip address) \\ \hline
+%port\_name             & Cmts port descriptor                      \\ \hline
+%device\_key            & not used in our analysis                  \\ \hline
+%service\_identifier    & Service id (not used in our analysis)     \\ \hline
+
+
+%\subsection{Data Processing}
+
+% split database by direction, combine service class name
+%To process the large amount of data (more than 15000 unique devices, 96 time 
+%slots per day, 3 months, multiple service classes per time-slot), we first 
+%split the data by direction into uplink and downlink. The nature of the 
+%questions we ask in section~\ref{sec:intro} encourages us to concentrate on 
+%the downstream data, although we present similar results for upstream data in 
+%section~\ref{sec:results}. We also do not use the service class name 
+%identifier in our analysis, which is internal to Comcast. \todo{Our analysis 
+%showed that ignoring the service class identifier does not change our 
+%conclusions on usage patterns and statistics.} Thus we only considered overall 
+%usage for each gateway device in each time slot, in uplink and downlink 
+%direction.
+
+
+
+% remove weird dates with very low machines
+%On exploring \control 4, we noticed that the dataset spanned the 
+%October-December period, but for the first week there were 15000 unique 
+%devices reporting their usage statistics, while after the first week, the 
+%number dropped to 5000. Furthermore, \control 5 and \control 6 reported usage 
+%for 5000 devices in the month of November, but only a 100 devices in December. 
+%We did not want stray devices impacting our measure of availability, therefore 
+%we sliced the \control datasets to monthly date ranges with a minimum of 4000, 
+%or at least half the total unique devices present.
+% why 4000? --- eyeballing availability plots -- 3k to 4k seemed to be the right 
+%choice for control4

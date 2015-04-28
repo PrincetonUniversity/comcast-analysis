@@ -1,0 +1,146 @@
+\section{Introduction}
+
+Many networks require cooperation among multiple independently operated
+and often mutually distrustful components or administrative domains.
+For example, the Internet comprises tens of thousands of independently
+operated networks; enterprise networks require the cooperation of
+multiple administrative or organizational units; and a multi-tenant data
+center inherently involves multiple administrative entities.  In these
+settings, each independently operated entity should be able to specify,
+reason about, and enforce permissions on the actions that other entities can
+perform on network traffic.
+
+Unfortunately, today's networks have no built-in mechanisms to encode
+the authorization of network entities that try to perform actions on
+network traffic. Networks today solve these problems with one-off
+approaches that are tied to specific protocols and mechanisms that are
+difficult to deploy and reason about.  For example, the Internet's
+interdomain routing protocol, the Border Gateway Protocol~(BGP), allows
+independently operated networks (Autonomous Systems, or ASes) to
+exchange routes, but BGP itself provides no mechanism for allowing the
+owner of an IP prefix to specify who should be allowed to announce that
+prefix. Similarly, enterprise network operators have no means of
+specifying the authorization that organizations within the larger
+enterprise should have (\eg, whether and how a certain organization
+should be able to configure a shared firewall).  Even the mechanisms
+that do exist for this purpose (\eg, Virtual LANs, RPKI) are coarse and
+easily misconfigured. Network operators often use virtualization to
+isolate portions of a network, but isolation is binary (\ie, either two
+parts of the network are isolated or they are not), whereas
+authorization policies are often more fine-grained and need not require
+complete isolation.
+
+We need to rethink how authorization occurs in communications networks,
+and now is the time to do so.  The need for better approaches is clear:
+security problems in networks are frequent and increasingly serious, and
+existing approaches are not working.  Yet, we believe that better, more
+principled solutions are now within reach, thanks to software defined
+networking (SDN), which allows us to think about authorization of
+network control independently of the mechanisms of configuration and
+forwarding.  Our design is inspired by a clean separation between the
+network's control and data planes, which technically exists in
+conventional networks but for which software defined networking (SDN)
+provides much cleaner abstractions. Thus, our approach is general and
+can apply to both conventional networks and to SDN.
+
+A typical network configuration or control application (the ``control
+plane'') issues commands via some control channel that ultimately
+translate to {\em actions} on traffic flows. In this paper, we develop
+(1)~an authorization logic that determines whether any particular
+requested action is authorized; and (2)~a mechanism for implementing
+that logic.  We introduce a {\em reference monitor} that can determine
+whether a principal is authorized to perform actions on {\em network
+  flowspace} (\ie, groups of traffic flows that have header values in
+common), as shown in Figure~\ref{fig:reference-monitor}. This reference
+monitor is analogous to the ones enforcing authorization for certain
+operating system actions~\cite{taos}. 
+
+To implement the logic that we develop, we introduce a {\em reference
+  monitor} that determines whether the {\em principal} (\ie, any entity
+that is trying to perform an action, such as a network administrator
+acting on behalf of a network) attempting to perform a write action to
+the data plane or a read action on network traffic is authorized to do
+so.  In the context of a network, the principal is any control
+application, and an action is a forwarding rule that could be state
+installed into network device that affects how traffic is forwarded
+(\eg, an entry in a match-action table).  The reference monitor takes
+both authorization policies (\eg, one network principal's statement that
+a different principal is authorized to perform certain actions) and
+credentials as input (\eg, information about who owns an IP prefix) and
+attempts to prove that the principal who issues a request is authorized
+to perform the requested actions on the data plane.  The reference
+monitor resides in the network's control plane, in between the network
+configuration (or control program) and the subsystem that ``compiles''
+this configuration to the network's routers and switches, as shown in
+Figure~\ref{fig:reference-monitor}.  For the purposes of this
+paper---and as is consistent with previous work on authorization logics
+in the systems community---we assume that the reference monitor is
+trusted.
+
+To allow a reference monitor to make decisions about authorization, we
+develop \name{}, a formal logic for authorizing network control,
+implement it in an SDN controller, and evaluate it in multiple network
+settings, including enterprise networks and interdomain
+routing.  %Using examples from
+%real-world network configuration scenarios, 
+We demonstrate that \name{} is both more expressive and more flexible
+than existing solutions to authorization (\ie, BGPSEC for interdomain
+routing).  Our prototype implementation and evaluation shows that
+\name{} scales to real-world deployments; all of the code for \name{}
+and the experiments that we have conducted are publicly available.
+
+Realizing \name{} presents several research challenges.  First, although
+existing authorization logics provide a useful foundation, they
+typically concern operations on discrete operating system objects (\eg,
+files, processes) and thus do not apply to network flowspace, which has
+more complicated relationships, such as subset relationships.  Our work
+extends authorization logics from previous work so that they can be
+applied to network control. In a network setting, an object is a set of
+data packets that can be represented as a subset of flowspace; a request
+to perform an operation is an attempt to read (\ie, see a particular set
+of packets) or write (\ie, affect the packets' properties or how they
+are forwarded); and a principal is a network control policy that is
+implemented either as device configuration or, in the case of SDN, a
+control program.
+Second, we must design the reference monitor to
+operate scalably in an operational network; because
+\name{} involves set operations over network flowspace as opposed to
+finite operations on discrete objects, designing the implementation to
+scale with the number of participants and policies was challenging.
+
+
+\begin{figure}[t!]
+  \centering
+\includegraphics[width=\linewidth]{figures/reference-monitor-2}
+\caption{A reference monitor between the network's control plane and
+  data plane determines whether a network control program (speaking for
+  a principal) is authorized to perform read or write operations. The
+  reference monitor could be coupled with an SDN controller or a network
+configuration management system.}
+\label{fig:reference-monitor}
+\end{figure}
+
+We present three contributions: (1)~we extend existing
+state-of-the art authorization logics (\eg, NAL~\cite{nexus}) to allow
+reasoning about actions on network flowspace; (2)~we design an overall
+architecture and accompanying algorithms to ensure that the logic
+operates correctly and efficiently for real-world use cases; (3)~we
+apply the logic and its implementation to several real world examples to
+demonstrate the logics expressiveness and efficiency.  Our application
+of \name{} to a variety of network types and authorization scenarios
+demonstrates that the logic is expressive enough to apply to many
+network settings.  Our evaluation demonstrates that \name{} is efficient
+enough to authorize (or disallow) requests from network principals in
+real time.
+
+The rest of the paper is organized as follows.
+Section~\ref{sec:motivation} motivates the need for an authorization
+logic in today's networks. Section~\ref{sec:background} provides an overview of authorization
+logics and how they are commonly applied to systems; 
+Section~\ref{sec:logic} describes
+the logic and how it can be used to verify authorization;
+Section~\ref{sec:implementation} describes our prototype implementation
+of \name{} in an SDN controller.  Sections~\ref{sec:enterprise}
+and~\ref{sec:bgp} demonstrate applications of \name{} to enterprise
+networks and backbone networks, respectively. Section~\ref{sec:related}
+presents related work, and Section~\ref{sec:conclusion} concludes.

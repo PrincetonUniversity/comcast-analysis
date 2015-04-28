@@ -1,15 +1,15 @@
 REPORT=paper
 TARGET=paper
-CAMERA=imc000
+CAMERA=sigc056
 LATEX=pdflatex
 BIBTEX=bibtex --min-crossrefs=100
 REF1=ref
 REF2=rfc
 
 TEX = $(wildcard *.tex)
-#SRCS = abstract.tex introduction3.tex hardtoday.tex sdx-abstractions.tex \
+SRCS = abstract.tex introduction3.tex hardtoday.tex sdx-abstractions.tex \
 	compilation.tex compiler-optimizations.tex implementation.tex evaluation.tex related.tex conclusion.tex
-SRCS = $(TEX)
+#SRCS = $(TEX)
 REFS=$(REF1).bib $(REF2).bib
 
 all: pdf
