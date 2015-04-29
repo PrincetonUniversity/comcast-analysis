@@ -1,4 +1,5 @@
-\documentclass[pdftex,twocolumn,10pt,letterpaper]{extarticle}
+\documentclass[10pt,twocolumn]{sig-alternate-10pt}
+%\documentclass[pdftex,twocolumn,10pt,letterpaper]{extarticle}
 
 
 %%% Set these variables appropriately
@@ -47,15 +48,15 @@ Usage Behavior}
 
 \hyphenation{off-load-ing}
 
-\renewenvironment{itemize}
-{\begin{list}{$\bullet$}{
-    \setlength{\labelsep}{4pt}
-    \setlength{\labelwidth}{3pt}
-    \setlength{\rightmargin}{0pt}
-    \setlength{\leftmargin}{0pt}
-    \addtolength{\leftmargin}{\labelwidth}
-    \addtolength{\leftmargin}{\labelsep}
-}}{\end{list}}
+% \renewenvironment{itemize}
+% {\begin{list}{$\bullet$}{
+%     \setlength{\labelsep}{4pt}
+%     \setlength{\labelwidth}{3pt}
+%     \setlength{\rightmargin}{0pt}
+%     \setlength{\leftmargin}{0pt}
+%     \addtolength{\leftmargin}{\labelwidth}
+%     \addtolength{\leftmargin}{\labelsep}
+% }}{\end{list}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -332,10 +333,6 @@ bookmarksopen = {true}
 \newcommand{\eg}{{\em e.g.}}
 \newcommand{\ea}{{\em et al.}}
 
-%\newcommand{\system}{BISMark}
-%\newcommand{\name}{BISMark}
-\newcommand{\FCC}{FCC }
-
 \newcommand{\hypoth}[1]{\hspace{2pt}\textbf{Issue $\#$#1.}}
 \newcommand{\test}{test }
 \newcommand{\control}{control }
@@ -390,52 +387,45 @@ bookmarksopen = {true}
 %\AcmCopyright
 %\ToAppear
 
-\thispagestyle{empty}
-
 \begin{sloppypar}
-\input{abstract}
-\ifthenelse{\equal{\onlyAbstract}{no}}{%
 
-%\vspace*{0.1in}
-%\fp {\bf Categories and Subject Descriptors:}
-%C.2.1 [Computer-Communication Networks] {\em Category}
-%: Network Communications
-%
-%\fp {\bf General Terms:}
-%Design, Experimentation, Policy
-%
-%\fp
-%{\bf Keywords:}
-%home networks; Broadband Utilization; FCC; Comcast
+\input{abstract}
+
+\ifthenelse{\equal{\onlyAbstract}{no}}{% !onlyAbstract
 
 \input{introduction}
+
 \input{related}
+
 \input{dataset}
+
 \input{analysis}
+
 \input{discussion}
-\input{conclusion}
+
+\balance\input{conclusion}\label{lastpage}
+
+
 %\label{lastpage}
 \end{sloppypar}
 
 %\vspace{-0.1in}
 %\section*{Acknowledgments}
+% Comments for people we need to acknowledge in the final version.
 
-
-%% Bibliography
 \pagebreak
-\setlength{\bibsep}{0pt}
+
 \small
+%\setlength{\bibsep}{0pt}
+\setlength{\parskip}{-1pt}
+\setlength{\itemsep}{-1pt}
+% \footnotesize % SPACE
+\balance\bibliography{paper}
 \bibliographystyle{abbrv}
-\flushleft\balance\bibliography{paper} 	% sigproc.bib is the name of the
-%Bibliography in this case 
 %\bibliographystyle{abbrvnat_noaddr} % SPACE
 %\theendnotes % ENDNOTES
-}{% !onlyAbstract
+}{% onlyAbstract
 }
-%\input{appendix}
-%\input{issues}
-%\appendix
-
 
 \end{document}
 
