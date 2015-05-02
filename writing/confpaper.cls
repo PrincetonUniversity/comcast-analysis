@@ -246,6 +246,7 @@ bookmarksopen = {true}
 \RequirePackage{soul}
 \RequirePackage{subcaption}
 \RequirePackage{amsthm}
+\RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{listings}
 \RequirePackage{tikz}

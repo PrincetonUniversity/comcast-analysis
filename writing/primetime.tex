@@ -1,0 +1,36 @@
+\subsection{Prime Time Ratio}
+\label{subsec:primetime}
+
+To characterize the prime-time ratio, as defined in ~\ref{sec:methodology}, we
+calculate the aggregate data transferred at the ISP in an average prime-time hour,
+and divide it by the off-peak average.
+
+Prompted by the monotonically increasing trend of usage behavior during daytime hours on
+weekdays (figure~\ref{fig:TS-data-rate-daily})
+we calculated the prime-time ratio for each four hour period throughout the day
+to find the evening hours with the largest ratio.
+In our dataset, the prime time ratio peaks at 8:00 PM -- 12:00 AM,
+rather than FCC's definition of 7:00 PM -- 11:00 PM. This discrepancy could be limited
+only to the high tier households in our dataset, but we deem that unlikely.
+%as the demand for traffic during prime time should be independent of the tier.
+Another reason could be that prime time is delayed globally with the rise in real
+time entertainment's contribution to traffic.
+
+\begin{figure}[ht!]
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/prime-time-ratio-by-date[replace].png}
+\caption{Prime Time ratio showing weekly pattern + differences during holiday periods (Thanksgiving, Christmas)}
+%http://riverside.noise.gatech.edu:8083/separated/full/prime-time-ratio-by-date.png
+\label{fig:TS-prime-time-ratio}
+\end{minipage}
+\end{figure}
+
+We use our updated definition of Prime Time (table~\ref{tab:eval-criteria}) to calculate and plot
+the Prime Time ratio per day for the \test and \control sets in
+figure~\ref{fig:TS-prime-time-ratio}. A comparison shows that
+the \test set's prime time ratio is 10\% lesser, supporting the observation from
+section~\ref{subsec:behavior} that showed that the usage during prime time is similar
+across both sets, but the usage in off peak hours is higher in the \test set.
+
+\todo{see todo.txt for remaining analysis and concluding remarks}
