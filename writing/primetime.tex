@@ -1,6 +1,6 @@
-\subsection{Prime Time Ratio} \label{subsec:primetime}
+\subsection{Prime-Time Ratio} \label{subsec:primetime}
 
-\paragraph{Prime Time: }The daily diurnal nature of usage patterns across many
+\paragraph{Prime-Time: }The daily diurnal nature of usage patterns across many
 households naturally requires the provider to design networks capable of handling 
 load at the peak times in a day. Such peak times are usually observed during
 evening hours, and the data transferred at this time is called peak usage.
@@ -25,7 +25,7 @@ during an average peak period hour with an average off-peak hour''. Based on the
 definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of $set_{full}$
 in section~\ref{subsec:primetime}.
 
-To characterize the prime-time ratio, as defined in ~\ref{sec:methodology}, we
+To characterize the prime-time ratio, we
 calculate the aggregate data transferred at the ISP in an average prime-time hour,
 and divide it by the off-peak average.
 
@@ -40,7 +40,7 @@ only to the high tier households in our dataset, but we deem that unlikely.
 Another reason could be that prime time is delayed globally with the rise in real
 time entertainment's contribution to traffic.
 
-\begin{figure}[ht!]
+\begin{figure}[ht]
 \begin{minipage}{\linewidth}
 \centering
 \includegraphics[width=\linewidth]{figures/prime-time-ratio-by-date[replace].png}
@@ -56,5 +56,3 @@ figure~\ref{fig:TS-prime-time-ratio}. A comparison shows that
 the \test set's prime time ratio is 10\% lesser, supporting the observation from
 section~\ref{subsec:behavior} that showed that the usage during prime time is similar
 across both sets, but the usage in off peak hours is higher in the \test set.
-
-\todo{see todo.txt for remaining analysis and concluding remarks}

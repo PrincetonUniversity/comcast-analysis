@@ -1,8 +1,10 @@
 \section{Discussion}\label{sec:discussion}
+%Different Perspectives of Utilization
 
-\subsection{Different Perspectives of Utilization}
-
-The FCC has the responsibility to increase the availability and deployment of broadband
+We take this opportunity to reflect on the
+interpretation of the disparity of peak utilization per device, as shown in
+figure~\ref{fig:CDF-data-rate-max}. The FCC has the responsibility to increase 
+the availability and deployment of broadband
 throughout the US (with the broadband threshold benchmark defined as 25 Mbps in downlink and
 3 Mbps in uplink). Their progress report states that: given the option, users will adopt a
 higher tier bandwidth~\cite{}, thereby meriting the high investment. However, a survey
@@ -14,8 +16,8 @@ question: do people \emph{need} a higher capacity, i.e., what is their \emph{uti
 as compared to the capacity?
 
 Previous research shows that the utilization will increase as the capacity of the access
-link increases~\cite{}, and also that utilization\footnote{called demand in their work} and capacity
-follow a law of diminishing returns~\cite{bischof2014broadband-behavior}. However, such
+link increases~\cite{}, and also that utilization and capacity
+follow a law of diminishing returns~\cite{dasu-imc2014}. However, such
 studies have been biased by studying users that actually required a higher capacity
 for their usage. It is inevitable that such a correlation would exist for 
 such households, whose utilization is bottlenecked by the ISP.
@@ -24,6 +26,24 @@ In this work, we ask a more fundamental question: \emph{how much does the user b
 change with increasing capacity}. Specifically, when the capacity is already very high
 and the user has not opted for an increase, does their utilization still vary with capacity?
 Both the FCC and the ISPs have a different perspective of the utilization:
+
+ The ISP may interpret this as no change in 
+peak usage, as
+the prime-time usage remained the same based on aggregated usage, even in 
+prime-time. Thus, we
+believe that given the opportunity, the provider will not invest to offer a 
+higher access
+link unless it in a region showing such low demand unless it is guaranteed 
+profit, or is forced
+into deployment by an external agency.
+
+In contrast, the consumer (and therefore the FCC) might be convinced that 
+individually
+the usage behavior of a household is affected by the increase in access link
+capacity, especially for households with a lower utilization. We believe that 
+this is
+the perspective the FCC takes when considering deployment and adoption of 
+broadband services.
 
 % the overall usage is very similar
 % max peak/day are the same, but on the lower end peak usage per device changes
@@ -42,19 +62,3 @@ for the investment of new technology in any area.
 For example, Google Fiber is now expanding to Salt Lake City, from where we received our dataset.
 The analysis of change in user behavior with capacity will estimate the number of users that
 actually \emph{need} the higher capacity service offered by Google.
-
-Thus there is a need to measure \emph{utilization} at times when users \emph{need} the Internet
-capacity the most: the peak usage.
-
-
-\todo{EVERYTHING BELOW THIS IS TODO}
-
-\subsection{User Taxonomy}
-
-
-The Sandvine reports present a taxonomy of users based on their contribution to real-time entertainment traffic. We incorporate a similar definition based on contribution to data traffic, along with our observations of utilization, to present a taxonomy of the users in our dataset. One category of users is the non-utilizers, i.e., non-aggressive low bandwidth users, that contribute less than SOME THRESHOLD PERCENTILE to the daily data transferred \sg{these the ISP can ignore, also they probably don't need this tier as their utilization from the previous section must be super low}. The second category is of users contributing most aggressively to the data at the ISP \sg{these users will probably gobble up a higher capacity link if given a chance - they're the ones who effect all our graphs.. Need to check this claim}. We further subdivide this high utilizing subcategory based on differing prime-time ratio and peak-ratios follows... \todo{need to think and analyze this further: technical definition to do the analysis}
-\begin{itemize}
-\item Aggressive All-Time: Users having a low peak-ratio due to a lower variance. Is also expected to have a low prime-time ratio.
-\item Aggressive Prime-Time: The usual streamer with a high prime-time ratio and a high peak ratio.
-\item Aggressive Non-Prime-Time: Possibly a business user with a low prime-time ratio  but a high peak ratio
-\end{itemize}

@@ -1,48 +1,72 @@
 \section{Empirical Analysis}\label{sec:analysis}
 
-\sg{merge in a better manner: behavior, prime time, utilization, peak ratio, asymmetry, prevalence}
+The nature of the randomized controlled experiment used to collect the dataset 
+of high service tier users allows us to evaluate the effect of a \emph{factor}, 
+the service plan upgrade, as a treatment applied to a control group. This 
+served a two-fold purpose in avoiding biases that previous studies on usage and 
+capacity suffer from: (a) \emph{Behavioral change 
+bias:} offering users with high capacity a further increase without their 
+knowledge avoids the risk of behavioral changes that may occur when one 
+purposefully buys a higher bandwidth connection; and (b) \emph{Dissatisfied 
+user bias:} we study high capacity tier users in a \control{} group, that are 
+are not utilizing their access link completely, and thereby mitigate the effect 
+of traffic biases that occur because subscribers' previous capacity was 
+insufficient for their usage. Studying datasets with these biases will always 
+show a positive correlation between usage and capacity, which we avoid by 
+examining a single high capacity tier with an unannounced upgrade.
 
-We evaluate the usage behavior of the \test$_{full}$\footnote{household byte counters
-from (unknown) users with a 250 Mbps access link}  and the \control$_{full}$\footnote{household
-byte counters from users with a 105 Mbps access link} sets based
-on the criteria in table~\ref{tab:eval-criteria}. We interpret the behavior of the datasets
-both separately as well as comparatively: (1) general inferences drawn from analyzing the dataset,
-and (2) comparative inferences drawn from observing changes in user behavior due to the upgrade
-in access link bandwidth (as explained in section~\ref{subsec:data-relevance})
-%although these are two separate sets of devices we interpret them as changes as explained in "relevance of the data"
+We start by evaluating traffic demand. We calculate demand by averaging the 
+bytes transferred in uplink or downlink direction over the sample period (15 
+minutes). This allows us to capture both the average per subscriber demand at 
+any time in a day, and the aggregate demand at the ISP over a longer period, 
+such as a day or a week.
 
-First, we examine usage behavior and prime-time ratio as aggregates seen at the ISP. We use 
-the total data usage per subscriber parameter to study these quantities. Next, we
-evaluate the utilization and peak time for each household in our dataset. We present the ISP
-perspective of utilization, and compare it to a users' perspective (FCC by proxy). We discuss
-a taxonomy of users based on their usage behavior and requirements. %thereby urging the FCC to
-% consider multiple standards based on usage for future benchmarks.
+\paragraph{Temporal Trends. } We aggregate the traffic demand over multiple 
+households during the same sample period, and present daily or weekly 
+description (mean, median, and 95th percentiles) as a time series.
+
+\paragraph{Spacial Trends. } We aggregate the traffic demand of a single 
+subscriber over its lifetime to measure their aggregated traffic demand, and 
+present description of aggregated subscribers (mean, median, and 95th 
+percentiles).
+
 
 \begin{table}[ht]
 \small 
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Parameter}				& \textbf{Definition}				& \textbf{Agency}  \\ \hline
-Prime Time$_{original}$			& 7:00 PM - 11:00 PM				& FCC       \\
-Prime Time       				& 8:00 PM - 12:00 AM                & Authors       \\
-Prime Time Ratio 				& \( \frac{ \text{avg usage in peak (prime-time) hour}}{ \text{avg usage in off-peak hour}}\) 												& Sandvine  \\
-Peak Period						& Time of network 95\% of max      	& Sandvine \\
-Peak Ratio       				& \(\frac{\text{90\%-ile of max daily usage}}{\text{median of daily usage}}\)                											& Authors \\
-Usage per Subs.       			& \(\frac{\text{aggregate data usage in time slot}}{\text{number of contributing subscribers}}\)                											& Authors \\ \hline
+\begin{tabular}{c|c|c}\hline
+\textbf{Parameter} & \textbf{Definition} & \textbf{Who defined}		\\\hline
+Demand per Subs.& \(\frac{\text{aggregate data usage in 
+time slot}}{\text{number of contributing subscribers}}\) & Authors 	\\
+Prime Time\footnote{original}	& 7:00 PM - 11:00 PM		& FCC	\\
+Prime Time		& 8:00 PM - 12:00 AM   		& Authors	\\
+Prime Time Ratio 	& \( \frac{ \text{avg usage in peak (prime-time) 
+hour}}{ \text{avg usage in off-peak hour}}\) 		& Sandvine	\\
+Peak Period		& Time of demand 95\% of max    & Sandvine	\\
+Peak Ratio 		& \(\frac{\text{95\%-ile of max daily 
+traffic demand}}{\text{mean of daily traffic demand}}\)	& Authors 	\\\hline
 \end{tabular}
 \caption{Evaluation Criteria}
 \label{tab:eval-criteria}
 \end{table}
 
 
+\paragraph{Evaluation Criteria. } We describe daily traffic demand, 
+prime-time ratio, and peak usage as criteria to evaluate general trends 
+and changes in traffic demand (table~\ref{tab:eval-criteria}). We interpret the 
+behavior of the datasets both separately as well as comparatively as (1) 
+general inferences drawn from analyzing the dataset,  and (2) comparative 
+inferences drawn from observing changes in user behavior due to the upgrade in 
+access link bandwidth. We report on the results for uplink traffic 
+demand where applicable. Lastly, we also evaluate the prevalence of the 
+small number of subscribers who actively exceeded the service tier bandwidth 
+they were paying for (105 Mbps) after the unannounced service tier upgrade to 
+250 Mbps.
+
+
 \input{behavior}
 
 \input{primetime}
 
-\input{utilization}
-
 \input{peakratio}
-
-\input{asymmetry}
 
 \input{prevalence}

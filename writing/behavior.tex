@@ -1,14 +1,17 @@
-\subsection{Usage Behavior}\label{subsec:behavior}
+\subsection{Traffic Demand Per Subscriber}\label{subsec:behavior}
 
-In the next section, we analyze spacio-temporal network usage behavior:
-\textbf{Time Series Behavior (TS): }aggregating the usage (and utilization) per household
-over time (daily or weekly, per time slot). \textbf{Distribution Across Devices (CDF): }aggregating over time slots per day to measure utilization per device. We use the prime-time ratio and peak usage
-as criteria to evaluate usage behavior and interpret utilization.
+Internet usage throughout a day follows diurnal sleep-patterns, and researchers
+have shown that such patterns are in fact correlated with GDP, Internet 
+allocations, as well as electrical consumption of 
+a region~\cite{ant-diurnal-web}. This makes the study of usage behavior 
+extremely relevant to the governmental bodies responsible
+for development, such as the FCC, when considering policy decisions.
 
 To characterize diurnal user behavior as observed at the ISP, we first calculate
-usage per subscriber (table ~\ref{tab:eval-criteria}), and then plot the median and
-90\%-ile of total usage over a week for both \test and \control
+usage per subscriber (table ~\ref{tab:eval-criteria}), and then plot the median 
+and 90\%-ile of total usage over a week for both \treatment{} and \control{}
 sets (figure~\ref{fig:TS-data-rate-daily}).
+
 
 We observe that the rise to the peak prime time hour usage on weekdays
 is not plateaued like the pattern observed on weekends (and holidays).
@@ -18,7 +21,7 @@ We do not observe a trough in mid afternoon (between 2:00 PM -- 6:00 PM), as is 
 the case for overall usage observed at US Fixed access providers 
 ~\cite{sandvine20141h}.
 
-\begin{figure}[ht!]
+\begin{figure}[ht]
 \begin{minipage}{\linewidth}
   \centering
   \includegraphics[width=\linewidth]{figures/describe-total-throughput-per-day[replace].png}
@@ -35,7 +38,22 @@ prime time behavior in the evening, and an increased usage in off-peak daytime h
 
 % EXPLAIN:
 % LACK OF TROUGHS: users' behavior in higher tier bandwidth
-% DISCREPANCY IN DAYTIME OFFPEAK: ??? 
-\todo{Concluding remark.. Conclusions for the FCC. Conclusions for the ISP}
+% DISCREPANCY IN DAYTIME OFFPEAK: ???
 
-\todo{see todo.txt, todo.tex for analysis comments, explain, check}
+figure~\ref{fig:CDF-data-rate-all} shows that
+median utilization of household users is the same in both sets (50 kbps). A 
+comparison
+between the \test and \control set shows that there is no affect on the overall 
+adoption.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.90\linewidth]{figures/cdf-all-bytes.png}
+  \caption{CDF of data rate per time slot for all devices (agg view of data): 
+Overall not much change due to capacity increase. Median data rate ~ 2bps for 3 
+months x thousands of devices!}
+%http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-all-byte
+% s.png
+  \label{fig:CDF-data-rate-all}
+\end{figure}
+

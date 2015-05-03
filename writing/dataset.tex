@@ -25,14 +25,13 @@ as described in table~\ref{tab:field-description}.
 
 \begin{table}[ht]
 \small
-\begin{tabular}{|l|l|}
+\begin{tabular}{ l l }
 \hline
 \textbf{Field}         & \textbf{Description}				\\\hline
-Device\_number         & Arbitrarily assigned household identifier	\\\hline
-end\_time              & 15 minute sample period end time		\\\hline
-cmts\_inet             & Anonymous CMTS identifier (derived from IP address) 
-\\\hline
-service\_direction     & \{downstream, upstream\}                 	\\\hline
+Device\_number         & Arbitrarily assigned household identifier	\\
+end\_time              & 15 minute sample period end time		\\
+cmts\_inet             & Anonymous IP identifier			\\
+service\_direction     & \{downstream, upstream\}                 	\\
 octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 \end{tabular}
 \caption{Field descriptions for Comcast's \control{} and \treatment{} datasets}
@@ -83,18 +82,15 @@ time}
 
 \begin{table*}[ht]
 \small
-\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }
-\toprule
+\begin{tabular}{ c | c | c | c | c | c | c | c | c | c }\hline
 \textbf{Dataset}      & \textbf{users} & \textbf{Bytes (up)}	
 & \textbf{Bytes (dw)} & \textbf{Average (up)}	& \textbf{Average 
 (dw)}	& \textbf{95\% (up)} & \textbf{95\% (dw)} & \textbf{Util. 
-(up)} & \textbf{Util. (dw)}\\
-\midrule
-\control-unsanitized		& & & & & & & & & \\
-\treatment-unsanitized		& & & & & & & & & \\
+(up)} & \textbf{Util. (dw)}\\\hline
+\control\footnote{unsanitized}		& & & & & & & & & \\
+\treatment\footnote{unsanitized}		& & & & & & & & & \\
 \control{}			& & & & & & & & & \\
-\treatment{}			& & & & & & & & & \\
-\bottomrule
+\treatment{}			& & & & & & & & & \\\hline
 \end{tabular}
 \caption{Data characteristics for datasets before and after sanitization. 
 Average traffic demand (kbps) is the average data rate per subscriber 
@@ -106,8 +102,8 @@ to the service tier capacity that the subscribers pay for: 105 Mbps.}
 \end{table*}
 
 
-\paragraph{Data Characterization: }Our sanitized dataset consisted of 4,500 
-subscribers in the \control{} group and 1,500 subscribers in the \treatment{}. 
+\paragraph{Data Characterization: }Our sanitized dataset consisted of 4,845 
+subscribers in the \control{} group and 1,519 subscribers in the \treatment{}. 
 The mean traffic usage per subscriber was \todo{XXX} bytes for the \control{} 
 group and \todo{XXX} bytes for the \treatment{} every 15 minutes. We interpret 
 the traffic transferred over uplink or downlink in 15 minutes in terms of the 
@@ -123,18 +119,3 @@ percentile traffic demand to the service capacity, is \todo{YYY} averaged
 over the \control{} group and \todo{YYY} for the treatment group. In 
 comparison, the mean traffic demand is extremely similar, \todo{ZZZ} for the 
 \control{} group and \todo{ZZZ} for the \treatment{}.
-
-The nature of the randomized controlled experiment used to collect the dataset 
-of high service tier users allows us to evaluate the effect of a \emph{factor}, 
-the service plan upgrade, as a treatment applied to a control group. This served 
-a two-fold purpose in avoiding biases that previous studies on usage and 
-capacity suffer from: (a) \emph{Behavioral change 
-bias:} offering users with high capacity a further increase without their 
-knowledge avoids the risk of behavioral changes that may occur when one 
-purposefully buys a higher bandwidth connection; and (b) \emph{Dissatisfied 
-user bias:} we study high capacity tier users in a \control{} group, that are 
-are not utilizing their access link completely, and thereby mitigate the effect 
-of traffic biases that occur because subscribers' previous capacity was 
-insufficient for their usage. Studying datasets with these biases will always 
-show a positive correlation between usage and capacity, which we avoid by 
-examining a single high capacity tier with an unannounced upgrade.
