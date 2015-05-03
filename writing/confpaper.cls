@@ -307,12 +307,6 @@ Copyright 200X ACM X-XXXXX-XX-X/XX/XX ...\$5.00}
     \ifthenelse{\equal{\showComments}{yes}}{\textcolor{#1}{#2}}{}
 }
 
-\newcommand{\xxx}[1]{\note{red}{#1}}
-\newcommand{\sg}[1]{\note{blue}{Sarthak: #1}}
-\newcommand{\nf}[1]{\note{magenta}{Nick: #1}}
-\newcommand{\re}[1]{\note{green}{Roya: #1}}
-\newcommand{\todo}[1]{\note{red}{\bf #1}}
-
 %%%
 %%%  Abbreviations
 %%%
