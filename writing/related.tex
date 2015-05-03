@@ -1,48 +1,48 @@
 \section{Background and Related Work}\label{sec:related}
 
-Traditionally, broadband analysis has attracted much attention of the 
-measurement community in terms of performance and economics, due to its policy 
-implications. However with increasing availability of high bandwidth Internet 
-services and FCC's recent interest in exploring traffic demand as a broadband 
-benchmark \cite{fcc2015progress-report}, the focus has moved to evaluating the 
-interplay between broadband demand and \todo{availability.}
+Traditionally, broadband performance analysis has attracted the attention of 
+the measurement community. However with increasing availability of high 
+bandwidth Internet services and FCC's recent interest in exploring traffic 
+demand as a broadband benchmark \cite{fcc2015progress-report}, the focus has 
+moved to evaluating the complex interplay between broadband demand and 
+availability.
 % basically availability includes performance, price, usage caps, etc. etc.
 
-Our work build upon earlier analysis of the 
-relationship between traffic demand and service capacity by Bischof \ea 
-\cite{dasu-imc2014}. In this prior work, natural experiments were used 
-hypothesize and infer causal relationships between the traffic 
-demand\footnote{referred to as user demand, or usage in their work} and service 
-capacity, performance, or price. They showed that, accounting for price and 
-performance, demand increases with capacity, but ``follows a law of diminishing 
-returns'', \ie for a higher service tier the correlation between capacity and 
-demand is lesser than that observed for a lower service tier. Our work 
-complements their study and examines in particular a very high service tier (105 
-Mbps) that has not been studied in depth before. Our dataset mitigates the 
-affect of price, performance, and other unknown biases (such as regional 
-\cite{weather, region}, capped usage \cite{}, and ``geek-bias'' \cite{}) by 
-using a controlled experiment for a large set of users selected randomly.
+Our work build upon earlier analysis of the relationship between traffic demand 
+and service capacity by Bischof \ea \cite{dasu-imc2014}. In this prior work, 
+natural experiments were used hypothesize and infer causal relationships between 
+the traffic demand\footnote{referred to as user demand, or usage in their work} 
+and factors such as service capacity, performance, and price. They showed 
+that demand increases with capacity, but ``follows a law of diminishing  
+returns'', \ie increases in capacity for an already high tier causes a lower 
+increase in demand, than if the upgrade would have occurred for a lower tier. 
+Our work complements their study via a large-scale controlled experiment and 
+examines in particular a high service tier (105 Mbps) that has not been studied 
+before. Our dataset mitigates the affect of price, performance, and other 
+potential biases (such as regional \cite{dasu-weather, dasu-region}, capped 
+usage \cite{usage-caps}, and ``geek-effect'' \cite{dasu-imc2014}) by limiting 
+the dataset to a large number of users selected randomly from the same service 
+tier and location.
 
 Zheleva \ea present a case study of the affect of an Internet service 
-upgrade in rural Zambia on Internet usage (and performance). This work 
-concentrates on users who were already bottlenecked at a service capacity 
-of 256 kbps on a satellite link before the upgrade, and compares it to the 
-change in traffic demand after they were upgraded to a 2 Mbps terrestrial 
-wireless link. They observe a stark change in usage behavior three months 
-after the upgrade. Our work focuses on higher service tier subscribers, who are 
-presumably not bottlenecked, and studies changes in traffic demand without 
-informing users that they had been upgraded.
+upgrade, from 256 kbps satellite to 2 Mbps terrestial wireless, in rural Zambia. 
+This work observed that the stark change in traffic demand three months after 
+the upgrade caused a performance bottleneck. Our work focuses on higher 
+service tier subscribers, who are presumably not bottlenecked, and studies 
+changes in traffic demand without informing users of the upgrade.
 
 Other efforts such as \cite{imc102-maier} study the characteristics of 
-residential DSL broadband in terms of the most popular applications and their 
-contribution to the total usage.
+residential DSL broadband, and report the contributions of the most popular 
+web applications to the total usage.
 %They also note that most DSL users do not utilize their service capacity.
 The bi-annual Sandvine reports \cite{sandvine2014report1h, 
 sandvine2014report2h} provide an overview of overall Internet traffic 
 demand from fixed lines and mobile carriers as well as an updated analysis of 
 the most popular Internet applications. They showed that video accounts for 63\%
 of traffic usage overall, and traffic demand peaks during the peak evening 
-hours, possibly due to increasing video content consumption.
+hours, possibly due to increasing video content consumption. Our work does not 
+concern with the applications responsible for most traffic, but only with the 
+peak period during which an individual subscriber's traffic demand is high.
 
 %DASU: Other efforts have explored additional factors that may influence 
 %service demand, including the weather [6], service capacity [36] and
