@@ -1,10 +1,10 @@
 \subsection{Prime-Time Ratio} \label{subsec:primetime}
 
-\paragraph{Prime-Time: }The daily diurnal nature of usage patterns across many
+The daily diurnal nature of usage patterns across many
 households naturally requires the provider to design networks capable of handling 
 load at the peak times in a day. Such peak times are usually observed during
 evening hours, and the data transferred at this time is called peak usage.
-The FCC defines \emph{Prime Time} as the local time from 7:00 PM to 11:00
+The FCC defines \textbf{Prime Time} as the local time from 7:00 PM to 11:00
 PM~\cite{fcc2014measuring-broadband}, when many
 households heavily consume real-time entertainment traffic (video), seen as primarily
 responsible for high usage during these hours. Latency and performance are adversely
@@ -19,15 +19,10 @@ own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differin
 performance) during prime-time. This may happen because Netflix OpenConnect is over-utilized
 during prime time~\cite{sandvine20141h}.
 
-\paragraph{Prime Time Ratio: }To measure the concentration of network usage during prime time,
-Sandvine defined the \emph{Prime-Time ratio} as the ``absolute levels of network traffic
+To measure the concentration of network usage during prime time,
+Sandvine defined the \textbf{Prime-Time ratio} as the ``absolute levels of network traffic
 during an average peak period hour with an average off-peak hour''. Based on the FCC
-definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of $set_{full}$
-in section~\ref{subsec:primetime}.
-
-To characterize the prime-time ratio, we
-calculate the aggregate data transferred at the ISP in an average prime-time hour,
-and divide it by the off-peak average.
+definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of the \control{} group and compare it to the \treatment{}. Prime-time ratio is definded by dividing the the average traffic data rate during an average prime-time hour, by the off-peak average traffic rate.
 
 Prompted by the monotonically increasing trend of usage behavior during daytime hours on
 weekdays (figure~\ref{fig:TS-data-rate-daily})
@@ -51,8 +46,7 @@ time entertainment's contribution to traffic.
 \end{figure}
 
 We use our updated definition of Prime Time (table~\ref{tab:eval-criteria}) to calculate and plot
-the Prime Time ratio per day for the \test and \control sets in
+the Prime Time ratio per day for the \treatment{} and \control{} groups in
 figure~\ref{fig:TS-prime-time-ratio}. A comparison shows that
-the \test set's prime time ratio is 10\% lesser, supporting the observation from
-section~\ref{subsec:behavior} that showed that the usage during prime time is similar
-across both sets, but the usage in off peak hours is higher in the \test set.
+the \treatment{} set's prime time ratio is unexpectedly 10\% lower than the \control{} group. This supports our initial observation [\autoref{subsec:behavior}] that showed that the usage during peak evening hours is similar
+across both groups, but the usage in off peak hours is higher in the \treatment{}.

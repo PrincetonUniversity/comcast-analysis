@@ -8,43 +8,9 @@ extremely relevant to the governmental bodies responsible
 for development, such as the FCC, when considering policy decisions.
 
 To characterize diurnal user behavior as observed at the ISP, we first calculate
-usage per subscriber (table ~\ref{tab:eval-criteria}), and then plot the median 
-and 90\%-ile of total usage over a week for both \treatment{} and \control{}
-sets (figure~\ref{fig:TS-data-rate-daily}).
-
-
-We observe that the rise to the peak prime time hour usage on weekdays
-is not plateaued like the pattern observed on weekends (and holidays).
-A generic (median) weekday aggregate usage consists of a rise in usage that starts
-early in the morning that builds up to the prime-time period, peaks, and then falls sharply.
-We do not observe a trough in mid afternoon (between 2:00 PM -- 6:00 PM), as is usually
-the case for overall usage observed at US Fixed access providers 
-~\cite{sandvine20141h}.
-
-\begin{figure}[ht]
-\begin{minipage}{\linewidth}
-  \centering
-  \includegraphics[width=\linewidth]{figures/describe-total-throughput-per-day[replace].png}
-  \caption{agg (days) over means (devices): aggregate has no trough, peaks in the evening hours}
-  %http://riverside.noise.gatech.edu:8083/separated/full/describe-total-throughput-per-day.png
-  \label{fig:TS-data-rate-daily}
-\end{minipage}
-\end{figure}
-
-Comparing the \test and \control sets, we observe that the median prime time and late night
-behavior is very similar (7:00 PM -- 7:00 AM), but during off peak daytime (work) hours,
-the \test set has a higher median than the \control set. There was no change in
-prime time behavior in the evening, and an increased usage in off-peak daytime hours.
-
-% EXPLAIN:
-% LACK OF TROUGHS: users' behavior in higher tier bandwidth
-% DISCREPANCY IN DAYTIME OFFPEAK: ???
-
-figure~\ref{fig:CDF-data-rate-all} shows that
-median utilization of household users is the same in both sets (50 kbps). A 
-comparison
-between the \test and \control set shows that there is no affect on the overall 
-adoption.
+usage per subscriber (table \ref{tab:eval-criteria}), and then plot the median 
+and 95\%-ile of total usage over a week for both \treatment{} and \control{}
+sets (figure \ref{fig:TS-data-rate-daily}).
 
 \begin{figure}[ht]
 \centering
@@ -56,4 +22,35 @@ months x thousands of devices!}
 % s.png
   \label{fig:CDF-data-rate-all}
 \end{figure}
+
+A comparison of the aggregate traffic demand distribution of all devices and sample periods shows
+that the \treatment{} has no significant affect on the mean traffic demand. Figure \ref{fig:CDF-data-rate-all}
+shows that the median utilization of subscribers throughout the dataset is 50 kbps\sgfoot{confirm}. 
+
+\begin{figure}[ht]
+\begin{minipage}{\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/describe-total-throughput-per-day[replace].png}
+  \caption{agg (days) over means (devices): aggregate has no trough, peaks in the evening hours}
+  %http://riverside.noise.gatech.edu:8083/separated/full/describe-total-throughput-per-day.png
+  \label{fig:TS-data-rate-daily}
+\end{minipage}
+\end{figure}
+
+
+
+Figure \ref{fig:TS-data-rate-daily} shows the aggregate data rate for a day. We observe that the rise to the peak prime time hour usage on weekdays is not plateaued like the pattern observed on weekends (and holidays).
+A generic (median) weekday aggregate usage consists of a rise in usage that starts
+early in the morning that builds up to the prime-time period, peaks, and then falls sharply.
+We do not observe a trough in mid afternoon (between 2:00 PM -- 6:00 PM), as is usually
+the case for overall usage observed at US Fixed access providers \cite{sandvine20141h}.
+
+We observed that the median traffic demand during 7:00 PM -- 7:00 AM is \todo{XXX} for
+both \treatment{} and \control{}. However, during off peak daytime (work) hours, between
+7:00 AM -- 7:00 PM, the \treatment{} group has a median of \todo{XXX}, 20\% higher than
+the \control{} set.
+% EXPLAIN:
+% LACK OF TROUGHS: users' behavior in higher tier bandwidth
+% DISCREPANCY IN DAYTIME OFFPEAK: ???
+
 
