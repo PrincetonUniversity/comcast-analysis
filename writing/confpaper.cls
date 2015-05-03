@@ -224,6 +224,12 @@
 \renewcommand*{\backreftwosep}{ and~}
 \renewcommand*{\backreflastsep}{ and~}
 
+
+% Custom section references using \autoref - Sarthak
+\renewcommand{\sectionautorefname}{\S}
+\renewcommand{\subsectionautorefname}{\S}
+\renewcommand{\subsubsectionautorefname}{\S}
+
 \hypersetup{%
 pdfauthor = {\AUTHORS},
 pdfsubject = {\CONFERENCE},

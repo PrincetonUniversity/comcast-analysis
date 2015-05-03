@@ -1,25 +1,76 @@
 \section{Introduction}\label{sec:introduction}
 
 The large impact of broadband Internet in our daily lives, and a rapid increase 
-in offered services have pushed interested parties, such policy makers and 
-ISPs, to study usage behavior
+in offered services has enabled have motivated interested parties, such 
+researchers, policy  makers and ISPs, to the complex relationship between 
+traffic demand and broadband capacity. For users on a lower tier, upgrades in a 
+service plan result in an increase in traffic demand. However, with the growing 
+development of bandwidth intensive applications, increasing video content, 
+coupled with a recent boom in Internet enabled consumer goods, it is important 
+to study how traffic demand will increase for consumers who are currently on 
+high tier service plans and contribute the most to Internet traffic.
+% + more work @ home
+% + fcc wants to add usage as a bb parameter
+
+Previous work has shown that users who are already maximizing their usage on a 
+given access link will continue to do so when they are migrated to a higher 
+service tier. The focus of our work is to study the traffic demand 
+of subscribers who are already on service plans with high downstream 
+throughput capacity, and their response to an undisclosed service plan upgrade 
+as part of a randomized controlled trial (RCT). Our dataset offers the 
+unique opportunity to explore the impact on traffic demand while mitigating 
+the cognitive bias of the service tier upgrade by withholding that information 
+from the subscriber. To the best of our knowledge, this is the first such 
+comparative study of usage behavior in a controlled experiment to study usage 
+behaviors.
+
+Our study is based on Comcast's analytic data collected from home gateways for 
+their customers in Salt Lake City, Utah. This data consists of byte transfers
+collected continuously every 15 minutes from two types of users; control: users 
+that pay and use a high capacity access link (105 Mbps), and treatment: users 
+that pay for 105 Mbps but are actually offered a much higher capacity access 
+link (250 Mbps) without their knowledge. This decision was specifically 
+anticipated to enable researchers to investigate the question: does increase in 
+capacity change traffic demand? Our analysis shows that not only are we capable 
+of answering the above question, but we can also \todo{validate and improve 
+more FCC policies on broadband benchmark.}
+
+We evaluate a total of three months of traffic demand for more that 20000 
+individual subscribers, 2200 of whom had access to a 2.5-fold increased 
+capacity tier. Our results show that while the aggregate and mean daily usage 
+did not change significantly, there is an observable increase in the 95 
+percentile traffic demand for the higher capacity users. However, this 
+increase occurs mostly in the off-peak hours, when subscribers are not expected 
+to utilize the link. \todo{confirm this by taking the ratio of avg or median 
+usage per time-slot in treatment and control}
+Furthermore, we observed that subscribers who are already using most of their 
+available capacity do not use significantly more capacity when they are moved 
+to a higher tier. In contrast, subscribers with a low traffic demand increase 
+their daily 95 percentile peak usage by 10\%. Finally, we observed that 
+more than than 99\% of the users do not even use the increased service tier 
+consistently for 15 minutes at any time in the three months of data we study.
+% + prime time hours were 8-12 instead of 7-11 for high tier dataset
+% + asymmetry?
+
+With the recent interest of the Federal Communications Commission (FCC) in 
+adopting usage (traffic demand) as one of the broadband benchmarks, we discuss 
+the possible implications of our observations for both policy makers, who 
+determine broadband deployment policies for the US based on consumer demands, as 
+well as ISPs such as Comcast, who plan broadband deployment and capacity 
+upgrades based on trends in aggregate usage behaviors. We conclude that both 
+policy makers and ISPs may have different perspectives of the same observation, 
+and motivate the need to further study traffic demand as a broadband benchmark 
+metric.
 
 
-
-PARA 1: SEE OTHER USAGE CASE STUDIES ABOUT IMPORTANCE\\
-(importance of usage. important for fcc. important for isps capacity planning. bottlenecks to usage can be the user themselves, the transit, or the service. how the fcc is considering usage based benchmarks so its important to understand who the heavy users are and when do they consume the most \sg{should this fcc be in the last intro para or the discussion section?})
-
-PARA 2: lower tier has been studied (dasu, africa, etc). but higher tier what happens? what happens when people are already satisfied?\\
-(previous study shows usage is tough to determine. choices are random too many variables [36]. dasu guys study usage with many factors by monitoring transfer bytes throughout the world. designed as a natural exp they show that apart from capacity, price and performance (latency pack loss) also play an imp role in determining usage. the law of diminishing returns when accounting for other factors.)
-
-PARA 3: Our study\\
-(we study the change in usage of subscribers who do not need any more bb are offered more without their knowledge by controlled exp. these 2219 dev are selected randomly from the same locations and same tier and ISP (keeping price and performance latency and plots similar). Compared with 18355 devices sharing the same demographics but getting what they paid for, hopefully their demands and choices are actually similar due to such control. Allows an ISP to plan for capacity based on trends in usage demand - if demand don't increase users are satisfied with high tier.)
-
-PARA 4: Interesting results and contributions\\
-(Our contributions show the complicated nature of individual usage and capacity, and motivate the need of demand based tiers and benchmarks in the future. We see off peak usage increases for users not utilizing the link anyway. We also seee that in our high speed tier dataset, prime time hours become late (8-12). Also peak usage increases for low util users daily. In the dataset over three months only 11 users out of 1500 actually went over 105 Mbps.) \sg{maybe just interesting results and not contributions}
-
-PARA 5: Higher perspective of interesting results and a line on policy makers\\
-(The analysis of usage behavior to discuss different perspectives of bb utilization. We see that greedy rich users do not increase their usage so isps may conclude that they are satisfying their customers fully. But we also see that frugal rich users increase usage, especially in off peak, so conclude that as a consumer or policy maker capacity is still impacting perf. Both parties may have opposing views but look at the same observation. Motivates further study of the relationship between bb and capacity, esp. with similar control exp, and find out why this increase happened? Also look into usage demands as a metric used to determining broadband benchmarks.)
-
-PARA 6: Roadmap of the paper\\
-(section 2 background on previous usage work and industrial trends. section 3 data characterization and sanitization. section 4 empirical analysis looking at usage, peak usage, prime time, asymmetry, persistence and prevalence \sg{talk again a bit about usage - most interesting is how many did NOT change behavior}. section 5 is discussion on the differing perspectives of utilization (fcc vs isp) \sg{and different types of users taxonomy.} and concluding on how fcc considering usage definitely needs more input from our community)
+The rest of the paper is organized as follows. In \autoref{sec:related} we 
+list some previous studies of traffic demand. Then, in \autoref{sec:data}, 
+we offer details about our data, sanitization, and characterization. We then 
+proceed by describing our evaluation criteria and examine changes in broadband 
+usage [\autoref{sec:analysis}]. \todo{We do this by studying spacio-temporal 
+usage patterns in terms of peak utilization, prime-time ratio, asymmetry, and 
+prevalence.} Lastly, we comment on the differing perspectives of traffic demand 
+in \autoref{sec:discussion}, and summarize our findings in 
+\autoref{sec:conclusion}.
+% + spacio temporal analysis in results
+% + user taxonomy in discussion?
