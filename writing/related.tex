@@ -1,47 +1,49 @@
 \section{Background and Related Work}\label{sec:related}
 
-1. previous academic studies of usage - study low tier and natural experiments. Our approach is highly controlled experiments
+Traditionally, broadband analysis has attracted much attention of the 
+measurement community in terms of performance and economics, due to its policy 
+implications. However with increasing availability of high bandwidth Internet 
+services and FCC's recent interest in exploring traffic demand as a broadband 
+benchmark \cite{fcc2015progress-report}, the focus has moved to evaluating the 
+interplay between broadband demand and \todo{availability.}
+% basically availability includes performance, price, usage caps, etc. etc.
 
-2. industrial trends like sandvine and the FCC studies of usage and reports
-\cite{fcc2015broadband-report}
+Our work build upon earlier analysis of the 
+relationship between traffic demand and service capacity by Bischof \ea 
+\cite{dasu-imc2014}. In this prior work, natural experiments were used 
+hypothesize and infer causal relationships between the traffic 
+demand\footnote{referred to as user demand, or usage in their work} and service 
+capacity, performance, or price. They showed that, accounting for price and 
+performance, demand increases with capacity, but ``follows a law of diminishing 
+returns'', \ie for a higher service tier the correlation between capacity and 
+demand is lesser than that observed for a lower service tier. Our work 
+complements their study and examines in particular a very high service tier (105 
+Mbps) that has not been studied in depth before. Our dataset mitigates the 
+affect of price, performance, and other unknown biases (such as regional 
+\cite{weather, region}) by using a controlled randomized experiment for a large 
+set of users.
 
-3. Last para: no one 
-Broadband analysis has recently attracted much attention
-from the research community and the general public given
-its important business and policy implications. A number
-of efforts have focused on characterizing the availability and
-performance of broadband services around the world [1, 2,
-5, 12, 20, 28, 31, 33]. The focus of our work is on exploring
-broadband services in their broader context, evaluating the
-complex interplay between broadband service characteristics,
-their market features and user demand.
-Different aspects of the complex interplay between user
-behavior, network services and operation has been explore
-in previous work. Some recent studies have examined the
-relationship between user behavior, network services and
-the providers. In Dobrian et al. [13] the authors show that
-poor connection quality can have a negative impact on a
-user’s quality of experience. Blackburn et al. [3] study how
-user behavior affects the economics of cellular operators.
-Chetty et al. [7] perform a user study to understand the
-effects of usage caps on broadband use. Other efforts
-have explored additional factors that may influence service
-demand, including the weather [6], service capacity [36] and
-the type of region [8].
+Zheleva \ea present a case study of the affect of an Internet service 
+upgrade in rural Zambia on Internet usage (and performance). This work 
+concentrates on users who were already bottlenecked at a service capacity 
+of 256 kbps on a satellite link before the upgrade, and compares it to the 
+change in traffic demand after they were upgraded to a 2 Mbps terrestrial 
+wireless link. They observe a stark change in usage behavior three months 
+after the upgrade. Our work focuses on higher service tier subscribers, who are 
+presumably not bottlenecked, and studies changes in traffic demand without 
+informing users that they had been upgraded.
 
+Other efforts such as \cite{imc102-maier} study the characteristics of 
+residential DSL broadband in terms of the most popular applications and their 
+contribution to the total usage.
+%They also note that most DSL users do not utilize their service capacity.
+The bi-annual Sandvine reports \cite{sandvine2014report1h, 
+sandvine2014report2h} provide an overview of overall Internet traffic 
+demand from fixed lines and mobile carriers as well as an updated analysis of 
+the most popular Internet applications. They showed that video accounts for 63\%
+of traffic usage overall, and traffic demand peaks during the peak evening 
+hours, possibly due to increasing video content consumption.
 
-
-(instead of this say we did it)
-The difficulty or outright impossibility of conducting controlled,
-randomized experiments of user behavior at Internet
-scale has been pointed out before. In his SIGCOMM 2011
-Award presentation, Vern Paxson pointed to this issue
-and suggested the use of natural experiments to explore
-potential causal relationships with observational data. In
-a recent paper, Krishnan and Sitaraman [21] explore the
-use of related quasi-experimental design (QED) to evaluate
-the impact of video stream quality on viewer behavior and
-Oktay et al. [24] relies on it for causal analysis of user
-behavior in social media. We opted for natural experiments,
-rather than QED, as we consider the control and treatment
-groups to be sufficiently similar to random assignment.
+%DASU: Other efforts have explored additional factors that may influence 
+%service demand, including the weather [6], service capacity [36] and
+%the type of region [8].
