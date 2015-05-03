@@ -17,7 +17,7 @@
 %%%
 %%%  Custom variables to be set appropriately.
 %%%
-\newcommand{\AUTHORS}{Sarthak Grover and Roya Ensafi and Nick Feamster}
+\newcommand{\AUTHORS}{Sarthak Grover, Roya Ensafi and Nick Feamster}
 \newcommand{\TITLE}{When the Rich get Richer: A Case Study of High Speed Tier 
 Usage Behavior}
 \newcommand{\KEYWORDS}{Keywords}

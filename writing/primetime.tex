@@ -1,5 +1,29 @@
-\subsection{Prime Time Ratio}
-\label{subsec:primetime}
+\subsection{Prime Time Ratio} \label{subsec:primetime}
+
+\paragraph{Prime Time: }The daily diurnal nature of usage patterns across many
+households naturally requires the provider to design networks capable of handling 
+load at the peak times in a day. Such peak times are usually observed during
+evening hours, and the data transferred at this time is called peak usage.
+The FCC defines \emph{Prime Time} as the local time from 7:00 PM to 11:00
+PM~\cite{fcc2014measuring-broadband}, when many
+households heavily consume real-time entertainment traffic (video), seen as primarily
+responsible for high usage during these hours. Latency and performance are adversely
+affected during prime-time, causing bottlenecks at home, the last mile, in
+transit, or at the content server. For example, the Sandvine Global
+Internet Phenomena Report \footnote{The Sandvine Reports ~\cite{sandvine20141h,
+sandvine20142h}are released bi-annually and
+contain a detailed analysis of aggregate Internet usage. They are also referred
+to in the FCC reports~\cite{fcc2015progress-report, fcc2014measuring-broadband,
+fcc2014progress-report}} showed that devices in the same household selected Netflix's
+own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing
+performance) during prime-time. This may happen because Netflix OpenConnect is over-utilized
+during prime time~\cite{sandvine20141h}.
+
+\paragraph{Prime Time Ratio: }To measure the concentration of network usage during prime time,
+Sandvine defined the \emph{Prime-Time ratio} as the ``absolute levels of network traffic
+during an average peak period hour with an average off-peak hour''. Based on the FCC
+definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of $set_{full}$
+in section~\ref{subsec:primetime}.
 
 To characterize the prime-time ratio, as defined in ~\ref{sec:methodology}, we
 calculate the aggregate data transferred at the ISP in an average prime-time hour,

@@ -45,3 +45,16 @@ actually \emph{need} the higher capacity service offered by Google.
 
 Thus there is a need to measure \emph{utilization} at times when users \emph{need} the Internet
 capacity the most: the peak usage.
+
+
+\todo{EVERYTHING BELOW THIS IS TODO}
+
+\subsection{User Taxonomy}
+
+
+The Sandvine reports present a taxonomy of users based on their contribution to real-time entertainment traffic. We incorporate a similar definition based on contribution to data traffic, along with our observations of utilization, to present a taxonomy of the users in our dataset. One category of users is the non-utilizers, i.e., non-aggressive low bandwidth users, that contribute less than SOME THRESHOLD PERCENTILE to the daily data transferred \sg{these the ISP can ignore, also they probably don't need this tier as their utilization from the previous section must be super low}. The second category is of users contributing most aggressively to the data at the ISP \sg{these users will probably gobble up a higher capacity link if given a chance - they're the ones who effect all our graphs.. Need to check this claim}. We further subdivide this high utilizing subcategory based on differing prime-time ratio and peak-ratios follows... \todo{need to think and analyze this further: technical definition to do the analysis}
+\begin{itemize}
+\item Aggressive All-Time: Users having a low peak-ratio due to a lower variance. Is also expected to have a low prime-time ratio.
+\item Aggressive Prime-Time: The usual streamer with a high prime-time ratio and a high peak ratio.
+\item Aggressive Non-Prime-Time: Possibly a business user with a low prime-time ratio  but a high peak ratio
+\end{itemize}
