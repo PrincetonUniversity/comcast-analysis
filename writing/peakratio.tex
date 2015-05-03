@@ -123,18 +123,7 @@ Figure ~\ref{fig:CDF-peak-ratio-median} shows that the median peak-ratio for eac
 \todo{replace much larger with the exact number or percentage}.
 \sg{Taken together} with our observations of a lower prime-time ratio of the \test set (section~\ref{subsec:primetime}) this implies that there are households in the \test set that achieve a peak-ratio $>$ 1, but not during the prime-time hour. We believe that these households might actually be small businesses or work-at-home users that peak during daytime hours instead of evening hours.
 
-\begin{figure}[ht]
-\begin{minipage}{0.9\linewidth}
-\centering
-\includegraphics[width=0.9\linewidth]{figures/cdf-prime-time-ratio[replace].png}
-\caption{(old) Prime Time ratio + usage can be used to divide users into four sets: aggressive all time + non aggressive all time, aggressive peak time, aggressive non-peak time (business hours). 30\% PT $<$ 1: possibly businesses with normal work-hours . 20\% PT $>$ 2: aggressive prime-time streamers}
-%http://riverside.noise.gatech.edu:8083/separated/full/cdf-prime-time-ratio-per-device.png\\
-%http://riverside.noise.gatech.edu:8083/plots/full_dw/prime-time-ratio-per-device-cdf-ALL.png
-\label{fig:CDF-prime-time-ratio}
-\end{minipage}
-\end{figure}
-
-The median peak-ratio per device itself shows a large range, from 1 to 10e6 (figure~\ref{fig:CDF-peak-ratio-median}), and the maximum peak-ratio per device was an order higher. Clearly there are some households that have a very even usage throughout the day (low peak ratio), and others that are extremely aggressive only at certain times (high peak ratio). We plot this segregation in figure ~\ref{fig:CDF-prime-time-ratio}.
+The median peak-ratio per device itself shows a large range, from 1 to 10e6 (figure~\ref{fig:CDF-peak-ratio-median}), and the maximum peak-ratio per device was an order higher. Clearly there are some households that have a very even usage throughout the day (low peak ratio), and others that are extremely aggressive only at certain times (high peak ratio).
 
 
 % other results:
@@ -143,13 +132,3 @@ The median peak-ratio per device itself shows a large range, from 1 to 10e6 (fig
 %big difference in this ratio per day, and it is consistent across all individual sets + months.
 %very large for Dec, slightly smaller for Nov
 %interestingly, at higher ratios control is slightly > test. This means that certain devices in control set have a huge std (ratio) in a day as compared to test set which has a lower “max” ratio.
-
-\todo{ TO PLOT? :}
-\begin{itemize}
-\itemsep0em
-\item peak ratio cdf vs no of devices
-\item peak ratio cdf vs time of day where peak occurred
-\item no of devices cdf vs time of day where peak occurred
-\end{itemize}
-
-Based on differing usage profiles within the same high tier bandwidth, we suggest that the FCC adopt multiple benchmarks based on usage characteristics to better characterize broadband availability, deployment, and adoption in the US. Such multiple benchmarks can be the minimum broadband speed required per user based on the kind of traffic expected during a day. ISPs can also offer these users better plans based on hour-of-the-day or usage caps to encourage more off-peak usage. These users probably don't cause latency spikes in PT.
