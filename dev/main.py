@@ -195,8 +195,15 @@ def throughput_weekday(test_full, control_full, PROCPATH, PLOTPATH):
 def plot_cdf(test_full, control_full, PLOTPATH):
     logger.debug("plot dataset throughput CDFs")
     plot_cdf_all_bytes(test_full, control_full, PLOTPATH)
-    plot_cdf_max_per_device(test_full, control_full, PLOTPATH)
-    plot_cdf_max_per_day_per_device(test_full, control_full, PLOTPATH)
+    # MAX, perc95
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, None, 'max', 'perc95')
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, 'date', 'max', 'perc95')
+    # perc95, mean
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, None, 'perc95', 'mean')
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, 'date', 'perc95', 'mean')
+    # MAX, median
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, None, 'max', 'median')
+    plot_cdf_per_device(test_full, control_full, PLOTPATH, 'date', 'max', 'median')
     return
 
 def prevalence(test_full, control_full, PLOTPATH):
