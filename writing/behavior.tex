@@ -48,39 +48,31 @@ at US Fixed access providers \cite{sandvine20141h}.
 % DISCREPANCY IN DAYTIME OFFPEAK: ???
 
 
-\begin{figure*}[ht]
-
+\begin{figure*}[t]
+\begin{minipage}{1\linewidth}
 \centering
-\begin{subfigure}[b]{0.33\textwidth}
-\includegraphics[width=0.30\linewidth]{figures/cdf-all-bytes.png}
-  \caption{for all devices}
-  %(agg view of data): 
-%Overall not much change due to capacity increase. Median data rate ~ 2bps for 
-%3months x thousands of devices!
-  \label{fig:CDF-data-rate-all}
+%
+\begin{subfigure}[b]{0.3\linewidth}
+\includegraphics[width=\linewidth]{figures/cdf-all-bytes.png}
+               \caption{for all devices}
 \end{subfigure}
-
-\begin{subfigure}[b]{0.33\textwidth}
-\includegraphics[width=0.30\linewidth]{figures/cdf-max-per-device.png}
-  \caption{CDF of max per device)}
-  %: test set has higher (max) average data rate 
-%below 10 kbps.  30\% of devices in the control set have a max data rate of 2 
-%kbps while 30\% of test set has a max data rate of 10 kbps. (sanity check 
-%numbers, redo plot
-\label{fig:CDF-data-rate-max}
+%
+\begin{subfigure}[b]{0.3\linewidth}
+\includegraphics[width=\linewidth]{figures/cdf-max-per-device.png}
+               \caption{CDF of max per device)}
 \end{subfigure}
-
-\begin{subfigure}[b]{0.33\textwidth}
-\includegraphics[width=0.30\linewidth]{figures/cdf-max-per-day-per-device.png}
-  \caption{CDF of max per device daily}
-  \label{fig:CDF-data-rate-max-daily}
+%
+\begin{subfigure}[b]{0.39\linewidth}
+\includegraphics[width=\linewidth]{figures/cdf-max-per-day-per-device.png}
+               \caption{Passive.\label{fig:tsval-passive}}
 \end{subfigure}
-
-\caption{Traffic Demand: The maximum data rate varies for test and control 
-set for low data rates, and this variation is present daily.}
-\label{fig:traffic-demand}
-
+%
+\end{minipage}
+\caption{Traffic Demand: The maximum data rate varies for test and control
+103 set for low data rates, and this variation is present daily.}
+\label{fig:tsval}
 \end{figure*}
+
 
 
 A comparison of the aggregate traffic demand distribution of all devices 
