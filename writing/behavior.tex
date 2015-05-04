@@ -52,27 +52,34 @@ at US Fixed access providers \cite{sandvine20141h}.
 \begin{minipage}{1\linewidth}
 \centering
 %
-\begin{subfigure}[b]{0.3\linewidth}
+\begin{subfigure}[b]{0.33\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-all-bytes.png}
-               \caption{for all devices}
+               \caption{Overall traffic demand per subscriber per 
+sample\label{fig:CDF-data-rate}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{0.3\linewidth}
+\begin{subfigure}[b]{0.33\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-max-per-device.png}
-               \caption{CDF of max per device)}
+               \caption{Maximum and peak traffic demand per 
+subscriber\label{fig:CDF-data-rate-max}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{0.39\linewidth}
+\begin{subfigure}[b]{0.33\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-max-per-day-per-device.png}
-               \caption{Passive.\label{fig:tsval-passive}}
+               \caption{Daily maximum and peak 
+traffic demand per subscriber.\label{fig:CDF-data-rate-max-daily}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{Traffic Demand: The maximum data rate varies for test and control
-103 set for low data rates, and this variation is present daily.}
-\label{fig:tsval}
+\caption{Traffic Demand: The overall data rate per subscriber per sample is the 
+same for both control and treatment, but the maximum (and 95 percentile) data 
+rate per subscriber varies for test and control, and this variation occurs 
+daily as well as over the whole lifetime. 50 percent of the users with the 
+heaviest utilization in treatment and control have the same traffic demand, 
+but 50 percent of the users with light utilizations in the treatment have 
+higher demands than the 50 percent of light users in control.}
+\label{fig:traffic-demand}
 \end{figure*}
-
 
 
 A comparison of the aggregate traffic demand distribution of all devices 
