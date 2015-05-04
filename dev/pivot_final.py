@@ -15,3 +15,18 @@ for folder in os.listdir(DATA + "final/"):
             os.makedirs(outfolder)
         df2.to_pickle(DATA + "final_processed/"+folder+"/"+filename)
         del df1, df2
+
+def get_weekday_time_groups():
+
+    '''run on dp7 in final folder'''
+    CONVERT_OCT = 8.0 / (15*60 * 1024)
+    for folder in ['final_dw/', 'final_up/']:
+        for dataset in ['test', 'control']:
+            df = pd.read_pickle(folder + dataset + '.pkl')
+            mean_time_day = df.groupby(['Device_number', 'day', 'time'])['octets_passed'].mean()
+            tp = (mean_time_day * CONVERT_OCT).unstack(1)
+            weekdays = tp[[0,1,2,3,4]].mean(1).unstack(-2)
+            weekends = tp[[5,6]].mean(1).unstack(-2)
+            weekdays.to_pickle(folder + dataset + "_weekday.pkl")
+            weekends.to_pickle(folder + dataset + "_weekend.pkl")
+    return
