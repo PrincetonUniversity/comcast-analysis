@@ -7,6 +7,12 @@ a region~\cite{ant-diurnal-web}. This makes the study of usage behavior
 extremely relevant to the governmental bodies responsible
 for development, such as the FCC, when considering policy decisions.
 
+We start by evaluating traffic demand. We calculate demand by averaging the 
+bytes transferred in uplink or downlink direction over the sample period (15 
+minutes). This allows us to capture both the average per subscriber demand at 
+any time in a day, and the aggregate demand at the ISP over a longer period, 
+such as a day or a week.
+
 To characterize diurnal user behavior as observed at the ISP, we first calculate
 usage per subscriber (table \ref{tab:eval-criteria}), and then plot the median 
 and 95\%-ile of total usage over a week for both \treatment{} and \control{}
