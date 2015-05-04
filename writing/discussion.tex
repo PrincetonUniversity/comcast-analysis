@@ -1,75 +1,69 @@
 \section{Discussion}\label{sec:discussion}
 
-Internet usage throughout a day follows diurnal sleep-patterns, and researchers
-have shown that such patterns are in fact correlated with GDP, Internet 
-allocations, as well as electrical consumption of 
+The study of traffic demand has recently gained importance from the policy 
+perspective. We believe our work is directly useful to the Federal 
+Communications Commission (FCC) as a step in understanding the impact of 
+increasing broadband capacity of traffic demand.
+
+Firstly, the FCC recognizes the need to define broadband benchmarks based on 
+traffic demand, and is considering to add it in the 
+future~\cite{fcc2015broadband-report}. It has defined a ``typical'' household 
+traffic demand to enable concurrent broadband uses, such as video streaming, web 
+browsing, and VoIP. Currently, the Commission is asking for comments and 
+suggestions on how to define such a demand-based benchmark for future 
+planning~\cite{fcc2015progress-report, fcc2014progress-report}.
+
+Secondly, recent research shows that diurnal Internet usage patterns are 
+correlated with GDP, Internet allocations, as well as electrical consumption of 
 a region~\cite{ant-diurnal-web}. This makes the study of usage behavior 
-extremely relevant to the governmental bodies responsible
-for development, such as the FCC, when considering policy decisions.
+extremely relevant to the governmental bodies responsible for development, such 
+as the FCC, when considering policy decisions.
 
-\todo{ also fcc adding usage but their survey showed people don't want it even 
-more than the price - need to study usage to know why adoption of broadband is 
-low}
+Finallly, the FCC is is responsible for increasing broadband deployment 
+throughout the US. Recently, it decided to aggressively increase the 
+broadband threshold benchmark to 25 Mbps in downlink and 3 Mbps in uplink. 
+However, a survey conducted 
+by NCTA (for the FCC) showed that the largest deterrent to broadband adoption 
+is that users do not \emph{want} broadband (the second largest deterrent is the 
+price)~\cite{fcc2015progress-report}.  This sudden increase 
+resulted in a strong backlash from various ISPs, who claim that 
+there is not enough demand in many parts of the US. We expand on our 
+understanding of this dispute as follows.
 
-%Different Perspectives of Utilization
-We take this opportunity to reflect on the
-interpretation of the disparity of peak utilization per device, as shown in
-figure~\ref{fig:CDF-data-rate-max}. The FCC has the responsibility to increase 
-the availability and deployment of broadband
-throughout the US (with the broadband threshold benchmark defined as 25 Mbps in downlink and
-3 Mbps in uplink). Their progress report states that: given the option, users will adopt a
-higher tier bandwidth~\cite{}, thereby meriting the high investment. However, a survey
-conducted by NCTA showed that the largest deterrent to broadband adoption is that users
-do not \emph{need} broadband (the second largest is the cost). The conflicting view of 
-the ISP is that the cost of deployment in an unchartered area is too high, unless
-a significant number of households \emph{need} it. Thus, both parties are asking the same
-question: do people \emph{need} a higher capacity, i.e., what is their \emph{utilization}
-as compared to the capacity?
+Both the service providers and the policy makers are asking the same
+question: do subscribers need a higher bandwidth broadband, \ie, are the 
+subscribers demands not being met by their current service tier?
 
-Previous research shows that the utilization will increase as the capacity of the access
-link increases~\cite{}, and also that utilization and capacity
-follow a law of diminishing returns~\cite{dasu-imc2014}. However, such
-studies have been biased by studying users that actually required a higher capacity
-for their usage. It is inevitable that such a correlation would exist for 
-such households, whose utilization is bottlenecked by the ISP.
+We study this question for high service tiers. Our results show that the 
+prime-time ratio does not change when upgrading from a lower tier to a higher 
+one. The ISP may interpret this as no (insignificant) change in demand during 
+the prime-time, when the network is expected to be most clogged. We
+believe that given the opportunity, a service provider considering increase in 
+capacity will not invest in offering a service upgrade in such a scenario. The 
+ISP perspective is that the highest demanding subscribers will not be utilizing 
+the higher capacity during the prime-time, thus the total demand will not 
+increase. This question is considered by ISPs when planning capacity upgrades 
+in the future, or considering investment in a new technology or region. For 
+example, Google Fiber is now expanding to Salt Lake City, from where 
+we received our dataset. The analysis of change in user behavior with capacity 
+estimates that a low number of users already on the 105 Mbps service tier will 
+actually increase their demand beyond the 105 Mbps capacity if they 
+migrate to a higher capacity service offered by Google. 
 
-In this work, we ask a more fundamental question: \emph{how much does the user behavior
-change with increasing capacity}. Specifically, when the capacity is already very high
-and the user has not opted for an increase, does their utilization still vary with capacity?
-Both the FCC and the ISPs have a different perspective of the utilization:
+In contrast, although our results show that the change in demand during 
+prime-time was insignificant, we observe a significant increase in demand 
+during non-prime-time hours. Furthermore, the increase in demand was higher for 
+users who contribute the lowest fraction of traffic to the ISP. This may 
+convince subscribers and policy makers alike that individually, the demand of a 
+household is affected by the increase in access link capacity, especially for 
+subscribers who did not have much demands. We believe that this is the 
+perspective the FCC takes when considering deployment and adoption of 
+broadband services. Essentially, if any change is observed in demand due to an 
+upgraded service, the FCC may interpret that as \emph{adoption} of the higher 
+available tier.
 
- The ISP may interpret this as no change in 
-peak usage, as
-the prime-time usage remained the same based on aggregated usage, even in 
-prime-time. Thus, we
-believe that given the opportunity, the provider will not invest to offer a 
-higher access
-link unless it in a region showing such low demand unless it is guaranteed 
-profit, or is forced
-into deployment by an external agency.
-
-In contrast, the consumer (and therefore the FCC) might be convinced that 
-individually
-the usage behavior of a household is affected by the increase in access link
-capacity, especially for households with a lower utilization. We believe that 
-this is
-the perspective the FCC takes when considering deployment and adoption of 
-broadband services.
-
-% the overall usage is very similar
-% max peak/day are the same, but on the lower end peak usage per device changes
-% much lesser than the capacity but it is still a change
-\paragraph{The FCC perspective: }\emph{Utilization as adoption} of a higher capacity
-link when available (but not under the constraints of a much higher cost). The answer to this
-question is important to the FCC to encourage further deployment of high tier links throughout
-the US. Essentially, if \emph{any} change is observed in link utilization due to the upgrade in our dataset, the FCC may interpret that as \emph{adoption} to the higher available tier.
-
-% The max util DOES NOT change => we are not the bottleneck and users are satisfied.
-\paragraph{The ISP perspective: }\emph{Utilization as a capacity bottleneck}, i.e., if
-the ISP can show that the \emph{maximum utilization} of a household does not vary
-with increasing capacity, it will prove there is not enough demand to offer a higher tier.  
-The ISP needs the answer to this question for future capacity planning, and the cost-analysis
-for the investment of new technology in any area.
-For example, Google Fiber is now expanding to Salt Lake City, from where we received our dataset.
-The analysis of change in user behavior with capacity will estimate the number of users that
-actually \emph{need} the higher capacity service offered by Google.
+The complex relationship between service capacity and traffic demand motivates 
+a further study, using controlled and natural experiments. As independent 
+researchers in the measurement community, we believe it is our responsibility to 
+provide a much required input to the FCC when it comes to increasing broadband 
+adoption and defining a traffic demand based benchmark.
