@@ -1,22 +1,17 @@
 \subsection{Traffic Demand Per Subscriber}\label{subsec:behavior}
 
-Internet usage throughout a day follows diurnal sleep-patterns, and researchers
-have shown that such patterns are in fact correlated with GDP, Internet 
-allocations, as well as electrical consumption of 
-a region~\cite{ant-diurnal-web}. This makes the study of usage behavior 
-extremely relevant to the governmental bodies responsible
-for development, such as the FCC, when considering policy decisions.
-
-We start by evaluating traffic demand. We calculate demand by averaging the 
-bytes transferred in uplink or downlink direction over the sample period (15 
-minutes). This allows us to capture both the average per subscriber demand at 
-any time in a day, and the aggregate demand at the ISP over a longer period, 
-such as a day or a week.
-
 To characterize the diurnal traffic demand observed at the ISP, we first 
 calculate traffic demand per subscriber (table \ref{tab:eval-criteria}), and 
 then plot the median and 95\%-ile of total usage over a week for both 
 \treatment{} and \control{} sets (figure \ref{fig:TS-data-rate-daily}).
+
+We calculate demand by averaging the 
+bytes transferred in uplink or downlink direction over the sample period (15 
+minutes).\todo{ This allows us to capture both the average per subscriber 
+demand at 
+any time in a day, and the aggregate demand at the ISP over a longer period, 
+such as a day or a week.}s
+
 
 \begin{figure}[ht]
 \begin{minipage}{\linewidth}
@@ -28,12 +23,18 @@ then plot the median and 95\%-ile of total usage over a week for both
 \end{minipage}
 \end{figure}
 
+\todo{replace fig 2 with gen weekday and weekend plot in total bytes not kbps}
+\todo{ - mean demand, 95\% demand numbers during xx hours: just give ratio 
+(avg) in prime-time and non-prime-time and say factor of increase xxx (don't 
+write times) }
+\todo{point: there is something happening in off-peak hour not in peak hours}
 Figure \ref{fig:TS-data-rate-daily} shows the aggregate data rate for a day. 
 We observed that the median traffic demand during 7:00 PM -- 7:00 AM is 
 \todo{XXX} for both \treatment{} and \control{}. However, during off peak 
 daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
 median of \todo{XXX}, 20\% higher than the \control{} set.
 
+\todo{- point: weekend and weekday look v different plateaued and no troughs}
 We observe that the rise to the peak prime time hour usage 
 on weekdays is not plateaued like the pattern observed on weekends (and 
 holidays). A generic (median) weekday aggregate usage consists of a rise in 
@@ -45,7 +46,7 @@ at US Fixed access providers \cite{sandvine20141h}.
 
 % EXPLAIN:
 % LACK OF TROUGHS: users' behavior in higher tier bandwidth
-% DISCREPANCY IN DAYTIME OFFPEAK: ???
+% DISCREPANCY IN DAYTIME OFFPEAK: ???   
 
 
 \begin{figure*}[ht]

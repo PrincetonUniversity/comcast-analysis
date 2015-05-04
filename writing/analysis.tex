@@ -27,24 +27,24 @@ avoid by examining a single high capacity tier with an unannounced upgrade.
 
 \begin{table}[ht]
 \small 
-\begin{tabular}{c|c|c}\hline
-\textbf{Parameter} & \textbf{Definition} & \textbf{Who defined}		\\\hline
-Demand per Subs.& \(\frac{\text{aggregate data usage in 
-time slot}}{\text{number of contributing subscribers}}\) & Authors 	\\
-Prime Time\footnote{original}	& 7:00 PM - 11:00 PM		& FCC	\\
-Prime Time		& 8:00 PM - 12:00 AM   		& Authors	\\
+\begin{tabular}{| c | c |}\hline
+\textbf{Parameter} & \textbf{Definition}	\\\hline
+Demand per Subscriber& \(\frac{\text{aggregate bytes transferred in 
+measurement interval}}{\text{number of contributing subscribers}}\)	\\
+Prime Time		& 8:00 PM - 12:00 AM   		\\
 Prime Time Ratio 	& \( \frac{ \text{avg usage in peak (prime-time) 
-hour}}{ \text{avg usage in off-peak hour}}\) 		& Sandvine	\\
-Peak Period		& Time of demand 95\% of max    & Sandvine	\\
+hour}}{ \text{avg usage in off-peak hour}}\) 		\\
+Peak Period		& Time of demand 95\% of max    \\
 Peak Ratio 		& \(\frac{\text{95\%-ile of max daily 
-traffic demand}}{\text{mean of daily traffic demand}}\)	& Authors 	\\\hline
+traffic demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \end{tabular}
 \caption{Evaluation Criteria}
 \label{tab:eval-criteria}
 \end{table}
 
 
-\paragraph{Evaluation Criteria. } We describe daily traffic demand, 
+\paragraph{Evaluation Criteria. } \todo{REDO this paragraph.} We describe daily 
+traffic demand, 
 prime-time ratio, and peak usage as criteria to evaluate general trends 
 and changes in traffic demand (table~\ref{tab:eval-criteria}). We interpret the 
 behavior of the datasets both separately as well as comparatively as (1) 
