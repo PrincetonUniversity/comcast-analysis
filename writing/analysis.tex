@@ -12,7 +12,7 @@ just one factor, \emph{the service plan upgrade}, while controlling the affect
 of other factors, such as price, performance, or regional differences between 
 users.
 
-By concentrating in particular on a group of high service plan users, who were 
+By studying a particular group of high service plan users, who were 
 upgraded without their knowledge, we mitigate the affect of biases that 
 previous studies on usage and capacity suffer from: (a) \emph{Avoid behavioral 
 change bias:} offering users with high capacity a further increase without 
@@ -43,26 +43,26 @@ traffic demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \end{table}
 
 
-\paragraph{Evaluation Criteria. } \todo{REDO this paragraph.} We describe daily 
-traffic demand, 
-prime-time ratio, and peak usage as criteria to evaluate general trends 
-and changes in traffic demand (table~\ref{tab:eval-criteria}). We interpret the 
-behavior of the datasets both separately as well as comparatively as (1) 
-general inferences drawn from analyzing the dataset,  and (2) comparative 
-inferences drawn from observing changes in user behavior due to the upgrade in 
-access link bandwidth. We report on the results for uplink traffic 
-demand where applicable. Lastly, we also evaluate the prevalence of the 
-small number of subscribers who actively exceeded the service tier bandwidth 
-they were paying for (105 Mbps) after the unannounced service tier upgrade to 
-250 Mbps.
+\paragraph{Evaluation Criteria. } We aim to answer the question: is there a 
+change in traffic demand with service tier upgrades? To define change, we use 
+the evaluation criteria defined in table~\ref{tab:eval-criteria}. The traffic 
+demand for a subscriber is defined as the total bytes transferred, in 
+uplink or downlink, during a single measurement period (15 minutes).
 
-%\paragraph{Temporal Trends. } We aggregate the traffic demand over multiple 
-%households during the same sample period, and present daily or weekly 
-%description (mean, median, and 95th percentiles) as a time series.
-%\paragraph{Spacial Trends. } We aggregate the traffic demand of a single 
-%subscriber over its lifetime to measure their aggregated traffic demand, and 
-%present description of aggregated subscribers (mean, median, and 95th 
-%percentiles).
+Diurnal Internet usage is known to be the highest during the evening hours from 
+7:00 PM to 11:00 PM \cite{fcc2015broadband-report}. The consumption of high 
+bandwidth video is at its daily maximum during prime-time. Our observations 
+showed that the consumption was highest for the control and treatment groups 
+between 8:00 PM to 12:00 AM. To study the disparity is demand during prime-time 
+and the rest of the day, we define the prime-time ratio as the ratio between 
+the average demand during a prime-time hour, to the average demand outside the 
+prime-time hour.
+
+Our analysis showed that although demand increases due to the service upgrade, 
+the increase during prime-time hours was insignificant. We study the daily 95 
+percentile to mean ratio for subscribers to evaluate whether disparity between 
+the peak (95 percentile demand) and the mean increases at times other than 
+prime-time.
 
 \input{behavior}
 
