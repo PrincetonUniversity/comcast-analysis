@@ -91,8 +91,11 @@ docs/plots/*
 *.tex.kate-swp
 *.tex.backup
 
+#############
+# do not commit
+paper.pdf
+todo.txt
+
 ###############################################################################
 # except these files
 
-!paper.pdf
-!todo.txt
