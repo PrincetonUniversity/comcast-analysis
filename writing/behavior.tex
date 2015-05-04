@@ -7,25 +7,16 @@ a region~\cite{ant-diurnal-web}. This makes the study of usage behavior
 extremely relevant to the governmental bodies responsible
 for development, such as the FCC, when considering policy decisions.
 
-To characterize diurnal user behavior as observed at the ISP, we first calculate
-usage per subscriber (table \ref{tab:eval-criteria}), and then plot the median 
-and 95\%-ile of total usage over a week for both \treatment{} and \control{}
-sets (figure \ref{fig:TS-data-rate-daily}).
+We start by evaluating traffic demand. We calculate demand by averaging the 
+bytes transferred in uplink or downlink direction over the sample period (15 
+minutes). This allows us to capture both the average per subscriber demand at 
+any time in a day, and the aggregate demand at the ISP over a longer period, 
+such as a day or a week.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.90\linewidth]{figures/cdf-all-bytes.png}
-  \caption{CDF of data rate per time slot for all devices (agg view of data): 
-Overall not much change due to capacity increase. Median data rate ~ 2bps for 3 
-months x thousands of devices!}
-%http://sites.noise.gatech.edu/~sarthak/files/comcast/plots/full_dw/cdf-all-byte
-% s.png
-  \label{fig:CDF-data-rate-all}
-\end{figure}
-
-A comparison of the aggregate traffic demand distribution of all devices and sample periods shows
-that the \treatment{} has no significant affect on the mean traffic demand. Figure \ref{fig:CDF-data-rate-all}
-shows that the median utilization of subscribers throughout the dataset is 50 kbps\sgfoot{confirm}. 
+To characterize the diurnal traffic demand observed at the ISP, we first 
+calculate traffic demand per subscriber (table \ref{tab:eval-criteria}), and 
+then plot the median and 95\%-ile of total usage over a week for both 
+\treatment{} and \control{} sets (figure \ref{fig:TS-data-rate-daily}).
 
 \begin{figure}[ht]
 \begin{minipage}{\linewidth}
@@ -37,20 +28,61 @@ shows that the median utilization of subscribers throughout the dataset is 50 kb
 \end{minipage}
 \end{figure}
 
+Figure \ref{fig:TS-data-rate-daily} shows the aggregate data rate for a day. 
+We observed that the median traffic demand during 7:00 PM -- 7:00 AM is 
+\todo{XXX} for both \treatment{} and \control{}. However, during off peak 
+daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
+median of \todo{XXX}, 20\% higher than the \control{} set.
+
+We observe that the rise to the peak prime time hour usage 
+on weekdays is not plateaued like the pattern observed on weekends (and 
+holidays). A generic (median) weekday aggregate usage consists of a rise in 
+usage that starts early in the morning that builds up to the prime-time period, 
+peaks, and then falls sharply. We do not observe a trough in mid afternoon 
+(between 2:00 PM -- 6:00 PM), as is usually the case for overall usage observed 
+at US Fixed access providers \cite{sandvine20141h}.
 
 
-Figure \ref{fig:TS-data-rate-daily} shows the aggregate data rate for a day. We observe that the rise to the peak prime time hour usage on weekdays is not plateaued like the pattern observed on weekends (and holidays).
-A generic (median) weekday aggregate usage consists of a rise in usage that starts
-early in the morning that builds up to the prime-time period, peaks, and then falls sharply.
-We do not observe a trough in mid afternoon (between 2:00 PM -- 6:00 PM), as is usually
-the case for overall usage observed at US Fixed access providers \cite{sandvine20141h}.
-
-We observed that the median traffic demand during 7:00 PM -- 7:00 AM is \todo{XXX} for
-both \treatment{} and \control{}. However, during off peak daytime (work) hours, between
-7:00 AM -- 7:00 PM, the \treatment{} group has a median of \todo{XXX}, 20\% higher than
-the \control{} set.
 % EXPLAIN:
 % LACK OF TROUGHS: users' behavior in higher tier bandwidth
 % DISCREPANCY IN DAYTIME OFFPEAK: ???
 
 
+\begin{figure*}[ht]
+
+\centering
+\begin{subfigure}[b]{0.33\textwidth}
+\includegraphics[width=0.30\linewidth]{figures/cdf-all-bytes.png}
+  \caption{for all devices}
+  %(agg view of data): 
+%Overall not much change due to capacity increase. Median data rate ~ 2bps for 
+%3months x thousands of devices!
+  \label{fig:CDF-data-rate-all}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.33\textwidth}
+\includegraphics[width=0.30\linewidth]{figures/cdf-max-per-device.png}
+  \caption{CDF of max per device)}
+  %: test set has higher (max) average data rate 
+%below 10 kbps.  30\% of devices in the control set have a max data rate of 2 
+%kbps while 30\% of test set has a max data rate of 10 kbps. (sanity check 
+%numbers, redo plot
+\label{fig:CDF-data-rate-max}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.33\textwidth}
+\includegraphics[width=0.30\linewidth]{figures/cdf-max-per-day-per-device.png}
+  \caption{CDF of max per device daily}
+  \label{fig:CDF-data-rate-max-daily}
+\end{subfigure}
+
+\caption{Traffic Demand: The maximum data rate varies for test and control 
+set for low data rates, and this variation is present daily.}
+\label{fig:traffic-demand}
+
+\end{figure*}
+
+
+A comparison of the aggregate traffic demand distribution of all devices 
+and sample periods shows that the \treatment{} has no significant affect on the 
+mean traffic demand. 

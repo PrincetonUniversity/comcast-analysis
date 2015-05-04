@@ -1,35 +1,29 @@
 \section{Empirical Analysis}\label{sec:analysis}
 
-The nature of the randomized controlled experiment used to collect the dataset 
-of high service tier users allows us to evaluate the effect of a \emph{factor}, 
-the service plan upgrade, as a treatment applied to a control group. This 
-served a two-fold purpose in avoiding biases that previous studies on usage and 
-capacity suffer from: (a) \emph{Behavioral change 
-bias:} offering users with high capacity a further increase without their 
-knowledge avoids the risk of behavioral changes that may occur when one 
-purposefully buys a higher bandwidth connection; and (b) \emph{Dissatisfied 
-user bias:} we study high capacity tier users in a \control{} group, that are 
-are not utilizing their access link completely, and thereby mitigate the effect 
-of traffic biases that occur because subscribers' previous capacity was 
-insufficient for their usage. Studying datasets with these biases will always 
-show a positive correlation between usage and capacity, which we avoid by 
-examining a single high capacity tier with an unannounced upgrade.
+%The nature of the randomized controlled experiment used to collect the dataset 
+%of high service tier users allows us to evaluate the effect of a 
+%\emph{factor}, the service plan upgrade, as a treatment applied to a control 
+%group. 
 
-We start by evaluating traffic demand. We calculate demand by averaging the 
-bytes transferred in uplink or downlink direction over the sample period (15 
-minutes). This allows us to capture both the average per subscriber demand at 
-any time in a day, and the aggregate demand at the ISP over a longer period, 
-such as a day or a week.
+Controlled experiments are difficult to do on the Internet scale. However, in 
+our work, we had access to a randomized control experiment used to collect a 
+dataset on the scale of a large city. This enables us to study the effect of 
+just one factor, \emph{the service plan upgrade}, while controlling the affect 
+of other factors, such as price, performance, or regional differences between 
+users.
 
-\paragraph{Temporal Trends. } We aggregate the traffic demand over multiple 
-households during the same sample period, and present daily or weekly 
-description (mean, median, and 95th percentiles) as a time series.
-
-\paragraph{Spacial Trends. } We aggregate the traffic demand of a single 
-subscriber over its lifetime to measure their aggregated traffic demand, and 
-present description of aggregated subscribers (mean, median, and 95th 
-percentiles).
-
+By concentrating in particular on a group of high service plan users, who were 
+upgraded without their knowledge, we mitigate the affect of biases that 
+previous studies on usage and capacity suffer from: (a) \emph{Avoid behavioral 
+change bias:} offering users with high capacity a further increase without 
+their knowledge avoids the risk of behavioral changes that may occur when one 
+purposefully buys a higher bandwidth connection; and (b) \emph{Avoid 
+dissatisfied user bias:} we study high capacity tier users in a \control{} 
+group, that are are not utilizing their access link completely, and thereby 
+mitigate the effect of traffic biases that occur because subscribers' previous 
+capacity was insufficient for their usage. Studying datasets with these biases 
+are prone to positive correlations between usage and capacity, which we 
+avoid by examining a single high capacity tier with an unannounced upgrade.
 
 \begin{table}[ht]
 \small 
@@ -62,11 +56,18 @@ small number of subscribers who actively exceeded the service tier bandwidth
 they were paying for (105 Mbps) after the unannounced service tier upgrade to 
 250 Mbps.
 
+%\paragraph{Temporal Trends. } We aggregate the traffic demand over multiple 
+%households during the same sample period, and present daily or weekly 
+%description (mean, median, and 95th percentiles) as a time series.
+%\paragraph{Spacial Trends. } We aggregate the traffic demand of a single 
+%subscriber over its lifetime to measure their aggregated traffic demand, and 
+%present description of aggregated subscribers (mean, median, and 95th 
+%percentiles).
 
 \input{behavior}
 
-\input{primetime}
-
 \input{peakratio}
+
+\input{primetime}
 
 \input{prevalence}
