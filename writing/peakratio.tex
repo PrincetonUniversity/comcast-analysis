@@ -1,63 +1,42 @@
 \subsection{Peak Traffic Demand}\label{subsec:peakratio}
 
-
-
-
-
-Based on the measurement methodology, we study the highest utilization seen by a 
-household
-both in its lifetime, and on each day. Our aim is to examine the peak usage per 
-household, and
-study if the behavior changes due to an upgrade.
+We study the highest traffic demand seen by a household both in its lifetime, 
+and on each day. We define the daily peak traffic demand per household as the 
+95 percentile demand of the household per day, and the overall peak traffic 
+demand per household  as the 95 percentile demand of the household over the 
+three month dataset.
 
 Figure~\ref{fig:CDF-data-rate-max} provides a distribution of the highest 
-average
-data rate a household achieves. To avoid outliers, we also plot the 90\%-ile of 
-the max
-data rate achieved by households in both \test and \control sets. We see that a 
-median
-household is expected to achieve the highest data rate of between 1 -- 10 Mbps 
-over its
-lifetime. This is much lower than the access link capacity,
-indicating that the median device has a utilization ratio (avg data 
-rate:capacity) under
-0.1 in our dataset. The number of households that increased their peak 
-utilization beyond
-the \control set's 105 Mbps capacity were negligible.
+average data rate a household achieves. To avoid outliers, we also plot the 
+95\%-ile of the max data rate achieved by households in both \test and \control 
+sets. We see that a median household is expected to achieve the highest data 
+rate of between 1 -- 10 Mbps over its lifetime. This is much lower than the 
+access link capacity, indicating that the median device has a utilization ratio 
+(avg data rate:capacity) under 0.1 in our dataset. The number of households 
+that increased their peak demand beyond the \control set's 105 Mbps 
+capacity were negligible (see \autoref{subsec:prevalence})
 
 Surprisingly, we see that 30\% of the households from the \test set have a low 
-peak
-utilization (under 0.1 Mbps), while 40\% of the \control set households are 
-under 0.1 Mbps.
-Thus, the absolute peak utilization does not increase when compared to the 
-access link
-capacity, but there is certainly an increase in peak utilization of devices that 
-had a low
-requirement, due to the change in capacity.
+peak demand (under 0.1 Mbps), while 40\% of the \control set households 
+are under 0.1 Mbps. Thus, the absolute peak d does not increase when 
+compared to the access link capacity, but there is certainly an increase in 
+peak demand of devices that  had a low requirement, due to the change in 
+capacity.
 
-To investigate this further, we also study the \emph{peak utilization per device 
-on a daily basis}.
-Figure~\ref{fig:CDF-data-rate-max-daily} shows that for 30\% of the devices,
-the maximum data rate in the \test set is consistently higher than the \control 
-set, albeit
-no where near the actual access link capacity.
+To investigate this further, we also study the \emph{peak demand per device 
+on a daily basis}. Figure~\ref{fig:CDF-data-rate-max-daily} shows that for 30\% 
+of the devices, the maximum data rate in the \test set is consistently higher 
+than the \control  set, although it is no where near the actual access link 
+capacity.
 
 This is similar to the behavior observed in figure~\ref{fig:TS-data-rate-daily}, 
-showing that the peak
-usage during prime-time is unaffected, but lower utilization throughout the day 
-is higher
-for the test set. We speculate that there could be two possible reasons for this 
-increase
-in utilization: (1) short term downloads and/or web browsing achieves a slightly 
-better
-data rate on a small time scale, or (2) real-time video quality is slightly 
-higher, but
-not enough to completely saturate the access link capacity. Unfortunately, we 
-miss these
-short lived, or consistent, events due to a 15 minute time slot granularity and 
-only
-looking at byte counters.
-
+showing that the peak usage during prime-time is unaffected, but lower 
+demand throughout the day  is higher for the \test. We speculate that 
+there could be many possible reasons for this increase in demand, such as 
+short term downloads (short videos, web browsing, etc.) achieving a slightly 
+ better data rate on a small time scale. Studying this behavioral change 
+would require data used per application in each time period and we leave it to 
+future work.
 
 
 \paragraph{Peak Ratio: }The Sandvine Reports show that although the mean usage has remained
@@ -66,7 +45,8 @@ drastically~\cite{sandvine20141h}. To measure this growth, they introduce the
 concept of peak period, measured when the network is within 95\% of its highest point.
 Although, these reports present a good view into aggregate usage patterns over a month,
 they neglect to analyze usage characteristics individually. Inspired by their
-definition, we measure the disparity between the 90 percentile of the peak and median
+definition, we measure the disparity between the 95 percentile of the peak and 
+median
 usage of each household within a day, and call this the \emph{Peak-Ratio}. In
 section~\ref{subsec:peakratio} we show that the peak ratio can be used
 to divide users in the same tier based on their usage behavior.
