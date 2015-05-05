@@ -1,45 +1,47 @@
 \section{Conclusion}\label{sec:conclusion}
 
-\sg{when compared to the users in the 105 Mbps speed tier, the 250 Mbps 
-subscribers sent X\% more traffic, most of which was in off-peak hours. -- to 
-make this claim plot the ratio of total usage (scaled by subscribers) in 
-treatment and controlled instead of talking about data rates}
+Our work aims to study the effect of increasing broadband capacity on traffic
+demand as a controlled experiment. We analyze byte usage counters collected
+from Comcast's residential gateways in the same city on a 105 Mbps service
+tier. A group of subscribers was unknowingly upgraded a 250 Mbps capacity.
+We observed that, when compared to the users in the 105 Mbps speed tier,
+the 250 Mbps subscribers sent \todo{X}\% more traffic, most of which was in 
+off-peak hours.
 
-For the heaviest 50 percent of the users, the 95th percentile utilization over a 
-three-month period did not change when the speed tier increases. But for lighter 
-subscribers, the 50 percent with a lower peak demand, the 95th percentile peak 
-usage increases substantially.
+For the 50 percent users contributing the most to the total traffic, the 95th
+percentile traffic demand over a three-month period did not change when the
+speed tier increases. But for the 50 percent subscribers that have the lowest
+traffic demand in the 105 Mbps tier, the 95th percentile peak demand increases
+substantially. Furthermore, the increase in demand was not well balanced 
+throughout
+a day. Demand increased two-fold during non-prime time hours when the network is 
+not
+under peak load. During prime-time hours the increase was negligible.
 
 As the heaviest users contribute to most of the total demand, and their demand 
 does not increase substantially during prime-time hours, it suggests that the 
-ISP is not a bottleneck to the total demand.
+ISP is not a bottleneck to the total network traffic. However, the traffic 
+demand
+per subscriber increases twofold for households with low demand during 
+non-prime-time
+hours due to the service upgrade.
 
-However, if we count the contribution of each user equally, the traffic demand 
-per subscriber increases twofold for households with low demand 
-during non-prime-time hours due to the service upgrade.
+In conclusion, service upgrades to high speed tiers do increase demand during 
+off-peak
+hours. And the demand for users utilizing most of the capacity does not increase
+as much as for those who are underusing the link. 
 
-In conclusion, increasing ISP capacity (tier) affects demand for very high 
-speed tiers, even though the link is not fully utilized by the 
-affected subscribers and the peak traffic demand does not increase 
-significantly. The heavy users show different trends compared to the lighter 
-ones.
-
-The difference in user behavior motivates a need to study 
-traffic demand further so that broadband benchmarks can be redefined in terms 
-of the needs of a subscriber. Similar studies in other regions and service 
-tiers would also encourage ISPs to offer broadband services if a substantial 
-number of customers appear bottlenecked at lower tiers.
-
-One such future work is to study the relationship between traffic demand 
-and service tier capacity with similar controlled experiments for lower tiers. 
+In the future, we plan to follow
+up by studying the relationship between traffic demand and service tier
+capacity with similar controlled experiments for lower tiers. 
 We expect that at lower tiers, the demand during prime-time will increase 
-significantly with an unannounced upgrade, but there will be service capacity 
-beyond which demand during prime-time hours does not increase substantially with
-capacity. This limit might be a natural point to define broadband benchmarks in  
-the future.
+significantly with an unannounced upgrade, but eventually there will be
+service capacity beyond which demand during prime-time hours does not
+increase substantially with capacity, yet as our results show, there is an 
+increase in overall demand. This threshold may play a key role in defining
+demand based broadband benchmarks in the future.
 
 Another direction for future research is to study the reason for increased 
 demand in non-prime-time periods among the lighter users. We are currently 
 gathering data with application information and byte counter reports every 30 s 
 to investigate this further.
-
