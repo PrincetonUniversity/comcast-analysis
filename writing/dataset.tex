@@ -37,8 +37,8 @@ octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 
 \paragraph{Data Sanitization: }Our initial analysis of the data from more than 
 22,000 households showed that not all gateways were reporting their traffic
-counters every 15 minutes over the three month period. 32\% of the \treatment{} set, and 72\% of the
-\control{} set gateway devices were responsive for less than 80\% of the
+counters every 15 minutes over the three month period. 32\% of the \treatment{}
+set, and 72\% of the \control{} set gateway devices were responsive for less than 80\% of the
 time. For the analysis in \autoref{sec:analysis}, we present our
 results based on the accepted group of subscribers, that contributed to
 the dataset more that 80\% during their lifetime.
@@ -47,7 +47,7 @@ the dataset more that 80\% during their lifetime.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/traffic_demand_Oct_2weeks.pdf}
-  \caption{Scaled traffic demand for \control{} and 
+  \caption{Traffic demand for an average subscriber in the \control{} and 
 \treatment{} groups for two weeks in October\label{fig:traffic-load}}
 \end{figure}
 
@@ -57,21 +57,19 @@ the dataset more that 80\% during their lifetime.
 Dataset   & Direction & Subscribers & Total GBytes & 95\% Traffic & PT 
 Traffic & Non-PT Traffic & Daily Demand \\ \hline
 control   & downstream      & 4845         & \num{2.67e+5}               
-   & 234.5  & 205.1  & 108.5       & 2.9   \\
+   & 234.5  & 205.1  & 108.5       & 2.97   \\
 treatment & downstream      & 1519         & \num{2.95e+5}  
-& 244.42  & 209.5  & 122.3   & 3.3  \\
+& 244.42  & 209.5  & 122.3   & 3.30  \\
 control   & upstream        & 4845        & \num{2.98e+4}  
 & 21.39  & 18.942  & 12.80  & 0.33 \\
 treatment & upstream        & 1519        & \num{4.27e+4} 
 & 31.48   & 22.81   & 19.02 & 0.48 \\\hline                                
 \end{tabular}
-\caption{Overview of the \control{} and \treatment{} datasets. The total bytes 
-have been scaled to 1000 users for both groups for comparison. The 95 
+\caption{Overview of the \control{} and \treatment{} datasets. The 95 
 percentile traffic is the peak of total demand. PT traffic is the average 
 traffic demand during prime-time hours. Non-PT traffic is calculated 
-during non-prime-time. The Daily demand is the average traffic demand per 
-subscriber over a single day. All values are in 
-Giga Bytes (GB).\label{tab:data-stats}}
+during non-prime-time. The daily demand is the average traffic demand per 
+subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
 \end{table*}
 
 % \begin{table*}[ht]
@@ -98,18 +96,23 @@ Giga Bytes (GB).\label{tab:data-stats}}
 
 \paragraph{Data Characterization: }Our sanitized dataset consisted of 4,845 
 subscribers in the \control{} group and 1,519 subscribers in the \treatment{}. 
-The mean traffic usage per subscriber was \todo{XXX} bytes for the \control{} 
-group and \todo{XXX} bytes for the \treatment{} every 15 minutes. We interpret 
-the traffic transferred over uplink or downlink in 15 minutes in terms of the 
-average traffic demand (data rate) by averaging it over the measurement period 
-to effectively compare demand with the service capacity.
 
-Figure \ref{fig:traffic-load} shows the average subscriber traffic demand 
-for both groups. The Service Level Agreement with Comcast was 105 
-Mbps (upgraded to 250 Mbps) and is not shown in the figure due to the 
-difference in scale. Table \ref{tab:data-stats} shows that the 95 percentile 
-utilization, calculated as the ratio of the mean 95 
-percentile traffic demand to the service capacity, is \todo{YYY} averaged 
-over the \control{} group and \todo{YYY} for the treatment group. In 
-comparison, the mean traffic demand is extremely similar, \todo{ZZZ} for the 
-\control{} group and \todo{ZZZ} for the \treatment{}.
+Figure \ref{fig:traffic-load} shows that the traffic demand per subscriber during
+a 15-minute measurement period for both groups was similar, and had the
+expected diurnal usage pattern that peaks in the evening hours.
+The Service Level Agreement for subscribers with Comcast was 105 Mbps
+and the average subscribers does not fill the link consistently
+for 15 minutes to utilize the full capacity.
+
+Table \ref{tab:data-stats} compares the total demand for subscribers
+in the \control{} and \treatment{} groups, scaled to a thousand subscribers.
+The downlink 95 percentile utilization, calculated as the ratio of the 95th 
+percentile of the hourly traffic demand to the service capacity, is 234.5 GB 
+over the \control{} group, and 244.42 GB for the treatment group.
+
+Table \ref{tab:data-stats} also shows that an average subscriber of the \control{}
+group would download 2.97 GB in a day, and 3.30 GB if they belonged to the \treatment{}
+group. As for the uplink, an average subscriber would transfer 0.33 GB in a day in the
+\control{} group, and 0.48 GB in a day in the \treatment{} group.
+
+
