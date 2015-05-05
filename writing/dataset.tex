@@ -19,7 +19,7 @@ fields: Device ID, sample period time, service class, service direction,
 anonymized IP address, and the bytes transferred in the 15 minute sample slot, 
 as described in table~\ref{tab:field-description}.
 
-\begin{table}[ht]
+\begin{table}[t]
 \small
 \begin{tabular}{ l l }
 \hline
@@ -45,7 +45,7 @@ accepted group of subscribers, that contributed to the dataset more that 80\%
 during their lifetime.
 
 
-\begin{figure}[ht]
+\begin{figure}[t]
 %\hspace*{-0.2in}
 \begin{minipage}{1\linewidth}
 \centering
@@ -53,7 +53,7 @@ during their lifetime.
 %\hfill
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth, 
-height=12mm]{figures/traffic-demand-control.png}
+height=12mm]{figures/mean_traffic_demand_per_subscriber_control.pdf}
   \caption{Control group with 105 Mbps service plan}
   \label{fig:traffic-load-control}
 \end{subfigure}
@@ -62,21 +62,21 @@ height=12mm]{figures/traffic-demand-control.png}
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth,, 
-height=12mm]{figures/traffic-demand-treatment.png}
+height=12mm]{figures/mean_traffic_demand_per_subscriber_treatment.pdf}
   \caption{Treatment group with 250 Mbps service upgrade}
   \label{fig:traffic-load-treatment}
 \end{subfigure}
 %\hfill
 %
 \end{minipage}
-\caption{\red{PLACEHOLDER: }Average traffic demand per subscriber (kbps) over 
-time}
+\caption{Mean traffic demand during the first two weeks of October\red{replace 
+with bytes instead of kbps}}
 \label{fig:traffic-load}
 % created using docs/metadata-separated.log
 \end{figure}
 
 
-\begin{table*}[ht]
+\begin{table*}[t]
 \begin{tabular}{cccccccccc}
 \hline
 Dataset   & users & \multicolumn{2}{c}{Total Bytes} & \multicolumn{2}{c}{Avg. Traffic Demand} & \multicolumn{2}{c}{95\% Traffic Demand} & \multicolumn{2}{c}{Utilization} \\

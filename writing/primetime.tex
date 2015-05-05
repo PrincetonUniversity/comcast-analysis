@@ -1,22 +1,23 @@
 \subsection{Prime-Time Ratio} \label{subsec:primetime}
 
-The daily diurnal nature of usage patterns across many
-households naturally requires the provider to design networks capable of handling 
-load at the peak times in a day. Such peak times are usually observed during
-evening hours, and the data transferred at this time is called peak usage.
+The daily diurnal nature of Internet traffic demand requires that ISP providers 
+design networks capable of handling load at the times when heaviest usage is 
+observed. Such heavy demand is usually observed during evening hours.
 The FCC defines \textbf{Prime Time} as the local time from 7:00 PM to 11:00
-PM~\cite{fcc2014measuring-broadband}, when many
-households heavily consume real-time entertainment traffic (video), seen as primarily
-responsible for high usage during these hours. Latency and performance are adversely
-affected during prime-time, causing bottlenecks at home, the last mile, in
+PM~\cite{fcc2014measuring-broadband}, when many subscribers heavily consume 
+real-time entertainment traffic (video) (seen as primarily responsible for high 
+usage during these hours). Latency and performance are adversely affected 
+during prime-time, causing bottlenecks at home, the last mile, in
 transit, or at the content server. For example, the Sandvine Global
 Internet Phenomena Report \footnote{The Sandvine Reports ~\cite{sandvine20141h,
 sandvine20142h}are released bi-annually and
 contain a detailed analysis of aggregate Internet usage. They are also referred
 to in the FCC reports~\cite{fcc2015progress-report, fcc2014measuring-broadband,
-fcc2014progress-report}} showed that devices in the same household selected Netflix's
+fcc2014progress-report}} showed that devices in the same household selected  
+Netflix's
 own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing
-performance) during prime-time. This may happen because Netflix OpenConnect is over-utilized
+performance) during prime-time. This may happen because Netflix OpenConnect is  
+over-utilized
 during prime time~\cite{sandvine20141h}.
 
 To measure the concentration of network usage during prime time,
@@ -25,7 +26,7 @@ during an average peak period hour with an average off-peak hour''. Based on the
 definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of the \control{} group and compare it to the \treatment{}. Prime-time ratio is definded by dividing the the average traffic data rate during an average prime-time hour, by the off-peak average traffic rate.
 
 Prompted by the monotonically increasing trend of usage behavior during daytime hours on
-weekdays (figure~\ref{fig:TS-data-rate-daily})
+weekdays (figure~\ref{fig:traffic-demand-timeseries})
 we calculated the prime-time ratio for each four hour period throughout the day
 to find the evening hours with the largest ratio.
 In our dataset, the prime time ratio peaks at 8:00 PM -- 12:00 AM,
@@ -35,7 +36,7 @@ only to the high tier households in our dataset, but we deem that unlikely.
 Another reason could be that prime time is delayed globally with the rise in real
 time entertainment's contribution to traffic.
 
-\begin{figure}[ht]
+\begin{figure}[t]
 \begin{minipage}{\linewidth}
 \centering
 \includegraphics[width=\linewidth]{figures/prime-time-ratio-by-date[replace].png}
