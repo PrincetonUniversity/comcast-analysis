@@ -21,7 +21,6 @@ to positive correlations between usage and capacity. We avoid this by examining
 a single high capacity tier (satisfied users) with an unannounced upgrade.
 
 \begin{table}[t]
-\small 
 \begin{tabular}{| c | c |}\hline
 \textbf{Parameter} & \textbf{Definition}	\\\hline
 Traffic Demand per Subs.& \(\frac{\text{total bytes transferred in 
@@ -37,26 +36,36 @@ demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \end{table}
 
 
-\paragraph{Evaluation Criteria. } We aim to answer the question: is there a 
-change in traffic demand with service tier upgrades? To define change, we use 
-the evaluation criteria defined in table~\ref{tab:eval-criteria}. The traffic 
-demand for a subscriber is defined as the total bytes transferred, in 
-uplink or downlink, during a single measurement period (15 minutes).
+\paragraph{Evaluation Criteria. } We aim to answer the question: does the 
+traffic
+demand change in response to service tier upgrades? To define this change, we 
+use 
+the evaluation criteria in table~\ref{tab:eval-criteria}. The \emph{traffic 
+demand} for a subscriber is defined as the total bytes transferred, in 
+uplink or downlink direction, during a single measurement period (15 minutes).
+We use traffic demand to calculate the total demand per hour, the average demand 
+in a day,
+and the 95th percentile peak demand. To compare the total traffic of the
+control and treatment groups, we scale it to a thousand subscribers where
+applicable (table~\ref{tab:data-stats}).
 
-Diurnal Internet usage is known to be the highest during the evening hours from 
-7:00 PM to 11:00 PM \cite{fcc2015broadband-report}. The consumption of high 
-bandwidth video is at its daily maximum during prime-time. Our observations 
-showed that the consumption was highest for the control and treatment groups 
-between 8:00 PM to 12:00 AM. To study the disparity is demand during prime-time 
-and the rest of the day, we define the prime-time ratio as the ratio between 
+Diurnal Internet usage is known to be the highest during the prime-time evening 
+hours.
+For our analysis, we define \emph{prime time} as 8:00 PM to 12:00 AM. We 
+observed the highest
+daily demand during this four hour period. The \emph{prime-time ratio} is 
+defined as the ratio between 
 the average demand during a prime-time hour, to the average demand outside the 
-prime-time hour.
+prime-time hour. This lets us study the disparity between demand during the
+prime-time and the rest of the day.
 
-Our analysis showed that although demand increases due to the service upgrade, 
-the increase during prime-time hours was insignificant. We study the daily 95 
-percentile to mean ratio for subscribers to evaluate whether disparity between 
-the peak (95 percentile demand) and the mean increases at times other than 
-prime-time.
+Our analysis showed that although the overall demand increases due to the 
+service upgrade, 
+the increase during prime-time hours was insignificant. To study the increase 
+outside
+prime time hours, we define the \emph{peak-ratio} as the the daily 95 percentile 
+to mean ratio
+of traffic demand.
 
 \input{behavior}
 

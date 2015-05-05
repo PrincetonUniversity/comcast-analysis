@@ -1,16 +1,9 @@
 \subsection{Traffic Demand Per Subscriber}\label{subsec:behavior}
 
 To characterize the diurnal traffic demand observed at the ISP, we first 
-calculate traffic demand per subscriber (table \ref{tab:eval-criteria}), and 
-then plot the median and 95\%-ile of total usage over a week for both 
-\treatment{} and \control{} sets (figure \ref{fig:traffic-demand-timeseries}).
+calculate traffic demand per subscriber (table \ref{tab:eval-criteria}), then
+plot the mean and 95th percentile subscriber.
 
-We calculate demand by averaging the 
-bytes transferred in uplink or downlink direction over the sample period (15 
-minutes).\todo{ This allows us to capture both the average per subscriber 
-demand at 
-any time in a day, and the aggregate demand at the ISP over a longer period, 
-such as a day or a week.}s
 
 \begin{figure}[t]
 \begin{minipage}{1\linewidth}
@@ -27,31 +20,25 @@ such as a day or a week.}s
 \end{subfigure}
 %
 \end{minipage}
-\caption{Mean and 95th percentile traffic demand differs significantly on 
-weekdays and weekends (including holidays). On weekdays, traffic demand 
-increases monotonically from morning until prime-time in the evening. On 
-weekends, there is a sharp rise in demand in the early morning, which 
-plateaus until the next sharp rise during the evening prime-time hours. 
-\red{remove ylabel, expand fig, remove legend?}}
+\caption{Mean and 95th percentile traffic demand on weekdays and weekends}
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
-
-Figure \ref{fig:traffic-demand-timeseries} shows the aggregate data rate for 
-weekdays and weekends day. 
-\todo{ Results: mean and 95 percentile demand on weekdays and weekends }
-We observed that the median traffic demand during 7:00 PM -- 7:00 AM is 
-\todo{XXX} for both \treatment{} and \control{}. However, during off peak 
-daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
-median of \todo{XXX}, 20\% higher than the \control{} set.
-
-\todo{We observe that the rise to the peak prime time hour usage 
-on weekdays is not plateaued like the pattern observed on weekends (and 
-holidays).} A generic (median) weekday aggregate usage consists of a rise in 
-usage that starts early in the morning that builds up to the prime-time period, 
-peaks, and then falls sharply. We do not observe a trough in mid afternoon 
+Figure \ref{fig:traffic-demand-timeseries} shows the mean and 95th percentile
+traffic demand on weekends and weekdays for the \treatment{} and \control{}
+groups. We observe that the mean and 95th percentile traffic demand differs
+significantly on weekdays and weekends. On weekdays, traffic demand 
+increases monotonically from morning until prime-time in the evening. On 
+weekends, there is a sharp rise in demand in the early morning, which 
+plateaus until the next sharp rise during the evening prime-time hours.
+We do not observe a trough in the demand in mid-afternoon 
 (between 2:00 PM -- 6:00 PM), as is usually the case for overall usage observed 
 at US Fixed access link providers \cite{sandvine20141h}.
+
+We observed that the mean traffic demand during 7:00 PM -- 7:00 AM is 
+\todo{XXX} for both \treatment{} and \control{}. However, during off peak 
+daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
+mean of \todo{XXX}, 20\% higher than the \control{} set.
 
 \begin{figure*}[t]
 \begin{minipage}{1\linewidth}
@@ -75,50 +62,39 @@ traffic demand per subscriber.\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{The traffic demand throughout the dataset for both control and 
-treatment is very similar. The maximum and 95 percentile 
-demand per subscriber increases due to the service upgrade. The 
-higher 50 percent of the users with the heaviest link use in control increase 
-their demands only by \red{XX}. The other 50 percent of subscribers with the 
-lower demand in the control group increase their demands two-fold with the 
-upgrade.}
-\label{fig:traffic-demand-cdf}
+\caption{\label{fig:traffic-demand-cdf}}
 \end{figure*}
 
-\todo{add an introductory/connecting para here}
 
-A comparison of the aggregate traffic demand distribution of all devices 
-and sample periods shows that the \treatment{} has no significant affect on the 
-mean traffic demand. However, the maximum 95 percentile 
-demand per subscriber increases due to the service upgrade. The 
-higher 50 percent of the users with the heaviest link use in control increase 
-their demands only by \todo{Y}. The other 50 percent of subscribers with the 
-lower demand in the control group increase their demands two-fold with the 
-upgrade.
+Figure \ref{fig:traffic-demand-cdf} shows the distribution of the
+bytes transferred in the \treatment{} and \control{} set. Figure 
+\ref{fig:CDF-data-rate}
+plots all traffic seen throughout the datasets for all subscribers. The
+distribution is very similar.
 
-We study the highest traffic demand seen by a household both in its lifetime, 
-and on each day. We define the daily peak traffic demand per household as the 
-95 percentile demand of the household per day, and the overall peak traffic 
-demand per household  as the 95 percentile demand of the household over the 
-three month dataset.
+Figure \ref{fig:CDF-data-rate-max} plots the distribution of the
+maximum demand of the subscriber. We observe that the maximum demand increases 
+due 
+to the service upgrade throughout the \control{} group. However, the increase is 
+higher for
+subscribers who have a low traffic demand. Figure \ref{fig:CDF-data-rate-perc95} 
+confirms this
+observation for the 95 percentile demand per subscriber.
 
-Figure~\ref{fig:CDF-data-rate-max} shows a distribution of the maximum traffic 
-demand over the lifetime of a subscriber. \dots
-
-Surprisingly, we see that 30\% of the households from the \test set have a low 
+We see that 30\% of the households from the \test set have a low 
 peak demand (under 0.1 Mbps), while 40\% of the \control set households 
-are under 0.1 Mbps. Thus, the absolute peak d does not increase when 
+are under 0.1 Mbps. Thus, the absolute peak demand does not increase when 
 compared to the access link capacity, but there is certainly an increase in 
-peak demand of devices that  had a low requirement, due to the change in 
+peak demand of devices that had a low requirement, due to the change in 
 capacity.
 
 On investigating further, we observed that subscribers with low demand traffic 
-increased their demand daily. This is similar to the behavior observed in 
-figure~\ref{fig:traffic-demand-timeseries}, showing that the traffic during 
-prime-time remains similar, but lower demand throughout the day  is higher for 
-the \test. Furthermore, we observe this affect is also present in the uplink.
-We speculate that there could be many possible reasons for this increase in 
-demand, such as short term activities (such as short videos or web browsing) 
+increased their demand daily. There is negligible change in the daily peak 
+demand for users
+who have high demands, and a large increase for users with a low demand.
+Furthermore, we observe this affect is also present in the uplink.
+There could be many reasons for this increase in 
+demand, such as short term activities (short videos or web browsing) 
 that have a slightly higher traffic demand. Studying the applications 
-responsible for such behavioral changes is out of the scope of this paper and 
-we leave it to future work.
+responsible for such behavioral changes in traffic demand is out of the
+scope of this paper and we leave it to future work.
