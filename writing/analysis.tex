@@ -1,28 +1,10 @@
-\section{Empirical Analysis}\label{sec:analysis}
-
-Controlled experiments are difficult to do on the Internet scale. In
-our work, we had access to a dataset collected through a randomized control 
-experiment on the scale of a large urban city. This enables us to study the effect of 
-just one factor, \emph{the service plan upgrade}, while other
-factors, such as price, performance, or regional differences between users, are
-controlled. We believe the affects observed on this dataset will also
-be observed in others collected from urban cities and high tiers.
-
-By examining a single ISP's high capacity tier with an unannounced upgrade,
-our dataset mitigates several biases that previous studies may have 
-suffered. Studying the behavior of users who opt for buying a higher service plan
-(unsatisfied subscribers) will naturally show an increase in demand on
-upgrading service. Similarly users who have been offered a free upgrade in service
-may unknowingly change their behavior to utilize the upgraded capacity
-(cognitive bias). Studying datasets with these biases are prone 
-to showing a positive high correlation between demand and capacity. 
+\section{Results}\label{sec:analysis}
 
 \begin{table}[t]
 \begin{tabular}{| c | c |}\hline
 \textbf{Parameter} & \textbf{Definition}	\\\hline
 Traffic Demand per Subs.& \(\frac{\text{total bytes transferred in 
 measurement int.}}{\text{number of contributing subscribers}}\)	\\
-Prime Time		& 8:00 PM - 12:00 AM   		\\
 Prime Time Ratio 	& \( \frac{ \text{avg usage in peak (prime-time) 
 hour}}{ \text{avg usage in off-peak hour}}\) 		\\
 Peak Ratio 		& \(\frac{\text{95\%-ile of daily traffic 
@@ -32,8 +14,7 @@ demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \label{tab:eval-criteria}
 \end{table}
 
-
-\paragraph{Evaluation Criteria. } The aim of our work is to study changes in
+The aim of our work is to study changes in
 traffic demand in response to service tier upgrades. We evaluate this
 change using the criteria in table~\ref{tab:eval-criteria}. The \emph{traffic 
 demand} for a subscriber is defined as the total bytes transferred, in 

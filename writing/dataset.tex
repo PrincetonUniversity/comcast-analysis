@@ -1,4 +1,4 @@
-\section{Data Source and Characterization}\label{sec:data}
+\section{Data and Methods}\label{sec:data}
 
 We follow the popular statistical convention of experimental designers to 
 refer to the service upgrade as \factor{}, the group of users without the 
@@ -95,4 +95,19 @@ group would download 2.97 GB in a day, and 3.30 GB if they belonged to the \trea
 group. As for the uplink, an average subscriber would transfer 0.33 GB in a day in the
 \control{} group, and 0.48 GB in a day in the \treatment{} group.
 
+\paragraph{Methods: } Controlled experiments are difficult to do on the Internet scale. In
+our work, we had access to a dataset collected through a randomized control 
+experiment on the scale of a large urban city. This enables us to study the effect of 
+just one factor, \emph{the service plan upgrade}, while other
+factors, such as price, performance, or regional differences between users, are
+controlled. We believe the affects observed on this dataset will also
+be observed in others collected from urban cities and high tiers.
 
+By examining a single ISP's high capacity tier with an unannounced upgrade,
+our dataset mitigates several biases that previous studies may have 
+suffered. Studying the behavior of users who opt for buying a higher service plan
+(unsatisfied subscribers) will naturally show an increase in demand on
+upgrading service. Similarly users who have been offered a free upgrade in service
+may unknowingly change their behavior to utilize the upgraded capacity
+(cognitive bias). Studying datasets with these biases are prone 
+to showing a positive high correlation between demand and capacity. 
