@@ -52,18 +52,19 @@ the dataset more that 80\% during their lifetime.
 \end{figure}
 
 \begin{table*}[t]
-\begin{tabular}{ccccccccc}
+\begin{tabular}{| ccc|cccc|c |}
 \hline
-Dataset   & Direction & Subscribers & Total GBytes & 95\% Traffic & PT 
-Traffic & Non-PT Traffic & Daily Demand \\ \hline
+\multicolumn{3}{| c |}{} & \multicolumn{4}{c |}{per 1000 subscribers} & \multicolumn{1}{c |}{per subscriber}\\ 
+Dataset   & Direction & Subscribers & Total GBytes & 95\% Traffic & \textbf{PT 
+Traffic} & \textbf{Non-PT Traffic} & Daily Demand \\ \hline
 control   & downstream      & 4845         & \num{2.67e+5}               
-   & 234.5  & 205.1  & 108.5       & 2.97   \\
+   & 234.5  & \textbf{205.1}  & \textbf{108.5}       & 2.97   \\
 treatment & downstream      & 1519         & \num{2.95e+5}  
-& 244.42  & 209.5  & 122.3   & 3.30  \\
+& 244.42  & \textbf{209.5}  & \textbf{122.3}   & 3.30  \\\specialrule{0.005em}{0em}{0em} 
 control   & upstream        & 4845        & \num{2.98e+4}  
-& 21.39  & 18.942  & 12.80  & 0.33 \\
+& 21.39  & \textbf{18.942}  & \textbf{12.80}  & 0.33 \\
 treatment & upstream        & 1519        & \num{4.27e+4} 
-& 31.48   & 22.81   & 19.02 & 0.48 \\\hline                                
+& 31.48   & \textbf{22.81}   & \textbf{19.02} & 0.48 \\\hline                                
 \end{tabular}
 \caption{Overview of the \control{} and \treatment{} datasets. The 95 
 percentile traffic is the peak of total demand. PT traffic is the average 
@@ -71,27 +72,6 @@ traffic demand during prime-time hours. Non-PT traffic is calculated
 during non-prime-time. The daily demand is the average traffic demand per 
 subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
 \end{table*}
-
-% \begin{table*}[ht]
-% \small
-% \begin{tabular}{ c | c | c | c | c | c | c | c | c | c }\hline
-% \textbf{Dataset}      & \textbf{users} & \textbf{Bytes (up)}	
-% & \textbf{Bytes (dw)} & \textbf{Average (up)}	& \textbf{Average 
-% (dw)}	& \textbf{95\% (up)} & \textbf{95\% (dw)} & \textbf{Util. 
-% (up)} & \textbf{Util. (dw)}\\\hline
-% \control\footnote{unsanitized}		& & & & & & & & & \\
-% \treatment\footnote{unsanitized}		& & & & & & & & & \\
-% \control{}			& & & & & & & & & \\
-% \treatment{}			& & & & & & & & & \\\hline
-% \end{tabular}
-% \caption{Data characteristics for datasets before and after sanitization. 
-% Average traffic demand (kbps) is the average data rate per subscriber 
-% calculated by averaging the bytes transferred over the 15 minute time period. 
-% The 95 percentile demand only averages the traffic data rate per subscriber for 
-% the top 95\% usage. Utilization (util.) is the ratio of 95\%ile traffic demand 
-% to the service tier capacity that the subscribers pay for: 105 Mbps.}
-% \label{tab:data-stats}
-% \end{table*}
 
 
 \paragraph{Data Characterization: }Our sanitized dataset consisted of 4,845 
