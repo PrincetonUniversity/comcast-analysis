@@ -76,34 +76,33 @@ with bytes instead of kbps}}
 \end{figure}
 
 
-\begin{table*}[h]
-\begin{tabular}{lllllllll}
-Dataset   & Direction & Subscribers & Total Bytes       & Bytes (scaled) & Daily 
-Demand per Subs. (GB) & Peak (95\%) Hourly Traffic (GB) & Avg. Hourly Traffic in 
-prime-time (GB) & Avg. Hourly Traffic in non-prime-time \\
-control   & down      & 4845        & 1.29e+15          & 2.67e+14       & 2.9   
-                      & 234.5                           & 205.1                  
-                & 108.5                                 \\
-treatment & down      & 1519        & 4.48e+14          & 2.95e+14       & 3.3   
-                      & 244.42                          & 209.5                  
-                & 122.3                                 \\
-control   & up        & 4845        & 1.45e+14          & 2.98e+13       & 0.33  
+\begin{table*}[t]
+\begin{tabular}{ccccccccc}
+\hline
+Dataset   & Direction & Subscribers & Total Bytes & Daily 
+Demand & Peak (95\%) Hourly & Prime-Time Traffic & 
+Non-Prime-Time \\ \hline
+control   & down      & 4845         & \num{2.67e+14}  
+     & 2.9                         & 234.5                           & 205.1     
+                             & 108.5                                 \\
+treatment & down      & 1519         & \num{2.95e+14}  
+     & 3.3                         & 244.42                          & 209.5     
+                             & 122.3                                 \\
+control   & up        & 4845        & \num{2.98e+13}       & 0.33  
                       & 21.39                           & 18.942                 
                 & 12.80                                 \\
-treatment & up        & 1519        & 6.4e+13 		& 4.27e+13       & 0.48 
+treatment & up        & 1519        & \num{4.27e+13}       & 0.48 
  
                       & 31.48                           & 22.81                  
-                & 19.02                                
+                & 19.02\\\hline                                
 \end{tabular}
-\caption{TODO: make it bytes instead of kbps. Equalize control and treatment 
-using a multiplier to center = 1519/5845?
- Average traffic demand is the average data rate per subscriber 
+\caption{Average traffic demand is the average data rate per subscriber 
  calculated by averaging the bytes transferred over the 15 minute time period. 
  The 95 percentile demand only averages the traffic data rate per subscriber 
 for the top 95\% usage. Utilization (util.) is the ratio of 95\%ile traffic 
 demand to the service tier capacity that the subscribers pay for: 105 Mbps. The 
-utilization of observed in this data set is less than 2 \%}
-\label{tab:data-stats}
+utilization of observed in this data set is less than 2 
+\%\label{tab:data-stats}}
 \end{table*}
 
 % \begin{table*}[ht]
