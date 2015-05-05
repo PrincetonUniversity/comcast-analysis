@@ -1,43 +1,34 @@
 \subsection{Traffic Demand Per Subscriber}\label{subsec:behavior}
 
-To characterize the diurnal traffic demand observed at the ISP, we first 
-calculate the total traffic demand, and then the demand per subscriber
-(table \ref{tab:eval-criteria}).
-
 \begin{figure}[t]
 \begin{minipage}{1\linewidth}
 \centering
 %
-\begin{subfigure}[b]{0.49\linewidth}
-\includegraphics[width=\linewidth]{figures/weekday_demand_mean_perc95.pdf}
+\begin{subfigure}[b]{.99\linewidth}
+\includegraphics[width=\linewidth]{figures/weekday_demand_mean.pdf}
                \caption{Weekday traffic demand\label{fig:weekday-daily-usage}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{0.49\linewidth}
-\includegraphics[width=\linewidth]{figures/weekend_demand_mean_perc95}
+\begin{subfigure}[b]{.99\linewidth}
+\includegraphics[width=\linewidth]{figures/weekend_demand_mean.pdf}
                \caption{Weekend traffic demand\label{fig:weekend-daily-usage}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{Mean and 95th percentile traffic demand on weekdays and weekends}
+\caption{Mean subscriber demand (bytes every 15-minutes)}
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
-Figure \ref{fig:traffic-demand-timeseries} shows the mean and 95th percentile
-traffic demand on weekends and weekdays for the \treatment{} and \control{}
-groups. We observe that the mean and 95th percentile traffic demand differs
+Figure \ref{fig:traffic-demand-timeseries} shows the downlink traffic demand (bytes) of an average
+subscriber over a 15-minute measurement period on weekends and weekdays for
+the \treatment{} and \control{} groups. We observe that subscriber behavior differs
 significantly on weekdays and weekends. On weekdays, traffic demand 
 increases monotonically from morning until prime-time in the evening. On 
-weekends, there is a sharp rise in demand in the early morning, which 
-plateaus until the next sharp rise during the evening prime-time hours.
-We do not observe a trough in the demand in mid-afternoon 
-(between 2:00 PM -- 6:00 PM), as is usually the case for overall usage observed 
-at US Fixed access link providers \cite{sandvine20141h}.
-
-We observed that the mean traffic demand during 7:00 PM -- 7:00 AM is 
-\todo{XXX} for both \treatment{} and \control{}. However, during off peak 
-daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
-mean of \todo{XXX}, 20\% higher than the \control{} set.
+weekends, there is a sharp rise in demand in the early morning period. Then, the
+demand plateaus until the next sharp rise during the evening prime-time hours.
+Previous reports indicate that the aggregate traffic volume for US fixed access
+link providers usually troughs during mid-afternoon hours (between 2:00 PM -- 6:00 PM)
+~\cite{sandvine20141h}. We do not observe such a trough in the demand in our dataset.
 
 \begin{figure*}[t]
 \begin{minipage}{1\linewidth}
