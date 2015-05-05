@@ -11,31 +11,6 @@ definition, we measure the disparity between the 95 percentile of the peak and
 median
 usage of each household within a day, and call this the \emph{Peak-Ratio}.
 
-We study the highest traffic demand seen by a household both in its lifetime, 
-and on each day. We define the daily peak traffic demand per household as the 
-95 percentile demand of the household per day, and the overall peak traffic 
-demand per household  as the 95 percentile demand of the household over the 
-three month dataset.
-
-Figure~\ref{fig:CDF-data-rate-max} shows a distribution of the maximum traffic 
-demand over the lifetime of a subscriber. \dots
-
-Surprisingly, we see that 30\% of the households from the \test set have a low 
-peak demand (under 0.1 Mbps), while 40\% of the \control set households 
-are under 0.1 Mbps. Thus, the absolute peak d does not increase when 
-compared to the access link capacity, but there is certainly an increase in 
-peak demand of devices that  had a low requirement, due to the change in 
-capacity.
-
-On investigating further, we observed that subscribers with low demand traffic 
-increased their demand daily. This is similar to the behavior observed in 
-figure~\ref{fig:traffic-demand-timeseries}, showing that the traffic during 
-prime-time remains similar, but lower demand throughout the day  is higher for 
-the \test. We speculate that there could be many possible reasons for this 
-increase in demand, such as short term downloads (short videos, web browsing, 
-etc.) achieving a slightly better data rate on a small time scale. Studying this 
-behavioral change would require data used per application in each time period 
-and we leave it to future work.
 
 \begin{figure}[t]
 \begin{minipage}{1\linewidth}
@@ -51,8 +26,6 @@ ratio, not log x scale}}
 \end{minipage}
 \end{figure}
 
-To further characterize and compare the deviation of data rate for the \control 
-and \test set, we examine \emph{peak-ratio} as defined above. 
 Figure ~\ref{fig:CDF-peak-ratio-mean} shows that the mean peak-ratio for each 
 device in the \test set is much larger than that of the \control set.
 \todo{replace much larger with the exact number or percentage}.
