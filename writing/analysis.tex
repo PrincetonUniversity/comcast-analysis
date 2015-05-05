@@ -6,17 +6,18 @@
 %group. 
 
 Controlled experiments are difficult to do on the Internet scale. However, in 
-our work, we had access to a randomized control experiment used to collect a 
-dataset on the scale of a large city. This enables us to study the effect of 
-just one factor, \emph{the service plan upgrade}, while controlling the affect 
-of other factors, such as price, performance, or regional differences between 
-users.
+our work, we had access to a dataset collected through a randomized control 
+experiment on the scale of a large city. This enables us to study the effect of 
+just one factor, \emph{the service plan upgrade}, while other
+factors, such as price, performance, or regional differences between users, are
+controlled.
 
-We mitigate the effect of several biases that previous studies may have 
-suffered. Studying users who buy a higher service plan (unsatisfied users) will 
-naturally show an increase in demand on upgrading service. Similarly users who 
-know they have an available upgrade may change their behavior to utilize the 
-upgraded tier (cognitive bias). Studying datasets with these biases are prone 
+Our dataset mitigates several biases that previous studies may have 
+suffered. Studying the behavior of users who buy a higher service plan
+(unsatisfied subscribers) will naturally show an increase in demand on
+upgrading service. Similarly users who have been offered a free upgrade
+may unknowingly change their behavior to utilize the upgraded tier
+(cognitive bias). Studying datasets with these biases are prone 
 to positive correlations between usage and capacity. We avoid this by examining 
 a single high capacity tier (satisfied users) with an unannounced upgrade.
 
@@ -36,37 +37,30 @@ demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \end{table}
 
 
-\paragraph{Evaluation Criteria. } We aim to answer the question: does the 
-traffic
-demand change in response to service tier upgrades? To define this change, we 
-use 
-the evaluation criteria in table~\ref{tab:eval-criteria}. The \emph{traffic 
+\paragraph{Evaluation Criteria. } The aim of our work is to study changes in
+traffic demand in response to service tier upgrades. To define this change, we 
+use the evaluation criteria in table~\ref{tab:eval-criteria}. The \emph{traffic 
 demand} for a subscriber is defined as the total bytes transferred, in 
-upstream or downstream, during a single measurement period (15 
-minutes).
+upstream or downstream, during a single measurement period (15 minutes).
 We use traffic demand to calculate the total demand per hour, the average demand 
-in a day,
-and the 95th percentile peak demand. To compare the total traffic of the
-control and treatment groups, we scale it to a thousand subscribers where
+in a day, and the 95th percentile peak demand over a day. To compare the total
+traffic of the control and treatment groups, we scale it to a thousand subscribers where
 applicable (table~\ref{tab:data-stats}).
 
 Diurnal Internet usage is known to be the highest during the prime-time evening 
-hours.
-For our analysis, we define \emph{prime time} as 8:00 PM to 12:00 AM. We 
-observed the highest
-daily demand during this four hour period. The \emph{prime-time ratio} is 
-defined as the ratio between 
-the average demand during a prime-time hour, to the average demand outside the 
-prime-time hour. This lets us study the disparity between demand during the
-prime-time and the rest of the day.
+hours. For our analysis, we define \emph{prime time} as 8:00 PM to 12:00 AM.
+We consistently observed a daily demand within 90 percentile of the 
+total demand per day during this four hour period. The \emph{prime-time ratio} is 
+defined as the ratio between the average demand during a prime-time hour, 
+to the average demand outside the prime-time hour. This ratio conveys the
+disparity between demand during the prime-time and the rest of the day.
 
-Our analysis showed that although the overall demand increases due to the 
-service upgrade, 
-the increase during prime-time hours was insignificant. To study the increase 
-outside
-prime time hours, we define the \emph{peak-ratio} as the the daily 95 percentile 
-to mean ratio
-of traffic demand.
+Our analysis shows that subscribers that were not utilizing the link 
+heavily in the control set increase their usage multiple times. However,
+we also show that although the overall demand increases due to the 
+service upgrade, the increase during prime-time hours was insignificant. 
+To study the increase outside prime time hours, we use \emph{peak-ratio},
+defined as the the daily 95 percentile to mean ratio of traffic demand.
 
 \input{behavior}
 
