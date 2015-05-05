@@ -2,54 +2,59 @@
 
 The daily diurnal nature of Internet traffic demand requires that ISP providers 
 design networks capable of handling load at the times when heaviest usage is 
-observed. Such heavy demand is usually observed during evening hours.
-The FCC defines \textbf{Prime Time} as the local time from 7:00 PM to 11:00
-PM~\cite{fcc2014measuring-broadband}, when many subscribers heavily consume 
-real-time entertainment traffic (video) (seen as primarily responsible for high 
-usage during these hours). Latency and performance are adversely affected 
-during prime-time, causing bottlenecks at home, the last mile, in
-transit, or at the content server. For example, the Sandvine Global
-Internet Phenomena Report \footnote{The Sandvine Reports ~\cite{sandvine20141h,
-sandvine20142h}are released bi-annually and
-contain a detailed analysis of aggregate Internet usage. They are also referred
-to in the FCC reports~\cite{fcc2015progress-report, fcc2014measuring-broadband,
-fcc2014progress-report}} showed that devices in the same household selected  
-Netflix's
-own CDN (OpenConnect) during off-peak hours, and third party CDNs (with differing
-performance) during prime-time. This may happen because Netflix OpenConnect is  
-over-utilized
-during prime time~\cite{sandvine20141h}.
+observed. Such heavy demand is usually observed during prime time hours in the 
+evening, when many
+subscribers heavily consume real-time entertainment traffic (video) (seen as
+primarily responsible for high usage during these hours). The FCC defines 
+\textbf{Prime-Time} as the local time from 7:00 PM to 11:00 PM.
+\cite{fcc2014measuring-broadband}. To measure the concentration of network usage
+during prime-time, we use Sandvine's definition of the \textbf{Prime-Time 
+ratio}: the
+ratio of the average traffic demand during prime-time hours to the average 
+traffic demand 
+in non-prime-time hours.\cite{sandvine20141h, sandvine20142h}.
 
-To measure the concentration of network usage during prime time,
-Sandvine defined the \textbf{Prime-Time ratio} as the ``absolute levels of network traffic
-during an average peak period hour with an average off-peak hour''. Based on the FCC
-definition of prime-time hours (7p-11p), we measure the daily prime-time ratio of the \control{} group and compare it to the \treatment{}. Prime-time ratio is definded by dividing the the average traffic data rate during an average prime-time hour, by the off-peak average traffic rate.
-
-Prompted by the monotonically increasing trend of usage behavior during daytime hours on
-weekdays (figure~\ref{fig:traffic-demand-timeseries})
-we calculated the prime-time ratio for each four hour period throughout the day
-to find the evening hours with the largest ratio.
-In our dataset, the prime time ratio peaks at 8:00 PM -- 12:00 AM,
-rather than FCC's definition of 7:00 PM -- 11:00 PM. This discrepancy could be limited
-only to the high tier households in our dataset, but we deem that unlikely.
-%as the demand for traffic during prime time should be independent of the tier.
-Another reason could be that prime time is delayed globally with the rise in real
-time entertainment's contribution to traffic.
+We measure the prime-time ratio of the \control{} and \treatment{} group
+for each four hour period in our datasets to find the evening hours with
+the largest prime-time ratio. We observed that in our dataset,
+the prime time ratio consistently peaks at 8:00 PM -- 12:00 AM for both
+datasets, rather than FCC's definition of 7:00 PM -- 11:00 PM. We believe that
+this could be a feature of high tier subscribers, who tend to increase
+their traffic demands later in the day. Or, the global prime-time might
+indeed be getting delayed with the rising contribution of late-night 
+entertainment
+traffic to the total consumption.
 
 \begin{figure}[t]
 \begin{minipage}{\linewidth}
 \centering
 \includegraphics[]{figures/prime-time-ratio-per-device-cdf-MEAN.pdf}
-\caption{Prime-Time Ratio for subscribers in treatment and control sets shows a 
-similar distribution. \red{crop title} \label{fig:cdf-prime-time-ratio}}
+\caption{Prime-Time Ratio for subscribers in treatment and control 
+sets\label{fig:cdf-prime-time-ratio}}
 \end{minipage}
 \end{figure}
 
-We use our updated definition of Prime Time (table~\ref{tab:eval-criteria}) to calculate and plot
-the Prime Time ratio per day for the \treatment{} and \control{} groups in
-figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows that
-the \treatment{} set's prime time ratio is unexpectedly 10\% lower than the 
-\control{} group. 
-This confirms our initial observation [\autoref{subsec:behavior}] that showed 
-that the usage during peak evening hours is similar
-across both groups, but the usage in off peak hours is higher in the \treatment{}.
+We use our updated definition of prime-time (table~\ref{tab:eval-criteria}) 
+to calculate and plot the prime-time ratio per day for the \treatment{} and
+\control{} groups in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
+that
+the \treatment{} group's prime time ratio is unexpectedly 10\% lower than the 
+\control{} group. This confirms our initial observation 
+[\autoref{subsec:behavior}]
+that the usage during peak evening hours is similar across both groups, but the
+usage in off peak hours is higher in the \treatment{} group.
+
+
+%Latency and performance 
+%are adversely affected during prime-time, causing bottlenecks at home, the last 
+%mile, in
+%transit, or at the content server. For example, the Sandvine Global
+%Internet Phenomena Report \footnote{The Sandvine Reports ~\cite{sandvine20141h,
+%sandvine20142h}are released bi-annually and
+%contain a detailed analysis of aggregate Internet usage. They are also referred
+%to in the FCC reports~\cite{fcc2015progress-report, fcc2014measuring-broadband,
+%fcc2014progress-report}} showed that devices in the same household selected  
+%Netflix's own CDN (OpenConnect) during off-peak hours, and third party CDNs 
+%(with differing
+%performance) during prime-time. This may happen because Netflix OpenConnect is
+%over-utilized during prime time~\cite{sandvine20141h}.
