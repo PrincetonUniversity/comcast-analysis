@@ -7,9 +7,24 @@ from collections import defaultdict
 import datetime
 import matplotlib
 from python_latexify import latexify, format_axes
+params = {#'backend': 'ps',
+            #'text.latex.preamble': ['\usepackage{gensymb}'],
+            'axes.labelsize': 8, # fontsize for x and y labels (was 10)
+            'axes.titlesize': 8,
+            'font.size': 8, # was 10
+            'legend.fontsize': 8, # was 10
+            'xtick.labelsize': 8,
+            'ytick.labelsize': 8,
+            #'text.usetex': True,
+            'figure.figsize': [3.39,2.095],
+            'font.family': 'serif'
+          }
+matplotlib.rcParams.update(params)
+
 LATEXIFY = 0
 if LATEXIFY:
     matplotlib.rcParams.update(latexify())
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import multiprocessing as mp
@@ -191,8 +206,8 @@ def plot_initial_timeseries(g1, g2, param, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -202,7 +217,7 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     plot timeseries of peak-ratio (mean, max, median of devices) per day
     """
 
-    fig1, ax1 = plt.subplots(1, 1, figsize=(12,5))
+    fig1, ax1 = plt.subplots(1, 1)
 
     # x-axis: DAY, y-axis: agg (param) ratio over devices
     rperday1.plot(ax=ax1, marker='o', linestyle='--', label='treatment')
@@ -211,7 +226,7 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     filename_label = agg_param.upper()
     ax1.set_ylabel(agg_param+' peak-ratio')
     ax1.set_yscale('log')
-    ax1.set_title("Daily peak-ratio (95%:average) aggregated "+agg_param+" over devices")
+    #ax1.set_title("Daily peak-ratio (95%:average) aggregated "+agg_param+" over devices")
 
     plotname = 'peakratio-timeseries-'+filename_label
     ax1.grid(1)
@@ -219,8 +234,8 @@ def plot_peak_ratio_timeseries(rperday1, rperday2, agg_param, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -230,7 +245,7 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     plot CDF of peak-ratio all, or peak-ratio per device
     """
 
-    fig1, ax1 = plt.subplots(1, 1, figsize=(12,5))
+    fig1, ax1 = plt.subplots(1, 1)
 
     # x-axis: peak-ratio per device, y-axis: agg (param) ratio over days
     x1,y1 = getSortedCDF(rperdev1.values)
@@ -239,9 +254,10 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     ax1.plot(x2, y2, marker='d', markevery=len(y2)//10, linestyle='--', label='control')
 
     filename_label = agg_param.upper()
-    ax1.set_xlabel(agg_param + ' peak-ratio per device')
-    ax1.set_xscale('log')
-    ax1.set_title("Distribution of peak-ratio (95%:average) per device aggregated "+agg_param+" over days")
+    #ax1.set_xlabel(agg_param + ' peak-ratio per device')
+    ax1.set_xlabel('Peak-ratio per household')
+    #ax1.set_xscale('log')
+    #ax1.set_title("Distribution of peak-ratio (95%:average) per device aggregated "+agg_param+" over days")
 
     plotname = 'peakratio-CDF-devices-'+filename_label
     ax1.grid(1)
@@ -249,8 +265,8 @@ def plot_peak_ratio_cdf(rperdev1, rperdev2, agg_param, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    #fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -326,8 +342,8 @@ def plot_octets_per_day(g1, g2, param_device, param_time, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -403,8 +419,8 @@ def plot_throughput_per_day(g1, g2, param_device, param_time, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -624,8 +640,8 @@ def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     r_t.plot(ax=ax1, color='b', marker='o', label='treatment')
     r_c.plot(ax=ax1, color='g', marker='d', label='control')
 
-    ax1.set_ylabel('Prime-time ratio (log)')
-    ax1.set_yscale('log')
+    #ax1.set_ylabel('Prime-time ratio (log)')
+    #ax1.set_yscale('log')
     ax1.set_title("Prime-time Ratio every Date - "+tit)
 
     filename_label=param.upper()
@@ -635,8 +651,8 @@ def plot_primetime_ratio_by_date(r_test, r_control, param, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -700,8 +716,8 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
 
     ax1.set_xscale('log')
     ax1.set_xlabel("Prime-time Ratio")
-    ax1.set_ylabel('CDF')
-    ax1.set_title('Prime-time Ratio per Device - '+tit)
+    #ax1.set_ylabel('CDF')
+    #ax1.set_title('Prime-time Ratio per Device - '+tit)
 
     filename_label=param.upper()
     plotname = 'prime-time-ratio-per-device-cdf-'+filename_label
@@ -710,8 +726,8 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname+'.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -719,16 +735,16 @@ def plot_primetime_ratio_per_device(r_test, r_control, param, PLOTPATH):
 def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     fig1, ax1 = plt.subplots(1,1)
 
-    x1, y1 = getSortedCDF( test_full['throughput'].values )
+    x1, y1 = getSortedCDF( test_full['octets_passed'].values )
     ax1.plot(x1, y1, marker='o', color='b', markevery=len(y1)//10, linestyle='--', label='treatment')
-    x2, y2 = getSortedCDF( control_full['throughput'].values )
+    x2, y2 = getSortedCDF( control_full['octets_passed'].values )
     ax1.plot(x2, y2, marker='d', color='g', markevery=len(y2)//10, linestyle='--', label='control')
 
     #format_axes(ax1)
-    ax1.set_xscale('log')
-    ax1.set_xlabel("Data Rate [kbps]")
-    ax1.set_ylabel('CDF')
-    ax1.set_title('All Bytes')
+    #ax1.set_xscale('log')
+    ax1.set_xlabel("Bytes Transferred")
+    #ax1.set_ylabel('CDF')
+    #ax1.set_title('All Bytes')
 
     plotname = 'cdf-all-bytes'
     ax1.grid(1)
@@ -736,8 +752,8 @@ def plot_cdf_all_bytes(test_full, control_full, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname +".pdf", format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE " + PLOTPATH + plotname)
     plt.close()
     return
@@ -762,41 +778,49 @@ def plot_cdf_per_device(test_full, control_full, PLOTPATH, groupBy=None, param1=
     for df in [test_full, control_full]:
         #xdata = df.groupby('Device_number')['speed'].max()
         if groupBy !=None:
-            g = df.groupby(['Device_number', groupBy])['throughput']
+            g = df.groupby(['Device_number', groupBy])['octets_passed']
         else:
-            g = df.groupby(['Device_number'])['throughput']
+            g = df.groupby(['Device_number'])['octets_passed']
         if param1 == 'perc95':
             xdata = getattr(g, 'quantile')(0.95)
         else:
             xdata = getattr(g, param1)()
         if param2 == 'perc95':
             xdata2 = getattr(g, 'quantile')(0.95)
+        elif param2 == '':
+            pass
         else:
             xdata2 = getattr(g, param2)()
         x,y = getSortedCDF(xdata)
-        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr]+'-'+param1)
-        x,y = getSortedCDF(xdata2)
-        ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)//10, label=lab[ctr]+'-'+param2)
+        ax1.plot(x, y, color=c[ctr], marker=m[ctr], markevery=len(y)//10, label=lab[ctr])
+        if param2 != '':
+            x,y = getSortedCDF(xdata2)
+            ax1.plot(x, y, color=c[ctr+2], marker=m[ctr], ls='--', markevery=len(y)//10, label=lab[ctr]+'-'+param2)
         ctr+=1
     #format_axes(ax1)
-    ax1.set_xscale('log')
-    ax1.set_xlabel("Traffic Demand [kbps]")
+    #ax1.set_xscale('log')
+    ax1.set_xlabel("Bytes Transferred")
     if groupBy == 'date':
-        ax1.set_xlabel("Traffic Demand per Day [kbps]")
+        ax1.set_xlabel("Bytes Transferred per Day [kbps]")
 
     #ax1.set_ylabel('CDF')
     #ax1.set_title('Max per Device')
 
-    plotname = 'cdf-per-device-'+param1+'_'+param2
-    if groupBy:
+    if param2 =='' and groupBy:
+        plotname = 'cdf-per-device_'+groupBy+'-'+param1
+    elif param2 == '':
+        plotname = 'cdf-per-device-'+param1
+    elif groupBy:
         plotname = 'cdf-per-device_'+groupBy+'-'+param1+'_'+param2
+    else:
+        plotname = 'cdf-per-device-'+param1+'_'+param2
     ax1.grid(1)
     ax1.legend(loc='best')
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname +'.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
@@ -804,8 +828,8 @@ def plot_cdf_per_device(test_full, control_full, PLOTPATH, groupBy=None, param1=
 # for persistence and prevalance
 def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
 
-    maxThresh = max( test_full['throughput'].max(), control_full['throughput'].max() )
-    minThresh = min( test_full['throughput'].min(), control_full['throughput'].min() )
+    maxThresh = max( test_full['octets_passed'].max(), control_full['octets_passed'].max() )
+    minThresh = min( test_full['octets_passed'].min(), control_full['octets_passed'].min() )
     stepThresh = (maxThresh - minThresh)/20
 
     fig1, ax1 = plt.subplots(1,1)
@@ -818,16 +842,16 @@ def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
         ydata = []
         for THRESH in np.arange(minThresh, maxThresh, stepThresh):
             xdata.append(THRESH)
-            sliced_df = df [ df['throughput'] >= THRESH ]
+            sliced_df = df [ df['octets_passed'] >= THRESH ]
             num_dev = len( sliced_df['Device_number'].unique() )
             ydata.append( num_dev )
         ax1.plot(xdata, ydata, color=c[ctr], marker=m[ctr], label=lab[ctr])
         ctr+=1
     ax1.set_xscale('linear')
-    ax1.set_xlabel('threshold [kbps]')
+    ax1.set_xlabel('Threshold Bytes')
     ax1.set_ylabel('Number of Devices')
     ax1.set_yscale('log')
-    ax1.set_title("Prevalence: total devices")
+    #ax1.set_title("Prevalence: total devices")
 
     plotname = 'slice-dataset-threshold-count-ndevices'
     ax1.grid(1)
@@ -835,8 +859,8 @@ def plot_prevalence_total_devices(test_full, control_full, PLOTPATH):
     fig1.tight_layout()
     if LATEXIFY:
         format_axes(ax1)
-    fig1.savefig(PLOTPATH + plotname, format='PDF')
-    fig1.savefig(PLOTPATH + plotname)
+    fig1.savefig(PLOTPATH + plotname + '.pdf', format='PDF')
+    #fig1.savefig(PLOTPATH + plotname)
     logger.info("CREATE FILE "+PLOTPATH + plotname)
     plt.close()
     return
