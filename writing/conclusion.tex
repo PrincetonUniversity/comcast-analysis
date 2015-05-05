@@ -1,30 +1,45 @@
 \section{Conclusion}\label{sec:conclusion}
 
-For heavy hitters, the highest using 50 percent of the users, the 95th 
-percentile utilization over a three-month period did not change when the speed 
-tier increases. But for lighter subscribers, the 50 percent with a lower peak 
-demand, the 95th percentile peak usage increases substantially.
+\sg{when compared to the users in the 105 Mbps speed tier, the 250 Mbps 
+subscribers sent X\% more traffic, most of which was in off-peak hours. -- to 
+make this claim plot the ratio of total usage (scaled by subscribers) in 
+treatment and controlled instead of talking about data rates}
 
+For the heaviest 50 percent of the users, the 95th percentile utilization over a 
+three-month period did not change when the speed tier increases. But for lighter 
+subscribers, the 50 percent with a lower peak demand, the 95th percentile peak 
+usage increases substantially.
 
-Overall data rate and average utilization are similar
-Heavy users who utilize most of the link capacity do
-not increase their demand
-Average peak ratio doesn’t rise for majority of
-subscribers
-Prime time seems to be 8p-12a for both control
-group and treatment
-This suggests that (1) the series are similar and (2) the
-ISP is not the bottleneck for heavy users.
+As the heaviest users contribute to most of the total demand, and their demand 
+does not increase substantially during prime-time hours, it suggests that the 
+ISP is not a bottleneck to the total demand.
 
+However, if we count the contribution of each user equally, the traffic demand 
+per subscriber increases twofold for households with low demand 
+during non-prime-time hours due to the service upgrade.
 
-For time slots with low data rate over 15 min, peak
-demand per subscriber is higher in the test set
-Median data rate per subscriber during off-peak
-hours also increases
-There are a few outliers that have very high demands
-(high utilization) that increase in the treatment.
-% maybe due to background data, or consistent increase in short flow usage
+In conclusion, increasing ISP capacity (tier) affects demand for very high 
+speed tiers, even though the link is not fully utilized by the 
+affected subscribers and the peak traffic demand does not increase 
+significantly. The heavy users show different trends compared to the lighter 
+ones.
 
-This suggests that increasing ISP capacity (tier)
-affects demand for very high speed tiers, even though
-the link is not fully utilized by the affected subscribers.
+The difference in user behavior motivates a need to study 
+traffic demand further so that broadband benchmarks can be redefined in terms 
+of the needs of a subscriber. Similar studies in other regions and service 
+tiers would also encourage ISPs to offer broadband services if a substantial 
+number of customers appear bottlenecked at lower tiers.
+
+One such future work is to study the relationship between traffic demand 
+and service tier capacity with similar controlled experiments for lower tiers. 
+We expect that at lower tiers, the demand during prime-time will increase 
+significantly with an unannounced upgrade, but there will be service capacity 
+beyond which demand during prime-time hours does not increase substantially with
+capacity. This limit might be a natural point to define broadband benchmarks in  
+the future.
+
+Another direction for future research is to study the reason for increased 
+demand in non-prime-time periods among the lighter users. We are currently 
+gathering data with application information and byte counter reports every 30 s 
+to investigate this further.
+
