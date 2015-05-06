@@ -1,23 +1,31 @@
-\section{Data and Methods}\label{sec:data}
+\section{Method and Data}\label{sec:data}
 
-We follow the popular statistical convention of experimental designers to 
-refer to the service upgrade as \factor{}, the group of users without the 
-upgrade as \control{} and the upgraded users as \treatment{} 
-\cite{stats-design}. Our dataset consists of network usage byte counters 
-reported by Comcast residential broadband gateways every 15 minutes from October 
-1, 2014 to December 29, 2014. There are two sets of broadband service tiers that 
-were used to collect this data: \control{} set, consisting of 
-18,322 households with a 105 Mbps access link, and the 
-\treatment{} set, consisting of 2,200 households that were 
-paying for a 105 Mbps access link, yet were receiving 250 Mbps instead. 
-Subscribers in the \treatment{} set were selected randomly and were not told 
-that their access bandwidth has been increased.
+We describe the design of our randomized control experiment and the
+dataset that we used for this experiment.
 
+\subsection{Method}
 
-\paragraph{Data Description: }Each dataset contains the following relevant 
-fields: Device ID, sample period time, service class, service direction, 
-anonymized IP address, and the bytes transferred in the 15 minute sample slot, 
-as described in table~\ref{tab:field-description}.
+In designing our controlled experiment, we follow the popular
+statistical convention of experimental designers to refer to the service
+upgrade as \factor{}, the group of users without the upgrade as
+\control{} and the upgraded users as \treatment{}~\cite{stats-design}.
+
+Controlled experiments are difficult to do on the Internet scale.  Our
+work involves a randomized control experiment on the scale of a large
+urban city. This enables us to study the effect of just one factor,
+\emph{the service plan upgrade}, while other factors, such as price,
+performance, or regional differences between users, are controlled. We
+believe the affects observed on this dataset will also be observed in
+others collected from urban cities and high tiers.
+
+By examining a single ISP's high capacity tier with an unannounced upgrade,
+our dataset mitigates several biases that previous studies may have 
+suffered. Studying the behavior of users who opt for buying a higher service plan
+(unsatisfied subscribers) will naturally show an increase in demand on
+upgrading service. Similarly, users who have been offered a free upgrade in service
+may unknowingly change their behavior to utilize the upgraded capacity
+(cognitive bias). Studying datasets with these biases are prone 
+to positive high correlation between demand and capacity. 
 
 \begin{table}[t]
 \small
@@ -30,26 +38,44 @@ cmts\_inet             & Anonymous IP identifier			\\
 service\_direction     & \{downstream, upstream\}                 	\\
 octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 \end{tabular}
-\caption{Field descriptions for Comcast's \control{} and \treatment{} datasets}
+\caption{Field descriptions for the \control{} and \treatment{} datasets.}
 \label{tab:field-description}
 \end{table}
-
-
-\paragraph{Data Sanitization: }Our initial analysis of the data from more than 
-22,000 households showed that not all gateways were reporting their traffic
-counters every 15 minutes over the three month period. 32\% of the \treatment{}
-set, and 72\% of the \control{} set gateway devices were responsive for less than 80\% of the
-time. For the analysis in \autoref{sec:analysis}, we present our
-results based on the accepted group of subscribers, that contributed to
-the dataset more that 80\% during their lifetime.
-
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/traffic_demand_Oct.pdf}
   \caption{Traffic demand for an average subscriber in the \control{} and 
-\treatment{} groups for two weeks in October\label{fig:traffic-load}}
+\treatment{} groups for two weeks in October.\label{fig:traffic-load}}
 \end{figure*}
+
+
+\subsection{Data}
+
+Our dataset consists of network usage byte counters reported every 15
+minutes from October 1, 2014 to December 29, 2014 from about 22,000
+Comcast residential broadband gateways in Salt Lake City, Utah.  Each
+dataset contains the following fields: Device ID, the 15-minute time interval,
+service class, service direction, anonymized IP address, and the bytes
+transferred in each 15-minute interval, as described in
+Table~\ref{tab:field-description}.
+
+We divided the users into two groups: a \control{} set, consisting of
+18,322 households with a 105 Mbps access link; and a \treatment{} set,
+consisting of 2,200 households that were paying for a 105 Mbps access
+link, yet were receiving 250 Mbps instead.  Subscribers in the
+\treatment{} set were selected randomly and were not told that their
+access bandwidth has been increased.  Our initial analysis of the data
+from more than 22,000 households showed that not all gateways were
+reporting their traffic counters every 15 minutes over the three-month
+period: 32\% of the \treatment{} set, and 72\% of the \control{} set
+gateway devices were responsive for less than 80\% of the time. For the
+analysis in \autoref{sec:analysis}, we present our results based on the
+accepted group of subscribers, that contributed to the dataset more that
+80\% during their lifetime. Our final sanitized dataset consisted of
+4,845 subscribers in the \control{} group and 1,519 subscribers in the
+\treatment{}.
+
 
 \begin{table*}[t]
 \begin{tabular}{| ccc|cccc|c |}
@@ -74,40 +100,21 @@ subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-
 \end{table*}
 
 
-\paragraph{Data Characterization: }Our sanitized dataset consisted of 4,845 
-subscribers in the \control{} group and 1,519 subscribers in the \treatment{}. 
 
-Figure \ref{fig:traffic-load} shows that the traffic demand per subscriber during
-a 15-minute measurement period for both groups was similar, and had the
-expected diurnal usage pattern that peaks in the evening hours.
-The Service Level Agreement for subscribers with Comcast was 105 Mbps
-and the average subscribers does not fill the link consistently
-for 15 minutes to utilize the full capacity.
+Figure \ref{fig:traffic-load} shows that the traffic demand per
+subscriber during a 15-minute measurement period for both groups was
+similar, and had the expected diurnal usage pattern that peaks in the
+evening hours.  The Service Level Agreement for subscribers with Comcast
+was 105 Mbps and the average subscribers does not fill the link
+consistently for 15 minutes to utilize the full capacity.  Table
+\ref{tab:data-stats} compares the total demand for subscribers in the
+\control{} and \treatment{} groups, scaled to a thousand subscribers.
+The downlink 95th percentile utilization, calculated as the ratio of the
+95th percentile of the hourly traffic demand to the service capacity, is
+234.5~GB over the \control{} group, and 244.42~GB for the treatment
+group.  Table \ref{tab:data-stats} also shows that an average subscriber
+of the \control{} group would download 2.97 GB in a day, and 3.30 GB if
+they belonged to the \treatment{} group. As for the uplink, an average
+subscriber would transfer 0.33 GB in a day in the \control{} group, and
+0.48 GB in a day in the \treatment{} group.
 
-Table \ref{tab:data-stats} compares the total demand for subscribers
-in the \control{} and \treatment{} groups, scaled to a thousand subscribers.
-The downlink 95 percentile utilization, calculated as the ratio of the 95th 
-percentile of the hourly traffic demand to the service capacity, is 234.5 GB 
-over the \control{} group, and 244.42 GB for the treatment group.
-
-Table \ref{tab:data-stats} also shows that an average subscriber of the \control{}
-group would download 2.97 GB in a day, and 3.30 GB if they belonged to the \treatment{}
-group. As for the uplink, an average subscriber would transfer 0.33 GB in a day in the
-\control{} group, and 0.48 GB in a day in the \treatment{} group.
-
-\paragraph{Methods: } Controlled experiments are difficult to do on the Internet scale. In
-our work, we had access to a dataset collected through a randomized control 
-experiment on the scale of a large urban city. This enables us to study the effect of 
-just one factor, \emph{the service plan upgrade}, while other
-factors, such as price, performance, or regional differences between users, are
-controlled. We believe the affects observed on this dataset will also
-be observed in others collected from urban cities and high tiers.
-
-By examining a single ISP's high capacity tier with an unannounced upgrade,
-our dataset mitigates several biases that previous studies may have 
-suffered. Studying the behavior of users who opt for buying a higher service plan
-(unsatisfied subscribers) will naturally show an increase in demand on
-upgrading service. Similarly users who have been offered a free upgrade in service
-may unknowingly change their behavior to utilize the upgraded capacity
-(cognitive bias). Studying datasets with these biases are prone 
-to showing a positive high correlation between demand and capacity. 

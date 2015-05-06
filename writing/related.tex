@@ -1,36 +1,44 @@
-\section{Background and Related Work}\label{sec:related}
+\section{Related Work}\label{sec:related}
 
-Traditionally, broadband performance analysis has attracted the attention of 
-the measurement community. However with increasing availability of high 
-bandwidth Internet services and FCC's recent interest in exploring traffic 
-demand as a broadband benchmark \cite{fcc2015progress-report}, the focus has 
-moved to evaluating the complex interplay between broadband demand and 
-availability.
+The measurement community has produced a plethora of studies of
+broadband performance analysis, yet has performed relatively fewer
+studies of traffic demand in broadband access networks.
+The increasing availability of high-bandwidth Internet services and the
+FCC's recent interest in exploring traffic  
+demand as a broadband benchmark \cite{fcc2015progress-report} now calls
+for increased attention to the relationship between user traffic demand
+and broadband capacity.
 % basically availability includes performance, price, usage caps, etc. etc.
 
-Our work build upon earlier study by Bischof \ea \cite{dasu-imc2014}.
-Bischof \ea used natural experiments to investigate causal relationships between 
-the traffic demand\footnote{referred to as user demand, or usage in their work} 
-and factors such as service capacity, performance, and price. They showed 
+Our work complements an earlier study by Bischof \ea \cite{dasu-imc2014},
+who used {\em natural} experiments to investigate causal relationships between  
+the traffic demand (which they refer to as ``user demand'', or ``usage''
+in their paper) 
+and factors such as service capacity, performance, and price. Bischof \ea showed 
 that demand increases with capacity, but ``follows a law of diminishing  
-returns'', \ie increases in capacity for an already high tier causes a lower 
+returns''; in other words, increases in capacity for an already high
+tier results in a lower 
 increase in demand.
 %, than if the upgrade would have occurred for a lower tier. 
-Our work complements their study via a large-scale controlled experiment and 
-examines in particular a high service tier (105 Mbps) that has not been studied 
-before. Our dataset mitigates the affect of price, performance, and other 
-potential biases (such as regional \cite{dasu-weather, dasu-region}, capped 
-usage \cite{youre-capped}, and ``geek-effect'' \cite{dasu-imc2014}) by limiting 
-the dataset to a large number of users selected randomly from the same service 
-tier and location.
+Our work presents complementart results from a large-scale {\em
+  controlled} experiment and examines in particular a high service tier
+(105 Mbps) that has not been studied before. Our dataset mitigates the
+affect of price, performance, and other potential biases (such as
+regional \cite{dasu-weather, dasu-region}, capped usage
+\cite{youre-capped}, and ``geek-effect'' \cite{dasu-imc2014}) by
+limiting the dataset to a large number of users selected randomly from
+the same service tier and location.
 
-Zheleva \ea present a case study of the affect of an Internet service 
-upgrade, from 256 kbps satellite to 2 Mbps terrestrial wireless, in rural 
-Zambia. 
-This work observed that the stark change in traffic demand three months after 
-the upgrade caused a performance bottleneck. Our work focuses on higher 
-service tier subscribers, who are presumably not bottlenecked, and studies 
-changes in traffic demand without informing users of the upgrade.
+Zheleva \ea present a case study of the effects of an Internet service
+upgrade, from 256~kbps satellite to 2~Mbps terrestrial wireless, in
+rural Zambia~\cite{zheleva2013}.  This work observed that the stark change in traffic
+demand three months after the upgrade caused a performance
+bottleneck. In constrast, our case study focuses on traffic demands of
+subscribers from much higher service tiers who are not continuously
+bottlenecked by their access link; additionally, we study how users
+adjust their traffic demands without informing them of the upgrade, thus
+eliminating potential cognitive bias.
+
 
 Other efforts such as \cite{maier-imc2012} study the characteristics of 
 residential DSL broadband, and report the contributions of the most popular 
