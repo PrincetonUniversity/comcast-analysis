@@ -1,4 +1,5 @@
 TARGET=paper
+SRCS = abstract.tex intro.tex related.tex dataset.tex analysis.tex behavior.tex primetime.tex peakratio.tex conclusion.tex
 all: pdf
 
 pdf:
@@ -9,6 +10,12 @@ clean:
 
 cleanall: clean
 	rm -f $(TARGET).pdf
+
+spell:
+	for i in $(SRCS); do ispell $$i; done
+
+double:
+	for i in $(SRCS); do double.pl < $$i; done
 
 ps: pdf
 	GS_OPTIONS=-dPDFSETTINGS=/prepress pdftops -level1 $(TARGET).pdf
