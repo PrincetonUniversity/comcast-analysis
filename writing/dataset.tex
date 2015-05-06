@@ -65,17 +65,17 @@ We divided the users into two groups: a \control{} set, consisting of
 18,322 households with a 105 Mbps access link; and a \treatment{} set,
 consisting of 2,219 households that were paying for a 105 Mbps access
 link, yet were receiving 250 Mbps instead.  Subscribers in the
-\treatment{} set were selected randomly and were not told that their
+treatment group were selected randomly and were not told that their
 access bandwidth had been increased.  Our initial analysis of the data
 from more than 22,000 households showed that not all gateways were
 reporting their traffic counters every 15 minutes over the whole three-month
-period: 32\% of the \treatment{} set, and 72\% of the \control{} set
+period: 32\% of the \treatment{} dataset, and 72\% of the \control{} dataset
 gateway devices were responsive for less than 80\% of the time. For the
 analysis in \autoref{sec:analysis}, we present our results based on the
 accepted group of subscribers that contributed to the three-month dataset
 more that 80\% during their lifetime. Our final sanitized dataset consisted of
-4,845 subscribers in the \control{} group and 1,519 subscribers in the
-\treatment{}.
+4,845 subscribers in the \control{} dataset and 1,519 subscribers in the
+\treatment{} dataset.
 
 
 \begin{table*}[t]
@@ -106,15 +106,15 @@ Figure \ref{fig:traffic-load} shows the downlink traffic demand per
 subscriber (bytes per 15-minute sample period) for the month of October 
 for both groups. The observed demand is diurnal, and reaches a peak daily
 in the evening hours. Table \ref{tab:data-stats} compares the total demand
-for subscribers in the \control{} and \treatment{} groups, scaled to a
+for subscribers in the \control{} and \treatment{} datasets, scaled to a
 thousand households. The downlink 95th percentile traffic demand 
-over an hour is 234.5~GB for the lower tier \control{} group, and 244.42~GB
-for the higher tier \treatment{} group.  Table \ref{tab:data-stats} also 
+over an hour is 234.5~GB for the lower tier control group, and 244.42~GB
+for the higher tier treatment group.  Table \ref{tab:data-stats} also 
 shows that an average subscriber
 in the lower tier would download 2.97~GB in a day, and 3.30~GB if
 they belonged to the higher tier. As for the uplink, an average
-subscriber would transfer 0.33~GB in a day in the \control{} group, and
-0.48~GB in a day in the \treatment{} group.
+subscriber would transfer 0.33~GB over a day in the control group, and
+0.48~GB over a day in the treatment group.
 
 % The Service Level Agreement for subscribers with Comcast
 % was 105 Mbps and the average subscribers does not fill the link
