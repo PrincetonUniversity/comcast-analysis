@@ -16,20 +16,43 @@ Answers to these questions will ultimately help inform policymakers and
 ISPs determine how to make investments in infrastructure, and when to
 make them.
 
+In thie United States, the Federal Communications Commission (FCC) is
+interested in the relationship between demand and capacity for several
+reasons.  First, the FCC recognizes the need to define broadband
+benchmarks based on traffic demand and is considering doing
+so~\cite{fcc2015broadband-report}. It has defined a ``typical''
+household traffic demand to enable concurrent broadband use, such as
+video streaming, web browsing, and VoIP. Currently, the FCC is asking
+for comments and suggestions on how to define such a demand-based
+benchmark for future planning~\cite{fcc2015progress-report,
+  fcc2014progress-report}.  Second, recent research shows that diurnal
+Internet usage patterns are correlated with GDP, Internet allocations,
+as well as electrical consumption of a
+region~\cite{ant-diurnal-web}. This makes the study of usage extremely
+relevant to the regulatory bodies responsible for development.  Finally,
+the FCC is is responsible for increasing broadband deployment throughout
+the US, and it recently decided to aggressively increase the broadband
+threshold benchmark to 25 Mbps in downlink and 3 Mbps in uplink.  Yet, a
+survey conducted by NCTA (for the FCC) showed that the largest deterrent
+to deployment of faster speed tiers is that consumers do not \emph{want}
+the faster speeds (the second largest deterrent is the
+price)~\cite{fcc2015progress-report}. Clearly, this question deserves
+both rigorous and continuous study.
+
 % + more work @ home
 % + fcc wants to add usage as a bb parameter
 
-Previous work that has studied the complex relationship between demand and capacity  
-discovered that users who are already maximizing their usage on a given access link 
-will continue to do so when they are migrated to a higher service
-tier~\cite{dasu-imc2014}. In this paper, we study how the traffic demands of subscribers who are already 
-on service plans with high downstream throughput respond to 
-an undisclosed service plan upgrade as part of a randomized controlled trial 
-(RCT). This experiment offers the unique opportunity to explore the
-effects of a service-tier upgrade on 
-user traffic demand while mitigating the cognitive bias of the service-tier upgrade 
-by withholding that information from subscribers. To the best of our knowledge, 
-this is the first such comparative study of usage behavior in a controlled 
+Previous work discovered that users who are already maximizing their
+usage on a given access link will continue to do so when they are
+migrated to a higher service tier~\cite{dasu-imc2014}. In this paper, we
+study how the traffic demands of subscribers who are {\em already} on service
+plans with high downstream throughput respond to an undisclosed service
+plan upgrade as part of a randomized controlled trial (RCT). This
+experiment offers the unique opportunity to explore the effects of a
+service-tier upgrade on user traffic demand while mitigating the
+cognitive bias of the service-tier upgrade by withholding that
+information from subscribers. To the best of our knowledge, this is the
+first such comparative study of usage behavior in a controlled
 experiment to study responses to service upgrades.
 
 Our study is based on data collected from the residential home gateways
@@ -53,17 +76,6 @@ exhaust capacity for a sustained 15-minute interval any time during the
 three months of our study.
 % + prime time hours were 8-12 instead of 7-11 for high tier dataset
 % + asymmetry?
-
-Following the Federal Communications Commission (FCC) recent interest in
-adopting usage (traffic demand) as one of the broadband benchmarks, we
-discuss the possible implications of our observations on traffic demand
-for both policymakers, who determine broadband deployment policies for
-the US based on consumer demands, as well as ISPs such as Comcast, who
-plan broadband deployment and capacity upgrades based on trends in
-aggregate usage behaviors. We conclude that both policymakers and ISPs
-may have different perspectives of the same observation, and motivate
-the need to further study traffic demand as a broadband benchmark
-metric.
 
 The rest of the paper is organized as follows. In \autoref{sec:related} we 
 overview some previous studies of traffic demand and service capacity. Then, in 
