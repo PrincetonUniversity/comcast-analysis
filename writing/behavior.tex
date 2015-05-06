@@ -6,16 +6,16 @@
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/weekday_demand_mean.pdf}
-               \caption{Weekday traffic demand\label{fig:weekday-daily-usage}}
+               \caption{Weekday traffic demand.\label{fig:weekday-daily-usage}}
 \end{subfigure}
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/weekend_demand_mean.pdf}
-               \caption{Weekend traffic demand\label{fig:weekend-daily-usage}}
+               \caption{Weekend traffic demand.\label{fig:weekend-daily-usage}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{Average subscriber demand (bytes every 15-minutes).}
+\caption{Mean subscriber demand (bytes per 15-minute interval).}
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
@@ -73,11 +73,14 @@ subscriber demand.}
 \begin{subfigure}[b]{1\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
-               \caption{Difference in overall peak per subscriber\label{fig:diff-peak-overall}}
+               \caption{Difference in overall peak per
+                 subscriber. y-axis values are bytes transferred in the
+                 peak 15-minute interval. \label{fig:diff-peak-overall}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{95th percentile traffic demand (bytes per 15 minutes) per subscriber for \control{} and \treatment{}\label{fig:traffic-demand-overall}}
+\caption{95th percentile traffic demand (bytes per 15 minutes) per
+  subscriber for the control and treatment groups. \label{fig:traffic-demand-overall}}
 \end{figure}
 
 % Figure \ref{CDF-data-rate} shows the data rate for each measurement period and every subscriber.
@@ -177,7 +180,8 @@ more than the top 10\% of \control{}.
 %
 \end{minipage}
   \caption{Difference between peak-demands of subscribers from \treatment{} and
-  \control{} groups. Subscribers were considered at every 5\% in each group.
+  \control{} groups. Subscribers were considered at every 5\% in each
+  group. y-axis values are bytes transferred in the peak 15-minute interval.
   \label{fig:traffic-demand-daily}}
 \end{figure}
 
@@ -186,13 +190,13 @@ more than the top 10\% of \control{}.
 daily, not only in aggregate.}  Figure~\ref{fig:traffic-demand-daily}
 shows that when subscribers on the lower tier had a daily peak demand
 under 600 MB, subscribers in the higher tier had demands 5--20~MB
-higher. This happens in 70\% of the instances.  On taking the ratio of
-the difference in demand, with the equivalent demand of the lower tiers,
-we find that for 40\% of subscribers with low peak demands in the
-control group, there are 40\% subscribers in the treatment group with
-more than double their demands.
-%(see Figure~\ref{fig:daily-ratio-perc95}).
+higher. This happens in 70\% of the instances.  The ratio of the
+the differences in demand across percentiles also yields that
+the 40\% of subscribers with lowest peak demands in the
+control group increase their daily peak demand more than double their traffic demand in response to
+service tier upgrades.
 
+\if 0
 There could be many reasons for this increase in demand for subscribers with
 lower peak demands. One reason could be short term web activities (such as short videos,
 web browsing) that have a slightly higher traffic demand. Such an increase in demand would
@@ -201,7 +205,8 @@ Another reason could be an increase in background traffic (such as software upda
 Studying the applications responsible for such behavioral changes in traffic demand is not
 in the scope of our current work. However, an interesting question that arises is: when
 does the demand increase the most throughout a day? Our analysis showed that the most
-most subscribers reach within 95\% of daily maximum demand between 8:00 p.m.--12:00 a.m.
+subscribers reach within 95\% of daily maximum demand between 8:00 p.m.--12:00 a.m.
+\fi
 
 % \begin{table}[h]
 % \begin{tabular}{lllll}
