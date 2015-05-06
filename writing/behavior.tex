@@ -73,9 +73,11 @@ subscriber demand.}
 \begin{subfigure}[b]{1\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
-               \caption{Difference in overall peak per
-                 subscriber. y-axis values are bytes transferred in the
-                 peak 15-minute interval. \label{fig:diff-peak-overall}}
+               \caption{
+                 Change in overall peak (95\%) demand per subscriber. y-axis unites
+                  are bytes transferred in the peak 15-minute
+                  interval, in MB.
+ \label{fig:diff-peak-overall}}
 \end{subfigure}
 %
 \end{minipage}
@@ -107,8 +109,8 @@ mean demand, as previous studies have observed such a phenomenon. \f{In
 in the mean peak demand was also present in the 50\% of
 subscribers in the control group with the lowest traffic demand when
 compared to the same set of subscribers of the treatment group. (This
-disparity appears as a large gap under the 50\% mark in
-Figure~\ref{fig:CDF-data-rate-perc95},)
+disparity appears as a large gap under the 50\% tick in
+Figure~\ref{fig:CDF-data-rate-perc95}.)
 
 
 Figure~\ref{fig:diff-peak-overall} shows another way of looking at this
@@ -127,9 +129,6 @@ full capacity in either case.
 When we combine this analysis with that in
 Figure~\ref{fig:CDF-data-rate-perc95}, we find that these subscribers
 who respond with increased usage have a peak demand less than 200~MB.
-\f{One possible explanation for such behavior is that users see better
-performance (\eg, faster downloads) on the higher service tier, and thus
-increase their usage, even if they do not ever use the full network capacity.}
 Naturally, the small number of users with the highest demand (closer to
 100\%) also tend to increase their usage, sometimes substantially.
 
@@ -150,19 +149,19 @@ that are similar, or lower than the equivalent 15\% of subscribers in
 lies around between the 65 and 80 percentile
 demand. Figure~\ref{fig:CDF-data-rate-perc95} shows that between the
 65-80 percentile mark, subscribers had a demand between 200~MB to
-400~MB. For these subscribers in \treatment{}, the equivalent
-subscribers in \control{} had demands upto 10~MB higher. 20\% of the
+400~MB. For these subscribers in the treatment group, the equivalent
+subscribers in the control group had demands upto 10~MB higher. 20\% of the
 differences between the peak of the treatment group and the control
 group are higher than 30 MB. These subscribers lie between the between
 30\% and 50\% difference. Their peak demands are between between 40--100
-MB as part of the higher tier, and 10--70 MB if they belong to the lower
+MB as part of the higher tier, and 10--70~MB if they belong to the lower
 tier.  The subscribers with the highest traffic demand in the treatment
 group (beyond 800 MB peak demand) have demands 15--30~MB more than the
 highest peak demanding subscribers in the control group.  In the case of
 upstream traffic, 90\% of users in the treatment group consistently
 upload 2 MB more traffic than the control group. The top 10\% of the
-highest demanding subscribers in \treatment{} uploaded between 2--10~MB
-more than the top 10\% of \control{}.
+highest demanding subscribers in the treatment group uploaded between 2--10~MB
+more than the top 10\% of the control group.
 \fi
 
 \begin{figure}[t]
@@ -175,26 +174,37 @@ more than the top 10\% of \control{}.
 \begin{subfigure}[b]{.99\linewidth}
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
 %\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
-                \caption{Daily peak (95\%) per subscriber\label{fig:diff-peak-daily}}
+                \caption{Change in daily peak (95\%) demand per subscriber. y-axis unites
+                  are bytes transferred in the peak 15-minute
+                  interval, in MB.\label{fig:diff-peak-daily}} 
 \end{subfigure}
 %
 \end{minipage}
   \caption{Difference between peak-demands of subscribers from \treatment{} and
   \control{} groups. Subscribers were considered at every 5\% in each
-  group. y-axis values are bytes transferred in the peak 15-minute interval.
+  group. 
   \label{fig:traffic-demand-daily}}
 \end{figure}
 
 
-\f{Further investigation revealed that this phenomenon is also present
-daily, not only in aggregate.}  Figure~\ref{fig:traffic-demand-daily}
-shows that when subscribers on the lower tier had a daily peak demand
-under 600 MB, subscribers in the higher tier had demands 5--20~MB
-higher. This happens in 70\% of the instances.  The ratio of the
-the differences in demand across percentiles also yields that
-the 40\% of subscribers with lowest peak demands in the
-control group increase their daily peak demand more than double their traffic demand in response to
-service tier upgrades.
+\f{Further investigation revealed that users with moderate traffic
+  demands not only increase their traffic demands in aggregate, but also
+  on a daily basis.}  Figure~\ref{fig:traffic-demand-daily} shows that
+when subscribers on the lower tier had a daily peak demand under 600~MB,
+70\% of subscribers in the treatment group had 15-minnute demands that
+were 5--20~MB higher.  The ratio of the the differences in demand across
+percentiles also shows that the 40\% of subscribers with lowest peak
+demands in the control group more than
+double their daily peak traffic demand in response to service-tier upgrades.
+
+\f{One possible explanation for why moderate users increase their usage
+  in response to a service tier upgrade is that the higher service tier
+  not only affords more capacity, but also a better user experience
+  (\eg, faster downloads).  Thus, even though users may not be
+  exhausting the capacity of the higher service tier, they nonetheless
+  seem to respond to the service tier upgrade by using the Internet more
+  than they had before the service-tier upgrade.}
+
 
 \if 0
 There could be many reasons for this increase in demand for subscribers with
