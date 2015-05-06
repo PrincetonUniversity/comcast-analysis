@@ -17,7 +17,7 @@
 %%%
 %%%  Custom variables to be set appropriately.
 %%%
-\newcommand{\AUTHORS}{Sarthak Grover, Roya Ensafi and Nick Feamster}
+\newcommand{\AUTHORS}{Sarthak Grover, Roya Ensafi, and Nick Feamster}
 \newcommand{\TITLE}{When the Rich Get Richer: A Case Study of Traffic Demand Response to Service-Plan Upgrades}
 \newcommand{\KEYWORDS}{Keywords}
 \newcommand{\CONFERENCE}{Conference}
@@ -152,7 +152,7 @@
 \RequirePackage{enumitem}
 \setlist{itemsep=0pt,parsep=0pt}  % more compact lists
 
-\renewcommand{\paragraph}[1]{\vspace*{0.03in}\noindent{\bf #1}}
+\renewcommand{\paragraph}[1]{\vspace*{0.03in}\noindent{\bf #1.}}
 
 %%%
 %%%  Custom Environments
