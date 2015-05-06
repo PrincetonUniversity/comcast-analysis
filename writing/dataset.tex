@@ -47,7 +47,7 @@ octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 \centering
 \includegraphics[width=\linewidth]{figures/traffic_demand_Oct.pdf}
   \caption{Traffic demand for an average subscriber in the \control{} and 
-\treatment{} groups for two weeks in October.\label{fig:traffic-load}}
+\treatment{} groups during October.\label{fig:traffic-load}}
 \end{figure*}
 
 
@@ -102,20 +102,20 @@ subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-
 
 
 
-Figure \ref{fig:traffic-load} shows that the traffic demand per
-subscriber during a 15-minute measurement period for both groups was
-similar, and had the expected diurnal usage pattern that peaks in the
-evening hours.  The Service Level Agreement for subscribers with Comcast
-was 105 Mbps and the average subscribers does not fill the link
-consistently for 15 minutes to use the full capacity.  Table
-\ref{tab:data-stats} compares the total demand for subscribers in the
-\control{} and \treatment{} groups, scaled to a thousand subscribers.
-The downlink 95th percentile utilization, calculated as the ratio of the
-95th percentile of the hourly traffic demand to the service capacity, is
-234.5~GB over the \control{} group, and 244.42~GB for the treatment
-group.  Table \ref{tab:data-stats} also shows that an average subscriber
-of the \control{} group would download 2.97 GB in a day, and 3.30 GB if
-they belonged to the \treatment{} group. As for the uplink, an average
-subscriber would transfer 0.33 GB in a day in the \control{} group, and
-0.48 GB in a day in the \treatment{} group.
+Figure \ref{fig:traffic-load} shows the downlink traffic demand per
+subscriber (bytes per 15-minute sample period) for the month of October 
+for both groups. The observed demand is diurnal, and reaches a peak daily
+in the evening hours. Table \ref{tab:data-stats} compares the total demand
+for subscribers in the \control{} and \treatment{} groups, scaled to a
+thousand households. The downlink 95th percentile traffic demand 
+over an hour is 234.5~GB for the lower tier \control{} group, and 244.42~GB
+for the higher tier \treatment{} group.  Table \ref{tab:data-stats} also 
+shows that an average subscriber
+in the lower tier would download 2.97~GB in a day, and 3.30~GB if
+they belonged to the higher tier. As for the uplink, an average
+subscriber would transfer 0.33~GB in a day in the \control{} group, and
+0.48~GB in a day in the \treatment{} group.
 
+% The Service Level Agreement for subscribers with Comcast
+% was 105 Mbps and the average subscribers does not fill the link
+% consistently for 15 minutes to use the full capacity.
