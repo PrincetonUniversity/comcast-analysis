@@ -15,7 +15,7 @@
 \end{subfigure}
 %
 \end{minipage}
-\caption{Mean subscriber demand (bytes every 15-minutes)}
+\caption{Average subscriber demand (bytes every 15-minutes)}
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
@@ -31,46 +31,42 @@ link providers usually troughs during mid-afternoon hours (between 2:00 PM -- 6:
 ~\cite{sandvine20141h}. We do not observe such a trough in the subscriber 
 demand in our dataset.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \begin{minipage}{1\linewidth}
 \centering
 %
-\begin{subfigure}[b]{0.33\linewidth}
+\begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-all-bytes.pdf}
-               \caption{Overall traffic demand\label{fig:CDF-data-rate}}
+               \caption{Overall traffic demand for all subscribers at all times\label{fig:CDF-data-rate}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{0.33\linewidth}
-\includegraphics[width=\linewidth]{figures/cdf-per-device-max.pdf}
-               \caption{Maximum traffic demand 
-per subscriber\label{fig:CDF-data-rate-max}}
-\end{subfigure}
-%
-\begin{subfigure}[b]{0.33\linewidth}
+\begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-per-device-perc95.pdf}
-               \caption{Peak (95\%)
-traffic demand per subscriber.\label{fig:CDF-data-rate-perc95}}
+               \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{\label{fig:traffic-demand-cdf}}
-\end{figure*}
+\caption{Traffic demand (bytes every 15-minutes) for \control{} and \treatment{}\label{fig:traffic-demand-cdf}}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
+               \caption{Difference between \treatment{} and \control{}
+               in peak (95\%) traffic demand\label{fig:diff-perc95}}
+\end{figure}
+
+Figure \ref{fig:CDF-data-rate} shows the distribution of the
+all bytes transferred in the \treatment{} and \control{} set
+over the three months of the dataset.
 
 
-Figure \ref{fig:traffic-demand-cdf} shows the distribution of the
-bytes transferred in the \treatment{} and \control{} set. Figure 
-\ref{fig:CDF-data-rate}
-plots all traffic seen throughout the datasets for all subscribers. The
-distribution is very similar.
-
-Figure \ref{fig:CDF-data-rate-max} plots the distribution of the
-maximum demand of the subscriber. We observe that the maximum demand increases 
+Figure \ref{fig:CDF-data-rate-perc95}  plots the distribution of the
+peak (95th percentile) demand of the subscriber. We observe that the maximum demand increases 
 due 
 to the service upgrade throughout the \control{} group. However, the increase is 
 higher for
-subscribers who have a low traffic demand. Figure \ref{fig:CDF-data-rate-perc95} 
-confirms this
-observation for the 95 percentile demand per subscriber.
+subscribers who have a low traffic demand.
 
 We see that 30\% of the households from the \test set have a low 
 peak demand (under 0.1 Mbps), while 40\% of the \control set households 
