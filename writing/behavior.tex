@@ -19,10 +19,28 @@
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
+
+\begin{table}[t]
+\begin{tabular}{ cc | ccc }\\\hline
+                         &           & median & mean  & 95\%  \\\hline
+\multirow{2}{*}{Weekday} & treatment & 35.97  & 35.58 & 61.12 \\
+                         & control   & 28.06  & 31.12 & 58.78 \\\hline
+\multirow{2}{*}{Weekend} & treatment & 45.27  & 40.10 & 64.27 \\
+                         & control   & 41.15  & 37.66 & 62.23 \\\hline
+\end{tabular}
+\caption{Desciption of weekday and weekend traffic demand}
+\label{tab:traffic-demand-description}
+\end{table}
+
 Figure \ref{fig:traffic-demand-timeseries} shows the downlink traffic demand
-(bytes per 15 minutes) of an average subscriber over a week.
-We observe that subscriber behavior differs
-significantly on weekdays and weekends. On weekdays, traffic demand 
+(bytes per 15 minutes) of an average subscriber over a week. We observe that subscriber behavior differs
+significantly on weekdays and weekends.  The average per subscriber
+demand over a weekday is 35.6 MB, and the 95th percentile peak demand is 61.12 MB for
+subscribers in the treatment group (Table~\ref{tab:traffic-demand-description}).
+Over a weekend, the average demand is 40.1 MB, and the 95th percentile demand 
+is 64.3 MB for treatment, but the median is 45.27 MB due to consistent use in the major part of the day.
+
+On weekdays, traffic demand 
 increases monotonically from morning until prime-time hours in the evening. On 
 weekends, we observed a sharp rise in demand in the early morning period, from
 8:00 AM to 10:00 AM. Then, the demand plateaued until the next rise during before
