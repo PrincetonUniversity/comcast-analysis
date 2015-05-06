@@ -57,23 +57,29 @@ experiment to study responses to service upgrades.
 
 Our study is based on data collected from the residential home gateways
 of Comcast subscribers in Salt Lake City, Utah. To measure traffic
-demand, Comcast collects
-aggregate byte counts every 15 minutes from two types of
-users: {\em control}, or users who pay and use a high capacity access
-link (105 Mbps); and {\em treatment}, or users who pay for 105 Mbps but
-were actually offered a 250~Mbps access link {\em without their
+demand, Comcast collects aggregate byte counts every 15 minutes from two
+types of users: {\em control}, or users who pay and use a high capacity
+access link (105 Mbps); and {\em treatment}, or users who pay for 105
+Mbps but were actually offered a 250~Mbps access link {\em without their
   knowledge}.  We evaluate three months of traffic demand for more than
-20,000 individual subscribers, 2,219 of whom were in the treatment
-group. Our analysis shows that while the aggregate and mean daily usage
-increase by 10\% to the upgrade, the median subscriber
-increased traffic demands by about 20\%
-during off-peak hours on weekdays. Subscribers who are already using most of their
-available capacity in 105~Mbps, do not use significantly more capacity
-when they are moved to a higher tier, but subscribers with lower traffic demands
-increased their daily 95th-percentile usage by about
-20~MB consistently on any given day. More than than 99\% of subscribers did not
-exhaust capacity for a sustained 15-minute interval any time during the
-three months of our study.
+6,000 Comcast subscribers, 2,219 of whom were in the treatment group.
+We find that subscribers who are already using most of their available
+capacity at the 105~Mbps service tier do not use significantly more
+capacity at the higher service tier.  On the other hand, subscribers who
+exhibit more moderate traffic demands often exhibit a significant
+relative increase in their traffic demands.  This result suggests that
+that even users who are not fully exhausting the available capacity at
+one service tier may increase usage at higher service tiers, since the
+improved performance at the higher tier may cause these subscribers to
+use the Internet more than they otherwise would. We also observed that
+the most significant increases in per-subscriber traffic demand as a
+result of the upgrade occurred during non-prime-time hours on weekdays,
+suggesting that this demographic of consumer may disproportionately
+include users who work from home.  Such a phenomenon is also consistent
+with with our observation that traffic demands at these higher service
+tiers consistently rises throughout the course of the day, with no
+mid-afternoon drop in traffic volume, as is evident in other studies.
+
 % + prime time hours were 8-12 instead of 7-11 for high tier dataset
 % + asymmetry?
 
