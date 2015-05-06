@@ -47,7 +47,8 @@ in the subscriber demand in our dataset.
 \end{subfigure}
 
 \begin{subfigure}[b]{1\linewidth}
-\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
+% \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
+\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
                \caption{Difference in overall peak per subscriber\label{fig:diff-peak-overall}}
 \end{subfigure}
 %
@@ -79,30 +80,38 @@ in the control group, when compared to the lowest demanding subscribers of the t
 group. This shows up as a large gap under the 50\% mark in Figure~\ref{fig:CDF-data-rate-perc95}
 
 
-%\begin{figure}[t]
-%\centering
-%\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
-%               \caption{Difference between \treatment{} and \control{}
-%               in peak (95\%) traffic demand\label{fig:diff-perc95}}
-%\end{figure}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/cdf_diff_perc95_bytes_subsc-overall.pdf}
+               \caption{Distribution of the difference between \treatment{} and \control{}
+               peak traffic demands\label{fig:cdf-diff-perc95}}
+\end{figure}
 
 
 In Figure~\ref{fig:diff-peak-overall}, we plot the difference in
 peak subscriber demands from the 
 lowest peak to highest peak demanding subscribers in both groups.
 As both groups had a different number of subscribers, we sort their peak demands
-and difference the values at every 5th percentile.
+and difference the values at every percentile.
 Comparing the lowest demanding 70\% subscribers of both groups, we
 see that peak demand in \treatment{} is higher than the peak demand in \control{}.
-Comparing to figure~\ref{fig:CDF-data-rate-perc95}, these subscribers have a peak 
-demand less than 200 MB. 20\% of the compared subscribers in each group (between 30\% and 50\%
-difference) have a 30 MB higher demand if they belonged to the treatment group. 
-Their a peak demands are between between 40 -- 100 MB as part of the higher tier.
+Compared to figure~\ref{fig:CDF-data-rate-perc95}, these subscribers have a peak 
+demand less than 200 MB.
 
-Under 15\% of subscribers in the \treatment{} have peak demands more than 200 MB
-but less than 400 MB. Surprisingly, for this group, the peak demand is similar, 
-or lower than the equivalent 15\% of subscribers in \control{} (that are on a lower service
-tier).
+
+Figure~\ref{fig:cdf-diff-perc95} shows the distribution of the difference in demands of the two
+groups by percentile. There are 15\% subscribers in the \treatment{} 
+that have peak demands have peak demands that are similar, or lower than the
+equivalent 15\% of subscribers in \control{}. Figure~\ref{fig:diff-peak-overall} shows
+that this group lies around between the 65 and 80 percentile demand. Figure~\ref{fig:CDF-data-rate-perc95}
+shows that between the 65-80 percentile mark, subscribers had a demand between 
+200~MB to 400~MB. For these subscribers in \treatment{}, the equivalent subscribers
+in \control{} had demands upto 10~MB higher. 20\% of the differences between the peak
+of the treatment group and the control group are higher than 30 MB. These subscribers
+lie between the between 30\% and 50\% difference. Their a peak demands are between
+between 40 -- 100 MB as part of the higher tier, and 10 -- 70 MB if they belong to
+the lower tier.
+
 
 The highest demanding subscribers in the \treatment{} (beyond 800 MB peak demand)
 have demands 15~MB -- 30~MB more than the highest peak demanding subscribers
@@ -132,7 +141,8 @@ in \treatment{} uploaded between 2~MB -- 10~MB more than the top 10\% of \contro
 % 
 % COMMENT OUT IF TAKING TOO MUCH SPACE
 \begin{subfigure}[b]{.99\linewidth}
-\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}
+\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
+%\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
                 \caption{Daily peak (95\%) per subscriber\label{fig:diff-peak-daily}}
 \end{subfigure}
 %
