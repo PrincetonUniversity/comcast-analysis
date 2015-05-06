@@ -1,16 +1,18 @@
 \section{Results}\label{sec:analysis}
 
 \begin{table}[t]
+\begin{small}
 \begin{tabular}{| c | c |}\hline
 \textbf{Parameter} & \textbf{Definition}	\\\hline
-Traffic Demand per Subs.& \(\frac{\text{total bytes transferred in 
+Traffic Demand per Subscriber& \(\frac{\text{total bytes transferred in 
 measurement int.}}{\text{number of contributing subscribers}}\)	\\
-Prime Time Ratio 	& \( \frac{ \text{avg usage in peak (prime-time) 
+Prime-Time Ratio 	& \( \frac{ \text{avg usage in peak (prime-time) 
 hour}}{ \text{avg usage in off-peak hour}}\) 		\\
 Peak Ratio 		& \(\frac{\text{95\%-ile of daily traffic 
 demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \end{tabular}
-\caption{Evaluation Criteria}
+\end{small}
+\caption{Evaluation Metrics.}
 \label{tab:eval-criteria}
 \end{table}
 
@@ -22,21 +24,21 @@ upstream or downstream, during a single measurement period (15 minutes).
 We use traffic demand to calculate the total demand per hour, the average demand 
 in a day, and the 95th percentile peak demand over a day. To compare the total
 traffic of the control and treatment groups, we scale to a thousand subscribers
-wherever applicable (table~\ref{tab:data-stats}).
+wherever applicable (Table~\ref{tab:data-stats}).
 
 Diurnal Internet usage is known to be the highest during the prime-time evening 
 hours. For our analysis, we define \emph{prime time} as 8:00 PM to 12:00 AM.
-We consistently observed a that the daily demand falls within 90th percentile
-during this four hour period. The \emph{prime-time ratio} is defined as the
+We consistently observed that the daily demand falls within 90th percentile
+during this four-hour period. We define the \emph{prime-time ratio} as the
 ratio between the average hourly traffic during a
 prime-time hour, to the average hourly traffic outside the prime-time hour.
 This ratio conveys the disparity between demand during the prime-time and
 the rest of the day.
 
-Our analysis shows that although the overall demand increases due to the 
+We find that although the overall demand increases due to the 
 service upgrade, the increase during prime-time hours was insignificant. 
 To study the changes in overall daily demand, we use \emph{peak-ratio},
-defined as the the daily 95 percentile to mean ratio of traffic demand.
+defined as the the daily 95th percentile to mean ratio of traffic demand.
 
 \input{behavior}
 
