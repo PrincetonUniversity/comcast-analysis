@@ -1,38 +1,35 @@
 \section{Conclusion}\label{sec:conclusion}
 
-Our work aims to study the effect of increasing broadband capacity on traffic
-demand as a controlled experiment. We analyze byte usage counters collected
-from Comcast's residential gateways in the same city on a 105 Mbps service
-tier. A group of subscribers was unknowingly upgraded a 250 Mbps capacity.
-We observed that, when compared to the users in the 105 Mbps speed tier,
-the 250 Mbps subscribers sent 10\% more traffic, most of which was in 
-off-peak hours.
+In this paper, we study how subscribers respond to an increase in their
+ISP's service tier, using a randomized control trial that compares
+per-subscriber traffic volumes between two groups of Comcast subscribers
+in the same city: a control group, with Comcast's 105~Mbps service
+offering; and a second group of subscribers who were upgraded to the
+250~Mbps service tier without their knowledge.  We observed that
+subscribers with more moderate traffic demands increased their traffic
+demand relative more than subscribers who were already sending
+relatively high traffic volumes.  
 
-An increase greater than 20~MB is observed for 40\% of the 
-subscribers whose demands are between 10 -- 70~MB. These subscribers
-had peak-demands lower than, or comparable to, the median peak demand.
-This implies that as the service tier changed, the 95th percentile 
-traffic demands of subscribers who contribute the least to the total
-traffic volumes increases. Furthermore, the increase in demand was not well
-balanced throughout a day. Demand increased by 20\% during non-prime-time
-hours on weekdays, when the network is not under peak load. During prime-time
-hours the increase in usage was under 4\%.
+Initially, we were surprised by this result: after all, both intuition
+and previous work suggest that when users experience service-tier
+upgrades, they immediately exhaust the available capacity (particularly
+the high-volume subscribers). At higher tiers, however, we observe a
+completely different phenomenon: in general, users are not exhausting
+the available capacity, but a service tier upgrade may simply result in
+a better user experience that causes subscribers with more moderate
+traffic demands to use the Internet more than they otherwise would.  The
+fact that the most significant increases that we observed as a result of
+the service-tier upgrade occurred during non-prime-time hours on
+weekdays also suggests that these higher service tiers may generally be
+disproportionately used by subscribers who work from home.  Future
+research should aim to repeat our experiment for different cohorts (\ie,
+different subscribers, geographies, service tiers, and ISPs), and could
+also strive to obtain more fine-grained traffic statistics to explore
+exactly which applications are responsible for the behavioral changes
+that we have observed.
 
-In the future, we plan to follow up by studying the relationship between
-traffic demand and service tier
-capacity with similar controlled experiments for lower tiers. 
-We expect that at lower tiers, the demand during prime-time will increase 
-significantly with an unannounced upgrade, but eventually there will be
-service capacity beyond which demand during prime-time hours does not
-increase substantially with capacity, yet as our results show, there is an 
-increase in overall demand. This threshold may play a key role in defining
-demand based broadband benchmarks in the future.
 
-Another direction for future research is to study the reason for increased 
-demand in non-prime-time periods among the lighter users. We are currently 
-gathering data with application information and byte counter reports every 30 s 
-to investigate this further.
-
+\if 0
 \paragraph{POLICY IMPLICATIONS?}
 
 Demand increases for lower bandwidth users consistently
@@ -58,3 +55,4 @@ perspective the FCC takes when considering deployment and adoption of
 broadband services. Essentially, if any change is observed in demand due to an 
 upgraded service, the FCC may interpret that as \emph{adoption} of the higher 
 available tier.
+\fi
