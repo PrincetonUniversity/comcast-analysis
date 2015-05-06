@@ -102,14 +102,13 @@ On investigating further, we observed that a similar percentage of
 subscribers with low peak demand in \control{} had a higher peak demand in \treatment{}.
 40\% of the subscribers with lowest daily peak demands in the \treatment{} still
 had more than double the traffic demand of the equivalent 40\% in the \control{} group.
-(see Figure~\ref{fig:daily-ratio-perc95})
+(see Figure~\ref{fig:daily-ratio-perc95}).
 
-the 
-There is negligible change in the daily peak 
-demand for users who have high demands, and a large increase for users with a low demand.
-Furthermore, we observe this affect is also present in the uplink.
-There could be many reasons for this increase in demand, such as short
-term activities (short videos or web browsing) 
-that have a slightly higher traffic demand. Studying the applications 
-responsible for such behavioral changes in traffic demand is out of the
-scope of this paper and we leave it to future work.
+There could be many reasons for this increase in demand for subscribers that
+have lower peak demands. One reason could be short term web activities (such as short videos,
+web browsing) that have a slightly higher traffic demand. Such an increase in demand would then
+be apparent during hours when users pursue such activities. Another reason could be
+an increase in background traffic (such as software updates). Although studying the applications 
+responsible for such behavioral changes in traffic demand is not in the scope of our
+work, an interesting question that arises is: when does the demand increase the most 
+throughout a day?

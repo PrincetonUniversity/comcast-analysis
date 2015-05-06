@@ -3,27 +3,19 @@
 The daily diurnal nature of Internet traffic demand requires that ISP providers 
 design networks capable of handling load at the times when heaviest usage is 
 observed. Such heavy demand is usually observed during prime time hours in the 
-evening, when many
-subscribers heavily consume real-time entertainment traffic (video) (seen as
-primarily responsible for high usage during these hours). The FCC defines 
+evening, when many subscribers heavily consume real-time entertainment traffic
+(video) (seen as primarily responsible for high usage during these hours). The FCC defines 
 \textbf{Prime-Time} as the local time from 7:00 PM to 11:00 PM.
 \cite{fcc2014measuring-broadband}. To measure the concentration of network usage
 during prime-time, we use Sandvine's definition of the \textbf{Prime-Time 
-ratio}: the
-ratio of the average traffic demand during prime-time hours to the average 
-traffic demand 
-in non-prime-time hours.\cite{sandvine20141h, sandvine20142h}.
+ratio}: the ratio of the average traffic demand during prime-time hours to the average 
+traffic demand in non-prime-time hours.\cite{sandvine20141h, sandvine20142h}.
 
 We measure the prime-time ratio of the \control{} and \treatment{} group
-for each four hour period in our datasets to find the evening hours with
+for each contiguous four hour period in our datasets to find the evening hours with
 the largest prime-time ratio. We observed that in our dataset,
 the prime time ratio consistently peaks at 8:00 PM -- 12:00 AM for both
-datasets, rather than FCC's definition of 7:00 PM -- 11:00 PM. We believe that
-this could be a feature of high tier subscribers, who tend to increase
-their traffic demands later in the day. Or, the global prime-time might
-indeed be getting delayed with the rising contribution of late-night 
-entertainment
-traffic to the total consumption.
+datasets.
 
 \begin{figure}[t]
 \begin{minipage}{\linewidth}
@@ -34,8 +26,9 @@ sets\label{fig:cdf-prime-time-ratio}}
 \end{minipage}
 \end{figure}
 
-We observed that the aggregate traffic per 1000 subscribers from 8:00 PM -- 12:00 AM is 
-\todo{XXX} for both \treatment{} and \control{}. However, during off peak 
+We observed that the traffic per 1000 subscribers from 8:00 PM -- 12:00 AM is 
+209.5 GB for \treatment{}, and 205.1 GB for \control{} in the three \ref{tab:data-stats}.
+However, during off peak 
 daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
 mean of \todo{XXX}, 20\% higher than the \control{} set.
 
