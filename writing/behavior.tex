@@ -54,8 +54,12 @@ Figure \ref{fig:CDF-data-rate} shows the distribution of the
 all bytes transferred in the \treatment{} and \control{} set
 over the three months of the dataset. Figure \ref{fig:CDF-data-rate-perc95}
 plots the distribution of the peak (95th percentile) demand of the
-subscriber over the three months of the dataset. We observe that
-although the overall series are similar, the peak demand of subscribers
+subscriber over the three months of the dataset. The highest peak
+demand achieved by subscribers in the \control{} and \treatment{}
+groups were 10 GB in 15-mins. The median peak demand was 80 MB and
+100 MB respectively.
+
+We observe that although the overall series are similar, the peak demand of subscribers
 is higher in the \treatment{} set. We expected the largest difference
 in demands would be in the subscribers who have the heaviest demand already.
 But unexpectedly, the lowest demanding 50\% of the subscribers in
@@ -75,21 +79,26 @@ We plot the distribution of the difference in peak subscriber demands for
 the lowest to highest demanding subscribers in both groups (Figure~\ref{fig:diff-perc95}).
 We see that the peak demand for the lowest demanding 70\% of the households of
 the \treatment{} group is higher than the peak demand of the lowest demanding bottom-most
-70\% of the \control{} group.
+70\% of the \control{} group. These subscribers have a peak demand less than 200 MB.
+For 20\% of the subscribers in the \control{} group with peak demands between 10 -- 70 MB,
+the equivalent 20\% of the \treatment{} group has peak demands increased by 30 MB.
 
-, while 40\% of the \control set households 
-are under 0.1 Mbps. Thus, the absolute peak demand does not increase when 
-compared to the access link capacity, but there is certainly an increase in 
-peak demand of devices that had a low requirement, due to the change in 
-capacity.
+Under 15\% of subscribers in the \treatment{} group with peak demands more than 200 MB 
+peak demands similar, or lower than the equivalent 15\% of subscribers in the \control{}
+group, that has a lower capacity. The highest demanding subscribers in the \treatment{}
+(beyond 800 MB peak demand) have demands 15 -- 30 MB more than the equivalent 15\% of 
+the \control{} group. In contrast, for the upstream, the \treatment{} group consistently has
+a 2 MB higher peak traffic demand every 15 minutes as compared to the \control{} group
+(except for the top 10\% users in the \treatment{} set who had a higher peak).
 
 On investigating further, we observed that subscribers with low demand traffic 
-increased their demand daily. There is negligible change in the daily peak 
-demand for users
-who have high demands, and a large increase for users with a low demand.
+increased their demand daily by comparable amounts.
+
+There is negligible change in the daily peak 
+demand for users who have high demands, and a large increase for users with a low demand.
 Furthermore, we observe this affect is also present in the uplink.
-There could be many reasons for this increase in 
-demand, such as short term activities (short videos or web browsing) 
+There could be many reasons for this increase in demand, such as short
+term activities (short videos or web browsing) 
 that have a slightly higher traffic demand. Studying the applications 
 responsible for such behavioral changes in traffic demand is out of the
 scope of this paper and we leave it to future work.
