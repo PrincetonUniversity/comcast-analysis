@@ -22,8 +22,9 @@ By examining a single ISP's high-capacity tier with an unannounced upgrade,
 our dataset mitigates several biases that previous studies may have 
 suffered. Studying the behavior of users who opt for buying a higher service plan
 (unsatisfied subscribers) will naturally show an increase in demand on
-upgrading service. Similarly, users who have been offered a free upgrade in service
-may unknowingly change their behavior to utilize the upgraded capacity
+upgrading service, as was observed in \ref{dasu-imc2014}.
+Similarly, as \ref{zheleva2013} documented, users who have been offered an
+upgrade in service may change their behavior to utilize the upgraded capacity
 (cognitive bias). Studying datasets with these biases are prone 
 to positive high correlation between demand and capacity. 
 
@@ -53,8 +54,8 @@ octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 \subsection{Data}
 
 Our dataset consists of network usage byte counters reported every 15
-minutes from October 1, 2014 to December 29, 2014 from about 22,000
-Comcast residential broadband gateways in Salt Lake City, Utah.  Each
+minutes from October 1, 2014 to December 29, 2014 from about 22k
+Comcast residential broadband gateways in Salt Lake City, Utah. Each
 dataset contains the following fields: Device ID, the 15-minute time interval,
 service class, service direction, anonymized IP address, and the bytes
 transferred in each 15-minute interval, as described in
@@ -62,17 +63,17 @@ Table~\ref{tab:field-description}.
 
 We divided the users into two groups: a \control{} set, consisting of
 18,322 households with a 105 Mbps access link; and a \treatment{} set,
-consisting of 2,200 households that were paying for a 105 Mbps access
+consisting of 2,219 households that were paying for a 105 Mbps access
 link, yet were receiving 250 Mbps instead.  Subscribers in the
 \treatment{} set were selected randomly and were not told that their
 access bandwidth had been increased.  Our initial analysis of the data
 from more than 22,000 households showed that not all gateways were
-reporting their traffic counters every 15 minutes over the three-month
+reporting their traffic counters every 15 minutes over the whole three-month
 period: 32\% of the \treatment{} set, and 72\% of the \control{} set
 gateway devices were responsive for less than 80\% of the time. For the
 analysis in \autoref{sec:analysis}, we present our results based on the
-accepted group of subscribers, that contributed to the dataset more that
-80\% during their lifetime. Our final sanitized dataset consisted of
+accepted group of subscribers that contributed to the three-month dataset
+more that 80\% during their lifetime. Our final sanitized dataset consisted of
 4,845 subscribers in the \control{} group and 1,519 subscribers in the
 \treatment{}.
 
