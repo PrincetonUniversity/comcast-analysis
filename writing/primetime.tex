@@ -18,25 +18,44 @@ the prime time ratio consistently peaks at 8:00 PM -- 12:00 AM for both
 datasets.
 
 \begin{figure}[t]
-\begin{minipage}{\linewidth}
+\begin{minipage}{1\linewidth}
 \centering
-\includegraphics[]{figures/prime-time-ratio-per-device-cdf-MEAN.pdf}
-\caption{Prime-Time Ratio for subscribers in treatment and control 
-sets\label{fig:cdf-prime-time-ratio}}
+\includegraphics[width=1\linewidth]{figures/prime-time-ratio-per-device-cdf-MEAN.pdf}
+\caption{Prime-Time Ratio\label{fig:cdf-prime-time-ratio}}
 \end{minipage}
 \end{figure}
 
-We observed that the traffic per 1000 subscribers from 8:00 PM -- 12:00 AM is 
-209.5 GB for \treatment{}, and 205.1 GB for \control{} in the three \ref{tab:data-stats}.
-However, during off peak 
-daytime (work) hours, between 7:00 AM -- 7:00 PM, the \treatment{} group has a 
-mean of \todo{XXX}, 20\% higher than the \control{} set.
+\begin{table}[t]
+\begin{tabular}{| cc | c |c | }\hline
+  &                    & Weekday         & Weekends \\\hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Prime-Time\end{tabular}}              & treatment          & 233.12          & 246.93   \\
+& control            & 225.40          & 238.15   \\\hline
+\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Non-Prime-Time\end{tabular}}} & \textbf{treatment} & \textbf{124.18} & 49.38    \\
+& \textbf{control}   & \textbf{45.08}  & 47.63   \\\hline
+\end{tabular}
+\caption{Hourly Traffic Demand during in prime-time hours (MB)\label{prime-time-demand}}
+\end{table}
 
-We use our updated definition of prime-time (table~\ref{tab:eval-criteria}) 
-to calculate and plot the prime-time ratio per day for the \treatment{} and
+%\begin{subfigure}[]{.32\linewidth}
+%\includegraphics[width=1\linewidth]{figures/primetime_usage_per_day_per_subs.pdf}
+%\caption{\label{fig:pt}}
+%\end{subfigure}
+
+%\begin{subfigure}[b]{.32\linewidth}
+%\includegraphics[width=1\linewidth]{figures/nonprimetime_usage_per_day_per_subs.pdf}
+%\caption{\label{fig:non-pt}}
+%\end{subfigure}
+
+
+We observed that the hourly downlink traffic per 1000 subscribers between 8:00 PM -- 12:00 AM is 
+209.5 GB for \treatment{}, and 205.1 GB for \control{}. However, during an average hour
+outside of prime time, the traffic per 1000 subscribers is 122.3 GB for the higher tier
+and 108.5 GB for the lower tier. This difference in demand during hours outside of the
+daily prime-time is also apparant from the weekly usage patterns in Figure~\ref{fig:traffic-demand-timeseries}.
+ 
+We calculate and plot the prime-time ratio per day for the \treatment{} and
 \control{} groups in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
-that
-the \treatment{} group's prime time ratio is unexpectedly 10\% lower than the 
+that the \treatment{} group's prime time ratio is unexpectedly 10\% lower than the 
 \control{} group. This confirms our initial observation 
 [\autoref{subsec:behavior}]
 that the usage during peak evening hours is similar across both groups, but the
