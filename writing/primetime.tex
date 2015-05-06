@@ -1,18 +1,18 @@
 \subsection{Prime-Time Ratio} \label{subsec:primetime}
 
-ISP providers need to design networks capable of handling the heaviest total usage
-in a day. Such heavy demand is usually observed during prime time hours in the 
-evening, when many subscribers heavily consume real-time entertainment traffic
-(video) (seen as primarily responsible for high usage during these hours).
-The FCC defines prime-time as the local time from 7:00 PM to 11:00 PM.
-\cite{fcc2014measuring-broadband}. To measure the concentration of network usage
-during prime-time, we use Sandvine's definition of the \emph{Prime-Time 
-ratio}: the ratio of the average (hourly) traffic demand during prime-time hours to the average 
-demand in non-prime-time hours.\cite{sandvine20141h, sandvine20142h}.
-
-We measure the prime-time ratio of the subscribers in the control and treatment groups
-considering each contiguous four hour periods of a day. In our datasets we find the
-evening hours with the largest prime-time ratio are 8:00 PM -- 12:00 AM.
+ISPs design networks to handle peak demand, which is usually observed
+during prime-time hours, when subscribers heavily consume real-time
+entertainment traffic, such as video.  The FCC defines prime-time as the
+local time from 7:00--11:00 p.m.~\cite{fcc2014measuring-broadband}. To
+measure the concentration of network usage during prime-time, we use
+Sandvine's definition of the \emph{prime-time ratio}: the ratio of the
+average (hourly) traffic demand during prime-time hours to the average
+demand in non-prime-time hours~\cite{sandvine20141h, sandvine20142h}.
+We measured the prime-time ratio of the subscribers in the control and
+treatment groups considering each contiguous four-hour period in each
+day. Our experiment shows that, in fact, the evening hours with the
+largest prime-time ratio are 8:00~p.m.--12:00~a.m., so we use this time
+interval for our definition of prime time.
 
 %\begin{figure}[t]
 %\begin{minipage}{1\linewidth}
@@ -32,13 +32,6 @@ evening hours with the largest prime-time ratio are 8:00 PM -- 12:00 AM.
 %\caption{\label{fig:non-pt}}
 %\end{subfigure}
 
-
-Table~\ref{tab:data-stats} shows that the hourly downlink traffic per 1000 subscribers between 8:00 PM -- 12:00 AM is 
-209.5 GB for \treatment{}, and 205.1 GB for \control{}. However, during an average hour
-outside of prime time, the traffic per 1000 subscribers is 122.3 GB for the higher tier
-and 108.5 GB for the lower tier. This difference in demand during hours outside of the
-daily prime-time is also apparant from the weekly usage patterns in Figure~\ref{fig:traffic-demand-timeseries}.
-
 \begin{table}[t]
 \begin{tabular}{| cc | c |c | }\hline
   &                    & Weekday         & Weekends \\\hline
@@ -56,17 +49,42 @@ daily prime-time is also apparant from the weekly usage patterns in Figure~\ref{
 \end{table}
 
 
-We calculate the prime-time ratio per day over weekends and weekdays,
-as shown in Table \ref{tab:prime-time-demand}.
-%in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
-On weekends, the prime-time ratios for both groups are
-1.73 and 1.79 respectively. On the weekdays, the prime-time ratio for \control{}
-is much higher, 2.16, as compared to \treatment{}, 1.88. The demand
-during prime-time hours on the weekdays on the higher tier is within 4\% of
-the traffic on the lower tier. In contrast, the demand in non-prime-time hours
-(outside 8:00 PM -- 12:00 PM) is 20\% higher for the treatment group on weekdays and
-7.5\% higher on weekends. 
+Table~\ref{tab:data-stats} shows that the average hourly prime-time downstream traffic per
+1,000 subscribers is
+209.5 GB for the treatment group, compared to 205.1 GB for the control
+group, about a 2\% increase. 
+\f{In contrast, during an average hour
+{\em outside} of prime time, the traffic per 1,000 subscribers is 122.3
+GB for the treatment group, compared to
+108.5 GB for the control group, amounting to about a 12\% increase.} This
+more significant difference in demand during hours outside of the
+daily prime-time is also apparant from the weekly usage patterns in
+Figure~\ref{fig:traffic-demand-timeseries}. 
 
+We also calculated the prime-time ratio per day over weekends and
+weekdays, as shown in Table \ref{tab:prime-time-demand}.  On weekends,
+the prime-time ratios for the treatment and control groups are 1.73 and
+1.79 respectively. On the weekdays, the prime-time ratio for the control
+group is 2.16 compared to 1.88 for the treatment group. The prime-time demand
+on weekdays in the treatment group is within 4\%
+of that in the control group. \f{In contrast, the demand in
+{\em non-prime-time hours} is 20\% higher for the treatment group on weekdays,
+and only 7.5\% higher on weekends.} The increased off-peak demand in the
+control group suggests that many of the users in both the control and
+treatment groups (\ie, those subscribers who are already on high service
+tiers) may in fact be subscribers who work from home and thus increase
+their demand more during off-peak and weekdays as a result of the
+service tier upgrade..
+
+While 6\% of the subscribers in both groups had a prime-time ratio over
+100, we also observed that 9\% of the control group and 14\% of the
+treatment group had prime-time ratios {\em less than 1}, indicating that
+these users actually had higher demand during the day than they did
+during prime time. Similarly, these users may be small home
+businesses or subscribers who work at home.
+
+
+\if 0
 For our dataset, the prime-time ratio for the treatment and control groups
 were 1.70 and 1.93 respectively. By definitition, the prime-time ratio is measured using
 total traffic volume in a day. However, not all subscribers contribute equally
@@ -79,10 +97,5 @@ on a per-subscriber basis, although the total volume does not show the same incr
 This result indicates that individual subscribers that do not contribute substantially
 to the traffic volume are the ones who have higher usage in prime-time as compared to their
 lower tier counterparts.
+\fi
 
-We observerd 9\% of the \control{} group and 14\% of 
-the treatment group had prime-time ratios less than 1. Such subscribers 
-have a larger aggregate demand during non-prime-time hours. These
-may be small home-run businesses, users who work at home, or 
-users who have unexpected usage behaviors. We also found 6\% of the 
-subscribers in both groups had a prime-time ratio over 100.
