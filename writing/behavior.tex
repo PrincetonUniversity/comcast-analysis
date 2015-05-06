@@ -4,12 +4,12 @@
 \begin{minipage}{1\linewidth}
 \centering
 %
-\begin{subfigure}[b]{.99\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/weekday_demand_mean.pdf}
                \caption{Weekday traffic demand\label{fig:weekday-daily-usage}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{.99\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/weekend_demand_mean.pdf}
                \caption{Weekend traffic demand\label{fig:weekend-daily-usage}}
 \end{subfigure}
@@ -35,13 +35,13 @@ demand in our dataset.
 \begin{minipage}{1\linewidth}
 \centering
 %
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-all-bytes.pdf}
                \caption{Overall traffic demand for all subscribers at all times\label{fig:CDF-data-rate}}
 \end{subfigure}
 % maybe should be mean per day?
 %
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-per-device-perc95.pdf}
                \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
@@ -68,15 +68,37 @@ We confirm that the both groups have similar median demands over each day. Howev
 the daily peak demand is higher for the lowest demanding subscribers in
  \treatment{}, as compared to the lowest demanding subscribers in \control{}.
 
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
+%               \caption{Difference between \treatment{} and \control{}
+%               in peak (95\%) traffic demand\label{fig:diff-perc95}}
+%\end{figure}
+
+ 
 \begin{figure}[t]
+\begin{minipage}{1\linewidth}
 \centering
-\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
-               \caption{Difference between \treatment{} and \control{}
-               in peak (95\%) traffic demand\label{fig:diff-perc95}}
+%
+\begin{subfigure}[b]{.99\linewidth}
+\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-all.pdf}
+               \caption{Overall peak (95\%) per subsc.\label{fig:diff-peak-overall}}
+\end{subfigure}
+% maybe should be mean per day?
+%
+\begin{subfigure}[b]{.99\linewidth}
+\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-all.pdf}
+               \caption{Daily peak (95\%) per subsc.\label{fig:diff-peak-daily}}
+\end{subfigure}
+%
+\end{minipage}
+\caption{Difference between \treatment{} and \control{}
+               in peak (95\%) traffic demand\label{fig:diff-peak}}
 \end{figure}
 
+
 We plot the distribution of the difference in peak subscriber demands for
-the lowest to highest demanding subscribers in both groups (Figure~\ref{fig:diff-perc95}).
+the lowest to highest demanding subscribers in both groups (Figure~\ref{fig:diff-peak}).
 We see that the peak demand for the lowest demanding 70\% of the households of
 the \treatment{} group is higher than the peak demand of the lowest demanding bottom-most
 70\% of the \control{} group. These subscribers have a peak demand less than 200 MB.

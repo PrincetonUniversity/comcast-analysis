@@ -7,7 +7,7 @@ evening, when many subscribers heavily consume real-time entertainment traffic
 (video) (seen as primarily responsible for high usage during these hours). The FCC defines 
 Prime-Time as the local time from 7:00 PM to 11:00 PM.
 \cite{fcc2014measuring-broadband}. To measure the concentration of network usage
-during prime-time, we use Sandvine's definition of the \textbf{Prime-Time 
+during prime-time, we use Sandvine's definition of the \emph{Prime-Time 
 ratio}: the ratio of the average traffic demand during prime-time hours to the average 
 traffic demand in non-prime-time hours.\cite{sandvine20141h, sandvine20142h}.
 
@@ -70,25 +70,24 @@ the \control{} traffic, thus there is no substantial
 change. In contrast, the demand in non-prime-time hours (outside 8:00 PM -- 12:00 PM)
 is much higher in the \treatment{} group, especially on weekdays. 
 
-The average prime-time ratio by traffic volume for the \treatment and \control groups
+By definitition, the prime-time ratio is measured using total traffic volume in a day.
+For our dataset, the prime-time ratio for the \treatment and \control groups
 were 1.70 and 1.93 respectively. However, not all subscribers contribute equally
-to the traffic volume. We observed that the median prime-time ratio per subscriber
+to the traffic volume. We observed that the median prime-time ratio \emph{per subscriber}
 is 3.39 for the \treatment{} group and 2.91 for the \control{} group. This indicates
-that demand during prime-time \emph{per subscriber} has increased, but the total
+that demand during prime-time per subscriber has increased, but the total
 traffic volume during non-prime-time hours has also increased substantially. For
 subscribers that have a larger aggregate demand during non-prime-time hours, the prime
 time ratio will be less than one. We found 9\% of the \control{} group and 14\% of 
 the treatment group showed this behavior. These subscribers may be small home-run businesses,
-users who work at home, or just users who have unexpected usage behaviors.
+users who work at home, or just users who have unexpected usage behaviors. 6\% of the 
+subscribers in both groups had a prime-time ratio over 100.
 
-Initially, we expected that subscribers in the \treatment{} group will increase
-their utilization of the link during prime-time hours, when users usually consume video
-content. However, overall the \treatment{} group's prime time ratio was 10\% lower than the 
-\control{} group. This result indicates that individual subscribers in the higher tier group
-have a higher demand than the lower tier during times when the total daily demand is
-not within 90\% of its maximum. This extra demand is not enough to bottleneck the service
-tier link, yet adds up daily in the total traffic demand per day.
-
+Thus the overall demand of subscribers in the \treatment{} may have decreased by 
+total volume of traffic, however, it has increased on a per-subscriber basis.
+This result indicates that individual subscribers that do not contribute substantially
+to the traffic volume are the ones who have higher usage in prime-time as compared to their
+lower tier counterparts.
 
 %Latency and performance 
 %are adversely affected during prime-time, causing bottlenecks at home, the last 
