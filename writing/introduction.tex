@@ -1,62 +1,69 @@
 \section{Introduction}\label{sec:introduction}
 
-With the large impact of broadband Internet on our daily lives and 
-its rapid increase in bandwidth-intensive services, policymakers and 
-service providers (ISPs) are trying to determine how much bandwidth 
-consumers need. With the proliferation of high 
-quality video content, and the recent boom in Internet-enabled consumer 
-device, subscribers who are currently satisfied with higher service plans 
-may not continue to be so. 
+With the large impact of broadband Internet on our daily lives and its
+rapid increase in bandwidth-intensive services, policymakers and service
+providers (ISPs) are trying to determine how much bandwidth consumers
+need. With the proliferation of high quality video content, and the
+recent boom in Internet-enabled consumer device, it is worth
+studying---and continually re-evaluating---whether (and how) users
+consume the capacity that ISPs offer.  Up to a certain point, users will
+exhaust available capacity, and they will also adapt when more capacity
+becomes available; this increased demand in turn drives provisioning.
+Above certain speeds, however, the typical user no longer exhausts the
+available capacity. At what speed does this inflection point occur?  How
+do users adapt their demands when an ISP offers faster speed tiers?
+Answers to these questions will ultimately help inform policymakers and
+ISPs determine how to make investments in infrastructure, and when to
+make them.
+
 % + more work @ home
 % + fcc wants to add usage as a bb parameter
 
-Previous work studying the complex relationship between demand and capacity has 
-shown that users who are already maximizing their usage on a given access link 
-will continue to do so when they are migrated to a higher service tier. The 
-focus of our work is to study the traffic demand of subscribers who are already 
-on service plans with high downstream throughput capacity, and their response to 
+Previous work that has studied the complex relationship between demand and capacity  
+discovered that users who are already maximizing their usage on a given access link 
+will continue to do so when they are migrated to a higher service
+tier~\cite{dasu-imc2014}. In this paper, we study how the traffic demands of subscribers who are already 
+on service plans with high downstream throughput respond to 
 an undisclosed service plan upgrade as part of a randomized controlled trial 
-(RCT). Our dataset offers the unique opportunity to explore the impact on 
-traffic demand while mitigating the cognitive bias of the service tier upgrade 
+(RCT). This experiment offers the unique opportunity to explore the
+effects of a service-tier upgrade on 
+user traffic demand while mitigating the cognitive bias of the service-tier upgrade 
 by withholding that information from subscribers. To the best of our knowledge, 
 this is the first such comparative study of usage behavior in a controlled 
 experiment to study responses to service upgrades.
 
-Our study is based on Comcast's analytic data collected from home gateways for 
-their residential broadband customers in Salt Lake City, Utah. This data 
-consists of byte transfers collected continuously every 15 minutes from two 
-types of users; control: users that pay and use a high capacity access link (105 
-Mbps), and treatment: users that pay for 105 Mbps but are actually offered a 
-much higher capacity access link (250 Mbps) without their knowledge. This 
-decision was specifically anticipated to enable researchers to investigate the 
-question: \emph{does increase in capacity change traffic demand}?
-%Our analysis shows that not only are we capable of answering the above 
-%question, but we can also 
-
-We evaluate three months of traffic demand for more than 20,000 
-individual subscribers, 2,200 of whom had access to a 2.5-fold increased 
-service capacity. Our analysis shows that while the aggregate and mean daily 
-usage did not change significantly due to the upgrade, we observe a daily 20\% 
-increase during the off-peak hours, when subscribers are not expected to fully 
-utilize the link. Subscribers who are already using most of their 
-available capacity in 105 Mbps, do not use significantly more capacity when
-they are moved to a higher tier. In contrast, subscribers with a low traffic demand 
-increase their daily 95 percentile peak usage by 10\%. Finally, we observed 
-that more than than 99\% of the users do not even use the increased service 
-tier consistently for 15 minutes at any time in the three months of data we 
-study.
+Our study is based on data collected from the residential home gateways
+of Comcast subscribers in Salt Lake City, Utah. To measure traffic
+demand, Comcast collects
+aggregate byte counts every 15 minutes from two types of
+users: {\em control}, or users who pay and use a high capacity access
+link (105 Mbps); and {\em treatment}, or users who pay for 105 Mbps but
+were actually offered a 250~Mbps access link {\em without their
+  knowledge}.  We evaluate three months of traffic demand for more than
+20,000 individual subscribers, 2,200 of whom were in the treatment
+group. Our analysis shows that while the aggregate and mean daily usage
+did not change significantly due to the upgrade, the median subscriber
+increased traffic demands by about 20\%
+during off-peak hours. Subscribers who are already using most of their
+available capacity in 105~Mbps, do not use significantly more capacity
+when they are moved to a higher tier, but subscribers with lower traffic demands
+increased their daily 95th-percentile usage by about
+10\% on any given day. More than than 99\% of subscribers did not
+exhaust capacity for a sustained 15-minute interval any time during the
+three months of our study.
 % + prime time hours were 8-12 instead of 7-11 for high tier dataset
 % + asymmetry?
 
-Following the Federal Communications Commission (FCC) recent interest in 
-adopting usage (traffic demand) as one of the broadband benchmarks, we discuss 
-the possible implications of our observations on traffic demand for both policy 
-makers, who determine broadband deployment policies for the US based on consumer 
-demands, as well as ISPs such as Comcast, who plan broadband deployment and 
-capacity upgrades based on trends in aggregate usage behaviors. We conclude that 
-both policy makers and ISPs may have different perspectives of the same 
-observation, and motivate the need to further study traffic demand as a 
-broadband benchmark metric.
+Following the Federal Communications Commission (FCC) recent interest in
+adopting usage (traffic demand) as one of the broadband benchmarks, we
+discuss the possible implications of our observations on traffic demand
+for both policymakers, who determine broadband deployment policies for
+the US based on consumer demands, as well as ISPs such as Comcast, who
+plan broadband deployment and capacity upgrades based on trends in
+aggregate usage behaviors. We conclude that both policymakers and ISPs
+may have different perspectives of the same observation, and motivate
+the need to further study traffic demand as a broadband benchmark
+metric.
 
 The rest of the paper is organized as follows. In \autoref{sec:related} we 
 overview some previous studies of traffic demand and service capacity. Then, in 

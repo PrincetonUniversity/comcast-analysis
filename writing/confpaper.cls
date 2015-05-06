@@ -226,9 +226,9 @@
 
 
 % Custom section references using \autoref - Sarthak
-\renewcommand{\sectionautorefname}{\S}
-\renewcommand{\subsectionautorefname}{\S}
-\renewcommand{\subsubsectionautorefname}{\S}
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Section}
+\renewcommand{\subsubsectionautorefname}{Section}
 
 \hypersetup{%
 pdfauthor = {\AUTHORS},
@@ -255,6 +255,7 @@ bookmarksopen = {true}
 \RequirePackage{amssymb}
 \RequirePackage{listings}
 \RequirePackage{tikz}
+\RequirePackage{xspace}
 \usetikzlibrary{arrows}
 
 %\setlength{\parindent}{0pt}
@@ -310,9 +311,9 @@ Copyright 200X ACM X-XXXXX-XX-X/XX/XX ...\$5.00}
 %%%
 %%%  Abbreviations
 %%%
-\newcommand{\ie}{{\em i.e.}}
-\newcommand{\eg}{{\em e.g.}}
-\newcommand{\ea}{{\em et al.}}
+\newcommand{\ie}{{\em i.e.}\xspace}
+\newcommand{\eg}{{\em e.g.}\xspace}
+\newcommand{\ea}{{\em et al.}\xspace}
 \newcommand{\fp}{\vspace*{0.05in}\noindent}
 \newcommand{\name}{NAME}
 
