@@ -25,16 +25,6 @@ datasets.
 \end{minipage}
 \end{figure}
 
-\begin{table}[t]
-\begin{tabular}{| cc | c |c | }\hline
-  &                    & Weekday         & Weekends \\\hline
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Prime-Time\end{tabular}}              & treatment          & 233.12          & 246.93   \\
-& control            & 225.40          & 238.15   \\\hline
-\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Non-Prime-Time\end{tabular}}} & \textbf{treatment} & \textbf{124.18} & 49.38    \\
-& \textbf{control}   & \textbf{45.08}  & 47.63   \\\hline
-\end{tabular}
-\caption{Hourly Traffic Demand during in prime-time hours (MB)\label{prime-time-demand}}
-\end{table}
 
 %\begin{subfigure}[]{.32\linewidth}
 %\includegraphics[width=1\linewidth]{figures/primetime_usage_per_day_per_subs.pdf}
@@ -52,7 +42,23 @@ We observed that the hourly downlink traffic per 1000 subscribers between 8:00 P
 outside of prime time, the traffic per 1000 subscribers is 122.3 GB for the higher tier
 and 108.5 GB for the lower tier. This difference in demand during hours outside of the
 daily prime-time is also apparant from the weekly usage patterns in Figure~\ref{fig:traffic-demand-timeseries}.
- 
+
+\begin{table}[t]
+\begin{tabular}{| cc | c |c | }\hline
+  &                    & Weekday         & Weekends \\\hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Prime-Time\end{tabular}}
+& treatment          & 233.12          & 246.93   \\
+& control            & 225.40          & 238.15   \\\hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Non-Prime-Time\end{tabular}}
+& treatment & 124.18 & 143.08    \\
+& control   & 104.30  & 133.16  \\\hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Prime-Time Ratio\end{tabular}}
+& treatment & \textbf{1.88} &  1.73 \\
+& control  &  \textbf{2.16} &  1.79 \\\hline
+\end{tabular}
+\caption{Hourly Traffic Demand during in prime-time hours (MB)\label{prime-time-demand}}
+\end{table}
+
 We calculate and plot the prime-time ratio per day for the \treatment{} and
 \control{} groups in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
 that the \treatment{} group's prime time ratio is unexpectedly 10\% lower than the 
