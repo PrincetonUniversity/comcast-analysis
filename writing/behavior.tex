@@ -6,21 +6,22 @@
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/weekday_demand_mean.pdf}
-               \caption{Weekday traffic demand\label{fig:weekday-daily-usage}}
+               \caption{Weekday traffic demand.\label{fig:weekday-daily-usage}}
 \end{subfigure}
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/weekend_demand_mean.pdf}
-               \caption{Weekend traffic demand\label{fig:weekend-daily-usage}}
+               \caption{Weekend traffic demand.\label{fig:weekend-daily-usage}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{Average subscriber demand (bytes every 15-minutes)}
+\caption{Mean subscriber demand (bytes per 15-minute interval).}
 \label{fig:traffic-demand-timeseries}
 \end{figure}
 
 
 \begin{table}[t]
+\centering
 \begin{tabular}{ cc | ccc }\\\hline
                          &           & median & mean  & 95\%  \\\hline
 \multirow{2}{*}{Weekday} & treatment & 35.97  & 35.58 & 61.12 \\
@@ -28,26 +29,31 @@
 \multirow{2}{*}{Weekend} & treatment & 45.27  & 40.10 & 64.27 \\
                          & control   & 41.15  & 37.66 & 62.23 \\\hline
 \end{tabular}
-\caption{Desciption of weekday and weekend traffic demand}
+\caption{Weekday and weekend traffic demand patterns.}
 \label{tab:traffic-demand-description}
 \end{table}
 
-Figure \ref{fig:traffic-demand-timeseries} shows the downlink traffic demand
-(bytes per 15 minutes) of an average subscriber over a week. We observe that subscriber behavior differs
-significantly on weekdays and weekends.  The average per subscriber
-demand over a weekday is 35.6 MB, and the 95th percentile peak demand is 61.12 MB for
-subscribers in the treatment group (Table~\ref{tab:traffic-demand-description}).
-Over a weekend, the average demand is 40.1 MB, and the 95th percentile demand 
-is 64.3 MB for treatment, but the median is 45.27 MB due to consistent use in the major part of the day.
-
-On weekdays, traffic demand 
-increases monotonically from morning until prime-time hours in the evening. On 
-weekends, we observed a sharp rise in demand in the early morning period, from
-8:00 AM to 10:00 AM. Then, the demand plateaued until the next rise during before
-evening prime-time hours. Previous reports indicate that the aggregate traffic volume
-for US fixed access link providers usually troughs during mid-afternoon hours 
-(between 2:00 PM -- 6:00 PM)~\cite{sandvine20141h}. We do not observe such troughs
-in the subscriber demand in our dataset.
+We first explore how an upgrade to a higher service tier affected the
+average traffic demand per subscriber, for different times of the day
+and days of the week.  Figure~\ref{fig:traffic-demand-timeseries} shows
+the average downlink traffic demand across subscribers for a week, for
+both the treatment and control groups. We observe that subscriber
+behavior differs significantly on weekdays and weekends.  The average
+per subscriber demand over a weekday is 35.6 MB, and the 95th percentile
+peak demand is 61.12 MB for subscribers in the treatment group
+(Table~\ref{tab:traffic-demand-description}).  Over a weekend, the
+average demand is 40.1 MB, and the 95th percentile demand is 64.3 MB for
+treatment, but the median is 45.27 MB due to consistent use in the major
+part of the day.  On weekdays, traffic demand increases monotonically
+from morning until prime-time hours in the evening. On weekends, we
+observed a sharp rise in demand in the early morning period, from 8:00
+a.m. to 10:00 a.m.. Then, the demand plateaued until the next rise
+during before evening prime-time hours. Previous reports indicate that
+the aggregate traffic volume for US fixed access link providers usually
+troughs during mid-afternoon hours (between
+2:00~p.m.--6:00~p.m.)~\cite{sandvine20141h}. \f{In contrast to these
+  previous reports, we do not observe such troughs in 
+subscriber demand.}
 
 \begin{figure}[t]
 \begin{minipage}{1\linewidth}
@@ -67,37 +73,68 @@ in the subscriber demand in our dataset.
 \begin{subfigure}[b]{1\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
-               \caption{Difference in overall peak per subscriber\label{fig:diff-peak-overall}}
+               \caption{Difference in overall peak per
+                 subscriber. y-axis values are bytes transferred in the
+                 peak 15-minute interval. \label{fig:diff-peak-overall}}
 \end{subfigure}
 %
 \end{minipage}
-\caption{95th percentile traffic demand (bytes every 15-minutes) per subscriber for \control{} and \treatment{}\label{fig:traffic-demand-overall}}
+\caption{95th percentile traffic demand (bytes per 15 minutes) per
+  subscriber for the control and treatment groups. \label{fig:traffic-demand-overall}}
 \end{figure}
 
 % Figure \ref{CDF-data-rate} shows the data rate for each measurement period and every subscriber.
-Figure \ref{fig:CDF-data-rate-perc95} shows the distribution of the
-the 95th percentile downlink traffic demand 
-over the three month measurement period. The highest peak
-demand amongst subscribers in the lower tier was 2.97 GB,
-and 3.0 GB in the higher tier.
-
+Figure \ref{fig:CDF-data-rate-perc95} shows the distribution of the the
+95th percentile downlink traffic demand over the three-month measurement
+period. The highest peak demand per 15-minute interval amongst
+subscribers in the control group was 2.97 GB; in the treatment group,
+the highest peak demand was 3.0 GB.
 The average peak traffic demand was 169.8 MB for \control{} and
-186.6 MB for \treatment{}. Given the 105 Mbps service tier capacity,
+186.6 MB for \treatment{}. Given the 105 Mbps service-tier capacity,
 this means that users even on averaging the 95th percentile demand,
 users rarely utilize their links (average utilization was 1.43\%
 for \control{} and 1.5\% for \treatment{})
 
-Similar to previous studies, we suspected that the subscribers downloading most bytes
-by volume on the higher tier link would be the ones causing the largest difference
-in mean demand. However we observed that the median peak demand 
-was 66.7 MB for the lower tier, and 98.4 MB for the higher tier
-showing a clear increase in demand in the upgraded service tier
-group. We found that, the difference in the average peak demand
-was also preset in the lowest demanding 50\% subscribers
-in the control group, when compared to the lowest demanding subscribers of the treatment
-group. This shows up as a large gap under the 50\% mark in Figure~\ref{fig:CDF-data-rate-perc95}
+We suspected that the subscribers who downloaded most bytes in the
+higher service tier would be the ones causing the largest difference in
+mean demand, as previous studies have observed such a phenomenon. \f{In
+  fact, we observed that the more moderate subscribers actually seemed
+  to exhibit larger differences in traffic deman: The median peak demand
+  was 66.7 MB for the lower service tier, and 98.4 MB for the higher
+  tier.  This result indicates that the more moderate subscribers in the
+  control group who received a service-tier upgrade significantly
+  altered their peak demand.}  We also observed a significant difference
+in the mean peak demand was also present in the 50\% of
+subscribers in the control group with the lowest traffic demand when
+compared to the same set of subscribers of the treatment group. (This
+disparity appears as a large gap under the 50\% mark in
+Figure~\ref{fig:CDF-data-rate-perc95},)
 
 
+Figure~\ref{fig:diff-peak-overall} shows another way of looking at this
+phenomenon: it explores users with particular traffic demands in the
+control and treatment groups change their peak demand in response to the
+upgrade.  For each group, we sort the subscribers according to
+increasing demand.  Then we compute the difference in peak demand for
+each percentile in the group.  For example, the plot shows the median
+user (50\% on the x-axis) increased their peak demand by about 25\% in
+response to the service tier upgrade.  Comparing the 70\% subscribers of
+both groups with the least demand, we see that peak demand in the
+treatment group is higher than the peak demand in the control group,
+indicating that in fact even moderate users increase their demand as a
+result of the service-tier increase, even though they are not using the
+full capacity in either case.
+When we combine this analysis with that in
+Figure~\ref{fig:CDF-data-rate-perc95}, we find that these subscribers
+who respond with increased usage have a peak demand less than 200~MB.
+\f{One possible explanation for such behavior is that users see better
+performance (\eg, faster downloads) on the higher service tier, and thus
+increase their usage, even if they do not ever use the full network capacity.}
+Naturally, the small number of users with the highest demand (closer to
+100\%) also tend to increase their usage, sometimes substantially.
+
+
+\if 0
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/cdf_diff_perc95_bytes_subsc-overall.pdf}
@@ -105,59 +142,36 @@ group. This shows up as a large gap under the 50\% mark in Figure~\ref{fig:CDF-d
                peak traffic demands\label{fig:cdf-diff-perc95}}
 \end{figure}
 
-
-In Figure~\ref{fig:diff-peak-overall}, we plot the difference in
-peak subscriber demands from the 
-lowest peak to highest peak demanding subscribers in both groups.
-As both groups had a different number of subscribers, we sort their peak demands
-and difference the values at every percentile.
-Comparing the lowest demanding 70\% subscribers of both groups, we
-see that peak demand in \treatment{} is higher than the peak demand in \control{}.
-Compared to figure~\ref{fig:CDF-data-rate-perc95}, these subscribers have a peak 
-demand less than 200 MB.
-
-
-Figure~\ref{fig:cdf-diff-perc95} shows the distribution of the difference in demands of the two
-groups by percentile. There are 15\% subscribers in the \treatment{} 
-that have peak demands have peak demands that are similar, or lower than the
-equivalent 15\% of subscribers in \control{}. Figure~\ref{fig:diff-peak-overall} shows
-that this group lies around between the 65 and 80 percentile demand. Figure~\ref{fig:CDF-data-rate-perc95}
-shows that between the 65-80 percentile mark, subscribers had a demand between 
-200~MB to 400~MB. For these subscribers in \treatment{}, the equivalent subscribers
-in \control{} had demands upto 10~MB higher. 20\% of the differences between the peak
-of the treatment group and the control group are higher than 30 MB. These subscribers
-lie between the between 30\% and 50\% difference. Their a peak demands are between
-between 40 -- 100 MB as part of the higher tier, and 10 -- 70 MB if they belong to
-the lower tier.
-
-
-The highest demanding subscribers in the \treatment{} (beyond 800 MB peak demand)
-have demands 15~MB -- 30~MB more than the highest peak demanding subscribers
-in \control{}.
-
-For the upstream, 90\% of users in the treatment group consistently upload 2 MB
-more traffic than the control group. The top 10\% of the highest demanding subscribers
-in \treatment{} uploaded between 2~MB -- 10~MB more than the top 10\% of \control{}.
-
-%\begin{figure}[t]
-%\centering
-%\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-normalized.pdf}
-%               \caption{Ratio of the difference between \treatment{} and \control{}
-%               in the daily peak traffic demand to the daily peak of the \control\label{fig:daily-ratio-perc95}}
-%\end{figure}
-
+Figure~\ref{fig:cdf-diff-perc95} shows the distribution of the
+difference in demands of the two groups by percentile. There are 15\%
+subscribers in the \treatment{} that have peak demands have peak demands
+that are similar, or lower than the equivalent 15\% of subscribers in
+\control{}. Figure~\ref{fig:diff-peak-overall} shows that this group
+lies around between the 65 and 80 percentile
+demand. Figure~\ref{fig:CDF-data-rate-perc95} shows that between the
+65-80 percentile mark, subscribers had a demand between 200~MB to
+400~MB. For these subscribers in \treatment{}, the equivalent
+subscribers in \control{} had demands upto 10~MB higher. 20\% of the
+differences between the peak of the treatment group and the control
+group are higher than 30 MB. These subscribers lie between the between
+30\% and 50\% difference. Their peak demands are between between 40--100
+MB as part of the higher tier, and 10--70 MB if they belong to the lower
+tier.  The subscribers with the highest traffic demand in the treatment
+group (beyond 800 MB peak demand) have demands 15--30~MB more than the
+highest peak demanding subscribers in the control group.  In the case of
+upstream traffic, 90\% of users in the treatment group consistently
+upload 2 MB more traffic than the control group. The top 10\% of the
+highest demanding subscribers in \treatment{} uploaded between 2--10~MB
+more than the top 10\% of \control{}.
+\fi
 
 \begin{figure}[t]
 \begin{minipage}{1\linewidth}
 \centering
-%
-% COMMENT OUT IF TAKING TOO MUCH SPACE
 \begin{subfigure}[b]{1\linewidth}
  \includegraphics[width=\linewidth]{figures/cdf_peak_demand-daily.pdf}
                 \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-daily-perc95}}
  \end{subfigure}
-% 
-% COMMENT OUT IF TAKING TOO MUCH SPACE
 \begin{subfigure}[b]{.99\linewidth}
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
 %\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
@@ -166,22 +180,23 @@ in \treatment{} uploaded between 2~MB -- 10~MB more than the top 10\% of \contro
 %
 \end{minipage}
   \caption{Difference between peak-demands of subscribers from \treatment{} and
-  \control{} groups. Subscribers were considered at every 5\% in each group.
+  \control{} groups. Subscribers were considered at every 5\% in each
+  group. y-axis values are bytes transferred in the peak 15-minute interval.
   \label{fig:traffic-demand-daily}}
 \end{figure}
 
 
-On investigating further, we confirmed that this difference in the demands
-of the lowest utilizing 50\% subscribers is also present daily.
-Figure~\ref{fig:traffic-demand-daily} shows that when subscribers on the
-lower tier had a daily peak demand under 600 MB, subscribers in the higher
-tier had demands 5 -- 20 MB higher. This happens in 70\% of the instances.
-On taking the ratio of the difference in demand, with the equivalent demand
-of the lower tiers, we find that for 40\% of subscribers with low peak demands
-in the control group, there are 40\% subscribers in the treatment group with
-more than double their demands.
-%(see Figure~\ref{fig:daily-ratio-perc95}).
+\f{Further investigation revealed that this phenomenon is also present
+daily, not only in aggregate.}  Figure~\ref{fig:traffic-demand-daily}
+shows that when subscribers on the lower tier had a daily peak demand
+under 600 MB, subscribers in the higher tier had demands 5--20~MB
+higher. This happens in 70\% of the instances.  The ratio of the
+the differences in demand across percentiles also yields that
+the 40\% of subscribers with lowest peak demands in the
+control group increase their daily peak demand more than double their traffic demand in response to
+service tier upgrades.
 
+\if 0
 There could be many reasons for this increase in demand for subscribers with
 lower peak demands. One reason could be short term web activities (such as short videos,
 web browsing) that have a slightly higher traffic demand. Such an increase in demand would
@@ -190,7 +205,8 @@ Another reason could be an increase in background traffic (such as software upda
 Studying the applications responsible for such behavioral changes in traffic demand is not
 in the scope of our current work. However, an interesting question that arises is: when
 does the demand increase the most throughout a day? Our analysis showed that the most
-most subscribers reach within 95\% of daily maximum demand between 8:00 PM -- 12:00 AM.
+subscribers reach within 95\% of daily maximum demand between 8:00 p.m.--12:00 a.m.
+\fi
 
 % \begin{table}[h]
 % \begin{tabular}{lllll}
