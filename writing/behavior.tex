@@ -39,6 +39,7 @@ demand in our dataset.
 \includegraphics[width=\linewidth]{figures/cdf-all-bytes.pdf}
                \caption{Overall traffic demand for all subscribers at all times\label{fig:CDF-data-rate}}
 \end{subfigure}
+% maybe should be mean per day?
 %
 \begin{subfigure}[b]{1\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf-per-device-perc95.pdf}
@@ -49,6 +50,20 @@ demand in our dataset.
 \caption{Traffic demand (bytes every 15-minutes) for \control{} and \treatment{}\label{fig:traffic-demand-cdf}}
 \end{figure}
 
+Figure \ref{fig:CDF-data-rate} shows the distribution of the
+all bytes transferred in the \treatment{} and \control{} set
+over the three months of the dataset. Figure \ref{fig:CDF-data-rate-perc95}
+plots the distribution of the peak (95th percentile) demand of the
+subscriber over the three months of the dataset. We observe that
+although the overall series are similar, the peak demand of subscribers
+is higher in the \treatment{} set. We expected the largest difference
+in demands would be in the subscribers who have the heaviest demand already.
+But unexpectedly, the lowest demanding 50\% of the subscribers in
+\treatment{} have a much higher demand than the lowest demanding 50\% of \control{}.
+We confirm that the both groups have similar median demands over each day. However
+the daily peak demand is higher for the lowest demanding subscribers in
+ \treatment{}, as compared to the lowest demanding subscribers in \control{}.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}
@@ -56,20 +71,13 @@ demand in our dataset.
                in peak (95\%) traffic demand\label{fig:diff-perc95}}
 \end{figure}
 
-Figure \ref{fig:CDF-data-rate} shows the distribution of the
-all bytes transferred in the \treatment{} and \control{} set
-over the three months of the dataset.
+We plot the distribution of the difference in peak subscriber demands for
+the lowest to highest demanding subscribers in both groups (Figure~\ref{fig:diff-perc95}).
+We see that the peak demand for the lowest demanding 70\% of the households of
+the \treatment{} group is higher than the peak demand of the lowest demanding bottom-most
+70\% of the \control{} group.
 
-
-Figure \ref{fig:CDF-data-rate-perc95}  plots the distribution of the
-peak (95th percentile) demand of the subscriber. We observe that the maximum demand increases 
-due 
-to the service upgrade throughout the \control{} group. However, the increase is 
-higher for
-subscribers who have a low traffic demand.
-
-We see that 30\% of the households from the \test set have a low 
-peak demand (under 0.1 Mbps), while 40\% of the \control set households 
+, while 40\% of the \control set households 
 are under 0.1 Mbps. Thus, the absolute peak demand does not increase when 
 compared to the access link capacity, but there is certainly an increase in 
 peak demand of devices that had a low requirement, due to the change in 
