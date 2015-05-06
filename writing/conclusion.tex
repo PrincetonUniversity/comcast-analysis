@@ -5,34 +5,21 @@ demand as a controlled experiment. We analyze byte usage counters collected
 from Comcast's residential gateways in the same city on a 105 Mbps service
 tier. A group of subscribers was unknowingly upgraded a 250 Mbps capacity.
 We observed that, when compared to the users in the 105 Mbps speed tier,
-the 250 Mbps subscribers sent \todo{X}\% more traffic, most of which was in 
+the 250 Mbps subscribers sent 10\% more traffic, most of which was in 
 off-peak hours.
 
-For the 50 percent users contributing the most to the total traffic, the 95th
-percentile traffic demand over a three-month period did not change when the
-speed tier increases. But for the 50 percent subscribers that have the lowest
-traffic demand in the 105 Mbps tier, the 95th percentile peak demand increases
-substantially. Furthermore, the increase in demand was not well balanced 
-throughout
-a day. Demand increased two-fold during non-prime time hours when the network is 
-not
-under peak load. During prime-time hours the increase was negligible.
+An increase greater than 20~MB is observed for 40\% of the 
+subscribers whose demands are between 10 -- 70~MB. These subscribers
+had peak-demands lower than, or comparable to, the median peak demand.
+This implies that as the service tier changed, the 95th percentile 
+traffic demands of subscribers who contribute the least to the total
+traffic volumes increases. Furthermore, the increase in demand was not well
+balanced throughout a day. Demand increased by 20\% during non-prime-time
+hours on weekdays, when the network is not under peak load. During prime-time
+hours the increase in usage was under 4\%.
 
-As the heaviest users contribute to most of the total demand, and their demand 
-does not increase substantially during prime-time hours, it suggests that the 
-ISP is not a bottleneck to the total network traffic. However, the traffic 
-demand
-per subscriber increases twofold for households with low demand during 
-non-prime-time
-hours due to the service upgrade.
-
-In conclusion, service upgrades to high speed tiers do increase demand during 
-off-peak
-hours. And the demand for users utilizing most of the capacity does not increase
-as much as for those who are underusing the link. 
-
-In the future, we plan to follow
-up by studying the relationship between traffic demand and service tier
+In the future, we plan to follow up by studying the relationship between
+traffic demand and service tier
 capacity with similar controlled experiments for lower tiers. 
 We expect that at lower tiers, the demand during prime-time will increase 
 significantly with an unannounced upgrade, but eventually there will be
@@ -45,3 +32,29 @@ Another direction for future research is to study the reason for increased
 demand in non-prime-time periods among the lighter users. We are currently 
 gathering data with application information and byte counter reports every 30 s 
 to investigate this further.
+
+\paragraph{POLICY IMPLICATIONS?}
+
+Demand increases for lower bandwidth users consistently
+Relatively more data is sent in off peak hours 
+
+A service provider considering increase in 
+capacity will not invest in offering a service upgrade in such a scenario. The 
+ISP perspective is that the highest demanding subscribers will not be utilizing 
+the higher capacity during the prime-time, thus the total demand will not 
+increase. This question is considered by ISPs when planning capacity upgrades 
+in the future, or considering investment in a new technology or region. For 
+example, Google Fiber is now expanding to Salt Lake City, from where 
+we received our dataset. The analysis of change in user behavior with capacity 
+estimates that a low number of users already on the 105 Mbps service tier will 
+actually increase their demand beyond the 105 Mbps capacity if they 
+migrate to a higher capacity service offered by Google. 
+
+This may 
+convince subscribers and policy makers alike that individually, the demand of a 
+household is affected by the increase in access link capacity, especially for 
+subscribers who did not have much demands. We believe that this is the 
+perspective the FCC takes when considering deployment and adoption of 
+broadband services. Essentially, if any change is observed in demand due to an 
+upgraded service, the FCC may interpret that as \emph{adoption} of the higher 
+available tier.
