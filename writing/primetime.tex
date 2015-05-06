@@ -17,14 +17,13 @@ the largest prime-time ratio. We observed that in our dataset,
 the prime time ratio consistently peaks at 8:00 PM -- 12:00 AM for both
 datasets.
 
-\begin{figure}[t]
-\begin{minipage}{1\linewidth}
-\centering
-\includegraphics[width=1\linewidth]{figures/prime-time-ratio-per-device-cdf-MEAN.pdf}
-\caption{Prime-Time Ratio\label{fig:cdf-prime-time-ratio}}
-\end{minipage}
-\end{figure}
-
+%\begin{figure}[t]
+%\begin{minipage}{1\linewidth}
+%\centering
+%\includegraphics[width=1\linewidth]{figures/prime-time-ratio-per-device-cdf-MEAN.pdf}
+%\caption{Prime-Time Ratio\label{fig:cdf-prime-time-ratio}}
+%\end{minipage}
+%\end{figure}
 
 %\begin{subfigure}[]{.32\linewidth}
 %\includegraphics[width=1\linewidth]{figures/primetime_usage_per_day_per_subs.pdf}
@@ -59,21 +58,24 @@ daily prime-time is also apparant from the weekly usage patterns in Figure~\ref{
 \caption{Hourly Traffic Demand during in prime-time hours (MB)\label{prime-time-demand}}
 \end{table}
 
-We calculate and plot the prime-time ratio per day for the \treatment{} and
-\control{} groups in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
-that the \treatment{} group's prime time ratio is unexpectedly 10\% lower than the 
-\control{} group overall. On weekends, the prime-time ratios for both groups are
+We calculate the prime-time ratio per day for the \treatment{} and
+\control{} groups over weekends and weekdays, as shown in Table \ref{prime-time-demand}.
+%in figure~\ref{fig:cdf-prime-time-ratio}. A comparison shows 
+On weekends, the prime-time ratios for both groups are
 1.73 and 1.79 respectively. On the weekdays, the prime-time ratio for \control{}
 is much higher, 2.16, as compared to treatment, 1.88. The demand
 during prime-time hours on the weekdays for \treatment{} is within 4\% of
-the \control{} traffic (Table \ref{prime-time-demand}), thus there is no substantial
+the \control{} traffic, thus there is no substantial
 change. In contrast, the demand in non-prime-time hours (outside 8:00 PM -- 12:00 PM)
 is much higher in the \treatment{} group, especially on weekdays. 
 
-This result indicates that individual subscribers in the higher tier group have a higher
-demand than the lower tier during times when the total daily demand is not within 90\% of its
-maximum. This extra demand is not enough to bottleneck the service tier link, yet adds up
-daily in the total traffic demand per day.
+Initially, we expected that subscribers in the \treatment{} group will increase
+their utilization of the link during prime-time hours, when users usually consume video
+content. However, overall the \treatment{} group's prime time ratio was 10\% lower than the 
+\control{} group. This result indicates that individual subscribers in the higher tier group
+have a higher demand than the lower tier during times when the total daily demand is
+not within 90\% of its maximum. This extra demand is not enough to bottleneck the service
+tier link, yet adds up daily in the total traffic demand per day.
 
 %Latency and performance 
 %are adversely affected during prime-time, causing bottlenecks at home, the last 
