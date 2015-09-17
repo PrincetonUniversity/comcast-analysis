@@ -1,4 +1,79 @@
-\documentclass[10pt,twocolumn]{confpaper}
+\RequirePackage{amsmath}
+\documentclass{llncs}
+
+\usepackage{llncsdoc}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+%\usepackage{caption}
+%\usepackage[caption=false]{subfig}
+\usepackage{subcaption}
+
+\usepackage{multirow}
+\usepackage{balance}
+\usepackage{tabulary}
+\usepackage{ifthen}
+
+\usepackage{tabularx}
+\usepackage{url}
+\urldef{\mailsa}\path|{sgrover, rensafi, feamster}@cs.princeton.edu|    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+
+%%%
+%%%  Tables
+%%%
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{float}  % Must appear before hyperref to
+                        % avoid weird PDF compile issues
+
+%%%
+%%%  Fonts
+%%%
+%\usepackage{mathptmx} % Times/Times-like math symbols
+\usepackage{courier}
+\usepackage[scaled=0.92]{helvet}
+
+%%%
+%%%  PDF setup
+%%%
+\usepackage[breaklinks=true,pagebackref,filecolor=black,citecolor=blue,urlcolor=black,linkcolor=blue,colorlinks,pdfpagelabels,pdfpagelayout=SinglePage]{hyperref}
+
+
+\usepackage{soul}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{xspace}
+\usetikzlibrary{arrows}
+
+\usepackage{cite}
+%%%
+%%%  Footnotes / Endnotes
+%%%
+\interfootnotelinepenalty=10000  % Split footnotes are annoying
+
+
+%%%from NDSS2013
+\setlength{\pdfpagewidth}{\paperwidth}
+\setlength{\pdfpageheight}{\paperheight}
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\setlength{\pdfpagewidth}{\paperwidth}
+\setlength{\pdfpageheight}{\paperheight}
 
 %%%%%%%%%%%%%%%%%%%%  INCLUDES  %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -6,6 +81,11 @@
 \usepackage{siunitx}
 
 %%%%%%%%%%%%%%%%%%%%  LOCALS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ie}{{\em i.e.}\xspace}
+\newcommand{\eg}{{\em e.g.}\xspace}
+\newcommand{\ea}{{\em et al.}\xspace}
+\newcommand{\fp}{\vspace*{0.05in}\noindent}
+\newcommand{\name}{NAME}
 
 \newcommand{\red}[1]{\color{red}{#1}}
 \newcommand{\sg}[1]{\note{blue}{SG: #1}}
@@ -13,37 +93,31 @@
 \newcommand{\xxx}[1]{\note{red}{\bf XXX: #1}}
 \newcommand{\f}[1]{#1}
 
-
-%\newcommand{\system}{{\em NetASM}}
 \newcommand{\FCC}{{\em FCC}}
 \newcommand{\control}{{\em control}}
 \newcommand{\test}{{\em treatment}}
 \newcommand{\treatment}{{\em treatment}}
 \newcommand{\factor}{{\em factor}}
-%%%%%%%%%%%%%%%%%%%%  TITLE/AUTHORS  %%%%%%%%%%%%%%%%%%%%%
-
-\date{}
-\title{\ttlfnt{
-\TITLE}}
-\author{
-\aufnt{\AUTHORS} \\
-\affaddr{Princeton University}
-}
 
 %%%%%%%%%%%%%%%%%%%%  START OF DOCUMENT  %%%%%%%%%%%%%%%%%
 
 \begin{document}
-
-\maketitle
-
-%\AcmCopyright
-%\ToAppear
-
 \begin{sloppypar}
+
+\mainmatter 
+
+\title{When the Rich Get Richer: A Case Study of Traffic Demand Response to Service-Plan Upgrades}
+
+\author{Sarthak Grover \and Roya Ensafi \and Nick Feamster}
+
+\institute{Department of Computer Science, Princeton University.\\\mailsa}
+
+%\onecolumn
+\maketitle
 
 \input{abstract}
 
-\ifthenelse{\equal{\onlyAbstract}{no}}{% !onlyAbstract
+%\ifthenelse{\equal{\onlyAbstract}{no}}{% !onlyAbstract
 
 \input{introduction}
 
@@ -63,6 +137,7 @@ conclusion}\label{lastpage}
 %\vspace{-0.1in}
 %\section*{Acknowledgments}
 % Comments for people we need to acknowledge in the final version.
+%We would like to thank the anonymous XXX reviewers and our shepherd, ...
 
 \pagebreak
 
@@ -75,8 +150,8 @@ conclusion}\label{lastpage}
 \bibliographystyle{abbrv}
 %\bibliographystyle{abbrvnat_noaddr} % SPACE
 %\theendnotes % ENDNOTES
-}{% onlyAbstract
-}
+%}{% onlyAbstract
+%}
 
 \end{document}
 

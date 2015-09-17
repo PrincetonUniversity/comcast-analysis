@@ -1,5 +1,5 @@
 TARGET=paper
-SRCS = abstract.tex intro.tex related.tex dataset.tex analysis.tex behavior.tex primetime.tex peakratio.tex conclusion.tex
+SRCS = abstract.tex introduction.tex related.tex dataset.tex analysis.tex behavior.tex primetime.tex peakratio.tex conclusion.tex
 all: pdf
 
 pdf:
