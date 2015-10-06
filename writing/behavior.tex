@@ -1,15 +1,15 @@
 \subsection{Traffic Demand Per Subscriber}\label{subsec:behavior}
 
 \begin{figure}[t]
-\begin{minipage}{1\linewidth}
+\begin{minipage}{\linewidth}
 \centering
 %
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/weekday_demand_mean.pdf}
                \caption{Weekday traffic demand.\label{fig:weekday-daily-usage}}
 \end{subfigure}
 %
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/weekend_demand_mean.pdf}
                \caption{Weekend traffic demand.\label{fig:weekend-daily-usage}}
 \end{subfigure}
@@ -56,7 +56,7 @@ troughs during mid-afternoon hours (between
 subscriber demand.}
 
 \begin{figure}[t]
-\begin{minipage}{1\linewidth}
+\begin{minipage}{\linewidth}
 \centering
 %
 %\begin{subfigure}[b]{.33\linewidth}
@@ -65,16 +65,15 @@ subscriber demand.}
 %\end{subfigure}
 % maybe should be mean per day?
 %
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf_peak_demand-overall.pdf}
                \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
-
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
                \caption{
-                 Change in overall peak (95\%) demand per subscriber. y-axis unites
+                 Change in overall peak (95\%) demand per subscriber. y-axis units
                   are bytes transferred in the peak 15-minute
                   interval, in MB.
  \label{fig:diff-peak-overall}}
@@ -135,7 +134,7 @@ Naturally, the small number of users with the highest demand (closer to
 \if 0
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{figures/cdf_diff_perc95_bytes_subsc-overall.pdf}
+\includegraphics[width=.5\linewidth]{figures/cdf_diff_perc95_bytes_subsc-overall.pdf}
                \caption{Distribution of the difference between \treatment{} and \control{}
                peak traffic demands\label{fig:cdf-diff-perc95}}
 \end{figure}
@@ -164,13 +163,13 @@ more than the top 10\% of the control group.
 \fi
 
 \begin{figure}[t]
-\begin{minipage}{1\linewidth}
+\begin{minipage}{\linewidth}
 \centering
-\begin{subfigure}[b]{1\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
  \includegraphics[width=\linewidth]{figures/cdf_peak_demand-daily.pdf}
                 \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-daily-perc95}}
  \end{subfigure}
-\begin{subfigure}[b]{.99\linewidth}
+\begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
 %\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
                 \caption{Change in daily peak (95\%) demand per subscriber. 
