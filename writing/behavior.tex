@@ -57,30 +57,19 @@ subscriber demand.}
 \begin{figure}[t]
 \begin{minipage}{\linewidth}
 \centering
-%
-%\begin{subfigure}[b]{.33\linewidth}
-%\includegraphics[width=\linewidth]{figures/cdf-all-bytes.pdf}
-%                \caption{Overall traffic demand for all subscribers at all times\label{fig:CDF-data-rate}}
-%\end{subfigure}
-% maybe should be mean per day?
-%
 \begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf_peak_demand-overall.pdf}
-               \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-perc95}}
+               \caption{\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
 \begin{subfigure}[b]{.49\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
-               \caption{
-                 Change in overall peak (95\%) demand per subscriber. y-axis units
-                  are bytes transferred in the peak 15-minute
-                  interval, in MB.
- \label{fig:diff-peak-overall}}
+               \caption{\label{fig:diff-peak-overall}}
 \end{subfigure}
 %
 \end{minipage}
 \caption{95th percentile traffic demand (bytes per 15 minutes) per
-  subscriber for the control and treatment groups. \label{fig:traffic-demand-overall}}
+  subscriber for the control and treatment groups: (\protect\subref{fig:CDF-data-rate-perc95}) Peak (95\%) traffic demand per subscriber; (\protect\subref{fig:diff-peak-overall}) Change in overall peak (95\%) demand per subscriber. y-axis units are bytes transferred in the peak 15-minute interval, in MB. \label{fig:traffic-demand-overall}}
 \end{figure}
 
 % Figure \ref{CDF-data-rate} shows the data rate for each measurement period and every subscriber.
@@ -166,21 +155,18 @@ more than the top 10\% of the control group.
 \centering
 \begin{subfigure}[b]{.49\linewidth}
  \includegraphics[width=\linewidth]{figures/cdf_peak_demand-daily.pdf}
-                \caption{Peak (95\%) traffic demand per subscriber\label{fig:CDF-data-rate-daily-perc95}}
+                \caption{\label{fig:CDF-data-rate-daily-perc95}}
  \end{subfigure}
 \begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
 %\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
-                \caption{Change in daily peak (95\%) demand per subscriber. 
-		  y-axis units are bytes transferred in the peak 15-minute
-                  interval, in MB.\label{fig:diff-peak-daily}} 
+                \caption{\label{fig:diff-peak-daily}} 
 \end{subfigure}
 %
 \end{minipage}
   \caption{Difference between peak-demands of subscribers from \treatment{} and
   \control{} groups. Subscribers were considered at every 5\% in each
-  group. 
-  \label{fig:traffic-demand-daily}}
+  group. (\protect\subref{fig:CDF-data-rate-daily-perc95}) Peak (95\%) traffic demand per subscriber; (\protect\subref{fig:diff-peak-daily}) Change in daily peak (95\%) demand per subscriber. y-axis units are bytes transferred in the peak 15-minute interval, in MB.\label{fig:traffic-demand-daily}}
 \end{figure}
 
 
