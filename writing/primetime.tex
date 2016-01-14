@@ -34,50 +34,48 @@ interval for our definition of prime time.
 
 \begin{table}[t]
 \centering
-\begin{tabular}{| cc | c |c | }\hline
-  &                    & Weekday         & Weekends \\\hline
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Prime-Time\end{tabular}}
-& treatment          & 233.12          & 246.93   \\
-& control            & 225.40          & 238.15   \\\hline
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Hourly Traffic in\\ Non-Prime-Time\end{tabular}}
-& treatment & 124.18 & 143.08    \\
-& control   & 104.30  & 133.16  \\\hline
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Prime-Time Ratio\end{tabular}}
-& treatment & {1.88} &  1.73 \\
-& control  &  {2.16} &  1.79 \\\hline
+\begin{tabular}{cc|c|c|c|}
+\cline{3-5}
+                                               &           & \begin{tabular}[c]{@{}c@{}}Hourly traffic\\ in PT\end{tabular} & \begin{tabular}[c]{@{}c@{}}Hourly traffic\\ in Non-PT\end{tabular} & \begin{tabular}[c]{@{}c@{}}Prime-time\\ Ratio\end{tabular} \\ \hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{Weekday}} & treatment & 233.12                                                         & 124.18                                                             & 1.88                                                       \\
+\multicolumn{1}{|c|}{}                         & control   & 225.40                                                         & 104.30                                                             & 2.16                                                       \\ \hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{Weekend}} & treatment & 246.93                                                         & 143.08                                                             & 1.73                                                       \\
+\multicolumn{1}{|c|}{}                         & control   & 238.15                                                         & 133.16                                                             & 1.79                                                       \\ \hline
 \end{tabular}
-\caption{Hourly traffic demand during  prime-time hours (MB).\label{tab:prime-time-demand}}
+\caption{\green{Hourly traffic demand during (and outside) prime-time hours per subscriber (MB). Prime-time traffic demand is defined as the average traffic demand during a prime-time hour.}\label{tab:prime-time-demand}}
 \end{table}
-
 
 Table~\ref{tab:data-stats} shows that the average hourly prime-time downstream traffic per
 1,000 subscribers is
 209.5 GB for the treatment group, compared to 205.1 GB for the control
-group, about a 2\% increase. 
-\f{In contrast, during an average hour
+group, \green{about a 2\% difference.} 
+In contrast, during an average hour
 {\em outside} of prime time, the traffic per 1,000 subscribers is 122.3
 GB for the treatment group, compared to
-108.5 GB for the control group, amounting to about a 12\% increase.} This
+108.5 GB for the control group, amounting to \green{about a 12\% difference.} This
 more significant difference in demand during hours outside of the
 daily prime-time is also apparent from the weekly usage patterns in
-Figure~\ref{fig:traffic-demand-timeseries}. 
+Figure~\ref{fig:traffic-demand-timeseries}. \sgfoot{ Reviewer comment: Throughout the paper, I was wondering the extent to which congestion was affecting the results.  It's well-known that Comcast and other ISPs over-subscribe their network, relying on statistical multiplexing.  Thus, during peak hours, it may be the case that both control, and treatment groups are receiving the same level of service.  In this case, the results the low level of increase during prime time (2\%) relative to the higher level of increase outside of prime time (12\%) might be explained.  I don't know if the authors can tell the extent to which congestion is a factor given the data, would be in would be an interesting discussion nevertheless.}
 
 We also calculated the prime-time ratio per day over weekends and
 weekdays, as shown in Table \ref{tab:prime-time-demand}.  On weekends,
 the prime-time ratios for the treatment and control groups are 1.73 and
 1.79 respectively. On the weekdays, the prime-time ratio for the control
 group is 2.16 compared to 1.88 for the treatment group. 
-\f{In terms of
-absolute demand, the prime-time demand
+In terms of absolute demand, the prime-time demand
 on weekdays in the treatment group is within 4\%
 of that in the control group. In contrast, the demand in
 {\em non-prime-time hours} is 19\% higher for the treatment group on weekdays,
-and only 7.5\% higher on weekends.} The increased non-prime-time demand in the
+and only 7.5\% higher on weekends. \red{The increased non-prime-time demand in the
 control group suggests that many of the users in both the control and
 treatment groups (\ie, those subscribers who are already on high service
 tiers) may in fact be subscribers who work from home and thus increase
 their demand more during non-prime-time and weekdays as a result of the
-service tier upgrade..
+service tier upgrade.} \sgfoot{The large difference in non-prime-time
+ demand of the control and treatment groups on weekdays suggests
+ that many of the users in the treatment group may in fact be subscribers
+ who work from home, and thus have a higher demand during non-prime-time hours
+ and weekdays on the higher service tier.}
 
 While 6\% of the subscribers in both groups had a prime-time ratio over
 100, we also observed that 9\% of the control group and 14\% of the
@@ -87,18 +85,18 @@ during prime time. Similarly, these users may be small home
 businesses or subscribers who work at home.
 
 
-\if 0
-For our dataset, the prime-time ratio for the treatment and control groups
-were 1.70 and 1.93 respectively. By definition, the prime-time ratio is measured using
-total traffic volume in a day. However, not all subscribers contribute equally
-to the traffic volume. We observed that the median \emph{prime-time ratio per subscriber}
-is 3.39 for the \treatment{} group and 2.91 for the \control{} group. 
-The prime time ratio of the higher tier is more than the lower tier when calculated per
-subscriber, but by volume it is the inverse.
-The overall demand of subscribers in \treatment{} has increased substantially
-on a per-subscriber basis, although the total volume does not show the same increase.
-This result indicates that individual subscribers that do not contribute substantially
-to the traffic volume are the ones who have higher usage in prime-time as compared to their
-lower tier counterparts.
-\fi
+%\if 0
+%For our dataset, the prime-time ratio for the treatment and control groups
+%were 1.70 and 1.93 respectively. By definition, the prime-time ratio is measured using
+%total traffic volume in a day. However, not all subscribers contribute equally
+%to the traffic volume. We observed that the median \emph{prime-time ratio per subscriber}
+%is 3.39 for the \treatment{} group and 2.91 for the \control{} group. 
+%The prime time ratio of the higher tier is more than the lower tier when calculated per
+%subscriber, but by volume it is the inverse.
+%The overall demand of subscribers in \treatment{} has increased substantially
+%on a per-subscriber basis, although the total volume does not show the same increase.
+%This result indicates that individual subscribers that do not contribute substantially
+%to the traffic volume are the ones who have higher usage in prime-time as compared to their
+%lower tier counterparts.
+%\fi
 

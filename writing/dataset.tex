@@ -53,47 +53,48 @@ octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 
 \subsection{Data}
 
-Our dataset consists of network usage byte counters reported every 15
-minutes from October 1, 2014 to December 29, 2014 from about 22k
+Our raw dataset consists of network usage byte counters reported every 15
+minutes from October 1, 2014 to December 29, 2014 from about 20k
 Comcast residential broadband gateways in Salt Lake City, Utah. Each
 dataset contains the following fields: Device ID, the 15-minute time interval,
 service class, service direction, anonymized IP address, and the bytes
 transferred in each 15-minute interval, as described in
 Table~\ref{tab:field-description}.
 
-We divided the users into two groups: a \control{} set, consisting of
-18,322 households with a 105 Mbps access link; and a \treatment{} set,
+\green{The raw dataset consisted of two groups: a \control{} set, consisting of
+18,354 households with a 105 Mbps access link; and a \treatment{} set,
 consisting of 2,219 households that were paying for a 105 Mbps access
 link, yet were receiving 250 Mbps instead.  Subscribers in the
 treatment group were selected randomly and were not told that their
-access bandwidth had been increased.  Our initial analysis of the data
-from more than 22,000 households showed that not all gateways were
+access bandwidth had been increased for the three months of our analysis.}
+\green{Our initial analysis of the data
+from more than 20,573 households} showed that not all gateways were
 reporting their traffic counters every 15 minutes over the whole three-month
-period: 32\% of the \treatment{} dataset, and 72\% of the \control{} dataset
-gateway devices were responsive for less than 80\% of the time. For the
-analysis in \autoref{sec:analysis}, we present our results based on the
+period: \green{32\% of the \treatment{} dataset, and 72\% of the \control{} dataset
+gateway devices were responsive for less than 80\% of the time throughout the measurement period}.
+For the analysis in \autoref{sec:analysis}, we present our results based on the
 accepted group of subscribers that contributed to the three-month dataset
-more that 80\% during their lifetime. Our final sanitized dataset consisted of
+more that 80\% during their lifetime. \textbf{Our final sanitized dataset consists of
 4,845 subscribers in the \control{} dataset and 1,519 subscribers in the
-\treatment{} dataset.
+\treatment{} dataset.\sgfoot{bold line as reviewers are confused about final numbers}}
 
 \begin{table*}[t]
 \centering
 \begin{tabular}{| c | cccc | c |}
 \hline
-\multicolumn{1}{| c |}{} & \multicolumn{4}{ c |}{Hourly traffic per 1,000 subscribers} & \multicolumn{1}{ c |}{per subscriber}\\ 
-Dataset 		& Total GBytes & 95\% Traffic & \textbf{PT} & \textbf{Non-PT}		& Daily Demand \\ \hline
-control DW		& \num{2.67e+5} & 234.5  & \textbf{205.1}  & \textbf{108.5}		& 2.97 \\
-treatment DW	& \num{2.95e+5} & 244.42  & \textbf{209.5}  & \textbf{122.3}   	& 3.30 \\\specialrule{0.005em}{0em}{0em} 
-control UP 	& \num{2.98e+4} & 21.39  & \textbf{18.942}  & \textbf{12.80}  	& 0.33 \\
-treatment UP 	& \num{4.27e+4} & 31.48   & \textbf{22.81}   & \textbf{19.02} 	& 0.48 \\\hline                                
+\multicolumn{1}{| c |}{} & \multicolumn{4}{ c |}{Hourly traffic per 1,000 subscribers (GB)} & \multicolumn{1}{ c |}{per subscriber}\\ 
+Dataset 		& Total GBytes & 95\% Traffic & PT & Non-PT		& Daily Demand (GB) \\ \hline
+control DW		& \num{2.67e+5} & 234.5  & 205.1  & 108.5		& 2.97 \\
+treatment DW	& \num{2.95e+5} & 244.42  & 209.5  & 122.3   	& 3.30 \\\specialrule{0.005em}{0em}{0em} 
+control UP 	& \num{2.98e+4} & 21.39  & 18.942  & 12.80  	& 0.33 \\
+treatment UP 	& \num{4.27e+4} & 31.48   & 22.81   & 19.02 	& 0.48 \\\hline                                
 \end{tabular}
-\caption{Overview of the \control{} (4,895 subscribers) and \treatment{} 
+\caption{Overview of the \control{} \green{(4,845 subscribers)} and \treatment{} 
 (1,519 subscribers) datasets for upstream (UP) 
 and downstream (DW) traffic. The 95  percentile traffic is the peak of
-total demand. PT traffic is the average 
-traffic demand during prime-time hours. Non-PT traffic is calculated 
-during non-prime-time. The daily demand is the average traffic demand per 
+total demand.\green{ PT traffic is the average 
+traffic demand per hour during prime-time hours. Non-PT traffic is calculated 
+during non-prime-time. We normalize traffic to 1000 subscribers for comparison.} The daily demand is the average traffic demand per 
 subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
 \end{table*}
 
