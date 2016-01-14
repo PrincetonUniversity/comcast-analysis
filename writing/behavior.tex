@@ -33,8 +33,8 @@
 \label{tab:traffic-demand-description}
 \end{table}
 
-\red{We first explore how an upgrade to a higher service tier affected the
-average traffic demand per subscriber}, for different times of the day
+We first explore how an upgrade to a higher service tier affected the
+average traffic demand per subscriber, for different times of the day
 and days of the week.  Figure~\ref{fig:traffic-demand-timeseries} shows
 the average downlink traffic demand across subscribers for a week, for
 both the treatment and control groups. We observe that subscriber
@@ -88,12 +88,13 @@ even on averaging the 95th percentile demand (average utilization was
 We suspected that the subscribers who downloaded most bytes in the
 higher service tier would be the ones causing the largest difference in
 mean demand, as previous studies have observed such a phenomenon. In
-  fact, we observed that the more moderate (median) subscribers actually seemed
-  to exhibit larger differences in traffic demand: The median peak demand
-  was 66.7 MB for the lower service tier, and 98.4 MB for the higher
-  tier.  \red{This result indicates that the more moderate subscribers who
-  received a service-tier upgrade significantly altered their peak
-  demand.} We also observed a significant difference in the mean peak
+fact, we observed that the more moderate (median) subscribers actually seemed
+to exhibit larger differences in traffic demand: The median peak demand
+was 66.7 MB for the lower service tier, and 98.4 MB for the higher
+tier.  \red{This result indicates that the more moderate subscribers who
+received a service-tier upgrade significantly altered their peak
+demand.}\sgfoot{Not sure if this needs change or not}
+We also observed a significant difference in the mean peak
 demand was present in the 50\% of subscribers in the control group
 with the lowest traffic demand when compared to the same set of
 subscribers of the treatment group. (This disparity appears as a large
@@ -112,7 +113,9 @@ both groups with the least demand, we see that peak demand in the
 treatment group is higher than the peak demand in the control group,
 \red{indicating that in fact even moderate users increase their demand as a
 result of the service-tier increase, even though they are not using the
-full capacity in either case.} When we combine this analysis with that in
+full capacity in either case.}
+\sgfoot{Not sure if this needs change. It makes sense as a take-away message.}
+ When we combine this analysis with that in
 Figure~\ref{fig:CDF-data-rate-perc95}, we find that these subscribers
 who respond with increased usage have a peak demand less than 200~MB.
 \green{Naturally, the small number of users with the highest demand (closer to
@@ -170,22 +173,28 @@ who respond with increased usage have a peak demand less than 200~MB.
 
 
 \red{Further investigation revealed that users with moderate peak traffic
-  demands not only increase their traffic demands in aggregate, but also
-  on a daily basis.}  Figure~\ref{fig:traffic-demand-daily} shows that
+demands not only exhibit a large difference in their traffic demands in aggregate, but also
+on a daily basis.} \origfoot{Further investigation revealed that users with moderate peak traffic
+demands not only increase their traffic demands in aggregate, but also
+on a daily basis.}  Figure~\ref{fig:traffic-demand-daily} shows that
 when subscribers on the lower tier had a daily peak demand under 600~MB,
 70\% of subscribers in the treatment group had 15-minute demands that
 were 5--20~MB higher.  The ratio of the differences in demand across
 percentiles also shows that the \red{40\% of subscribers with lowest peak
+demands in the treatment group demonstrate more than
+double the daily peak traffic demand of the control group.}
+\origfoot{40\% of subscribers with lowest peak
 demands in the control group more than
-double their daily peak traffic demand in response to service-tier upgrades.}
+double their daily peak traffic demand in response to service-tier upgrades}
 
 \red{One possible explanation for why moderate users increase their usage
-  in response to a service-tier upgrade is that the higher service tier
-  not only affords more capacity, but also a better user experience
-  (\eg, faster downloads).  Thus, even though users may not be
-  exhausting the capacity of the higher service tier, they nonetheless
-  seem to respond to the service tier upgrade by using the Internet more
-  than they had before the service-tier upgrade.}
+in response to a service-tier upgrade is that the higher service tier
+not only affords more capacity, but also a better user experience
+(\eg, faster downloads).}\sgfoot{Don't this needs change in current context.}
+\red{Thus, even though users may not be
+exhausting the capacity of the higher service tier, they nonetheless
+seem to respond to the service tier upgrade by using the Internet more
+than they had before the service-tier upgrade.} \sgfoot{How to fix this one?}
 
 %
 %\if 0

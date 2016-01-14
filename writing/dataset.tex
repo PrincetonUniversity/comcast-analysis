@@ -31,7 +31,7 @@ to positive high correlation between demand and capacity.
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{ l l }
+\begin{tabular}{| l | l |}
 \hline
 \textbf{Field}         & \textbf{Description}				\\\hline
 Device\_number         & Arbitrarily assigned household identifier	\\
@@ -74,9 +74,9 @@ period: \green{32\% of the \treatment{} dataset, and 72\% of the \control{} data
 gateway devices were responsive for less than 80\% of the time throughout the measurement period}.
 For the analysis in \autoref{sec:analysis}, we present our results based on the
 accepted group of subscribers that contributed to the three-month dataset
-more that 80\% during their lifetime. \textbf{Our final sanitized dataset consists of
+more that 80\% during their lifetime. \red{\textbf{Our final sanitized dataset consists of
 4,845 subscribers in the \control{} dataset and 1,519 subscribers in the
-\treatment{} dataset.\sgfoot{bold line as reviewers are confused about final numbers}}
+\treatment{} dataset.}\sgfoot{bold line as reviewers are confused about final numbers}}
 
 \begin{table*}[t]
 \centering
@@ -98,7 +98,8 @@ during non-prime-time. We normalize traffic to 1000 subscribers for comparison.}
 subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
 \end{table*}
 
-Figure \ref{fig:traffic-load} shows the downlink traffic demand per
+Figure \ref{fig:traffic-load} \sgfoot{Any suggestions for improving fig1?}
+shows the downlink traffic demand per
 subscriber (bytes per 15-minute sample period) for the month of October 
 for both groups. The observed demand is diurnal, and reaches a peak daily
 in the evening hours. Table \ref{tab:data-stats} compares the total demand
