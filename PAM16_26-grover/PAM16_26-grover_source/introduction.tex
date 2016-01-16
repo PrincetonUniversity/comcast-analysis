@@ -1,0 +1,97 @@
+\section{Introduction}\label{sec:introduction}
+
+With the large impact of broadband Internet on our daily lives and its
+rapid increase in bandwidth-intensive services, policymakers and service
+providers (ISPs) are trying to determine how much bandwidth consumers
+need. With the proliferation of high quality video content, and the
+recent boom in Internet-enabled consumer device, it is worth
+studying---and continually re-evaluating---whether (and how) users
+consume the capacity that ISPs offer.  Up to a certain point, users will
+exhaust available capacity, and they will also adapt when more capacity
+becomes available; this increased demand in turn drives provisioning.
+Above certain speeds, however, the typical user no longer exhausts the
+available capacity. At what speed does this inflection point occur?  How
+do users adapt their demands when an ISP offers faster speed tiers?
+Answers to these questions will ultimately help inform policymakers and
+ISPs determine how to make investments in infrastructure, and when to
+make them.
+
+In the United States, the Federal Communications Commission (FCC) is
+interested in the relationship between demand and capacity for several
+reasons.  First, the FCC recognizes the need to define broadband
+benchmarks based on traffic demand and is considering doing
+so~\cite{fcc2015broadband-report}. It has defined a ``typical''
+household traffic demand to enable concurrent broadband use, such as
+video streaming, web browsing, and VoIP. The FCC has also asked
+for comments and suggestions on how to define such a demand-based
+benchmark for future planning~\cite{fcc2015progress-report,
+  fcc2014progress-report}.  Second, recent research shows that diurnal
+Internet usage patterns are correlated with GDP, Internet allocations,
+and the electrical consumption of a
+region~\cite{ant-diurnal-web}, which makes the study of usage potentially
+relevant to the regulatory bodies responsible for development.  Finally,
+the FCC is responsible for increasing broadband deployment throughout
+the US, and it recently decided to aggressively increase the broadband
+threshold benchmark to 25 Mbps downstream and 3 Mbps upstream.  Yet, a
+survey conducted by NCTA (for the FCC) showed that the largest deterrent
+to deployment of faster speed tiers is that consumers do not \emph{want}
+the faster speeds (the second largest deterrent is the
+price)~\cite{fcc2015progress-report}. Clearly, this question deserves
+both rigorous and continuous study.
+
+% + more work @ home
+% + fcc wants to add usage as a bb parameter
+
+Previous work discovered that users who are already maximizing their
+usage on a given access link will continue to do so when they are
+migrated to a higher service tier~\cite{dasu-imc2014}. In this paper, we
+study how the traffic demands of subscribers who are {\em already} on service
+plans with high downstream throughput respond to an undisclosed service
+plan upgrade as part of a randomized control trial (RCT). This
+experiment offers the unique opportunity to explore the effects of a
+service-tier upgrade on user traffic demand, while mitigating the
+cognitive bias of the service-tier upgrade by withholding that
+information from subscribers. To the best of our knowledge, this is the
+first such comparative study of usage behavior in a controlled
+experiment to study responses to service upgrades.
+
+Our study is based on data from the residential home gateways
+of Comcast subscribers in Salt Lake City, Utah. To measure traffic
+demand, Comcast collects aggregate byte counts every 15 minutes from two
+types of users: {\em control}, or users who pay and use a high capacity
+access link (105 Mbps); and {\em treatment}, or users who pay for 105
+Mbps but were actually offered a 250~Mbps access link {\em without their
+  knowledge}.  We evaluate three months of traffic demand for more than
+6,000 Comcast subscribers, 1,519 of whom were in the treatment group.
+We find that subscribers who are already using most of their available
+capacity at the 105~Mbps and the 250~Mbps service tiers do not show a significant
+difference in traffic demand.  On the other hand, subscribers who
+exhibit moderate traffic demands in the both groups often exhibit a large
+relative difference in their traffic demands.
+This result suggests that
+ even users who are not fully exhausting the available capacity at
+one service tier may increase usage at higher service tiers, perhaps because the
+improved performance at the higher tier may cause these subscribers to
+use the Internet more than they otherwise would. We also observed that
+the most significant difference in per-subscriber traffic demand
+ occurred during non-prime-time hours on weekdays,
+suggesting that this demographic of consumer may disproportionately
+include users who work from home.  Such a phenomenon is also consistent
+with our observation that traffic demands at these higher service
+tiers consistently rises throughout the course of the day, with no
+mid-afternoon drop in traffic volume, as is evident in other studies.
+
+% + prime time hours were 8-12 instead of 7-11 for high tier dataset
+% + asymmetry?
+
+The rest of the paper is organized as follows. In Section~\ref{sec:related} we 
+overview some previous studies of traffic demand and service capacity. In
+Section~\ref{sec:data}, we offer details about our data, sanitization, and 
+characterization. We then proceed by describing our evaluation criteria and 
+analyze traffic demand in response to a service tier upgrade in 
+Section~\ref{sec:analysis}.
+We summarize our findings in 
+Section~\ref{sec:conclusion}.
+%\sgfoot{We do this by studying spacio-temporal usage patterns in terms of peak 
+%utilization, prime-time ratio, asymmetry, and prevalence.}
+% + user taxonomy in discussion?

@@ -1,0 +1,49 @@
+\section{Results}\label{sec:analysis}
+
+\begin{table}[t]
+\centering
+\begin{small}
+\begin{tabular}{| c | p{2.44in} |}\hline
+\textbf{Parameter} & \textbf{Definition}	\\\hline
+Traffic Demand per Subscriber (\S~\ref{subsec:behavior})	& \(\dfrac{\text{total bytes transferred in 
+measurement int.}}{\text{number of contributing subscribers}}\)	\\
+Peak Demand (\S~\ref{subsec:behavior})			& Daily 95th percentile of bytes transferred in any 
+15-minute interval \\ 
+Prime-Time Ratio (\S~\ref{subsec:primetime}) 	& \( \dfrac{ \text{avg usage in peak (prime-time) 
+hour}}{ \text{avg usage in off-peak hour}}\) 		\\
+Peak-to-Average Ratio (\S~\ref{subsec:peakratio}) 	& \(\dfrac{\text{95\%-ile of daily traffic 
+demand}}{\text{mean of daily traffic demand}}\)	\\\hline
+\end{tabular}
+\end{small}
+\caption{Evaluation Metrics}
+\label{tab:eval-criteria}
+\end{table}
+
+Table~\ref{tab:eval-criteria} shows the metrics that we use to evaluate
+how user demand responds to service-tier upgrades. The \emph{traffic
+  demand} for a subscriber is defined as the total bytes transferred, in
+upstream or downstream, during a single sample measurement (15 minutes).
+We use traffic demand to calculate the total demand per hour, and the
+average and 95th percentile peak demand over a day. To compare the total
+traffic of the control and treatment groups, we scale to a thousand
+subscribers wherever applicable. We
+define \emph{prime time} as 8:00 p.m. to 12:00 a.m., when Internet usage
+tends to be highest.  Indeed, we
+observed that the total daily traffic consistently falls within 90th percentile
+during this four-hour period. We define the \emph{prime-time ratio} as
+the ratio of traffic during an average prime-time hour, to the average
+hourly traffic outside the prime-time hour.  This ratio conveys the
+disparity between demand during the prime-time and the rest of the day.
+The rest of this section explores the effects of a service-tier upgrade
+on user traffic demand in the context of these metrics.
+
+\input{behavior}
+
+\input{primetime}
+
+\input{peakratio}
+
+
+% PUT RESULTS TABLE HERE
+
+%\input{prevalence}
