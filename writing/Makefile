@@ -1,4 +1,4 @@
-TARGET=paper
+TARGET=PAM16_26-grover
 SRCS = abstract.tex introduction.tex related.tex dataset.tex analysis.tex behavior.tex primetime.tex peakratio.tex conclusion.tex
 all: pdf
 
