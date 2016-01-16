@@ -225,6 +225,7 @@
 
 
 % Custom section references using \autoref - Sarthak
+% these don't seem to correctly capitalize the section names - Nick
 \renewcommand{\sectionautorefname}{Section}
 \renewcommand{\subsectionautorefname}{Section}
 \renewcommand{\subsubsectionautorefname}{Section}

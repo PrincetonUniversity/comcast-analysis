@@ -53,14 +53,14 @@ octets\_passed         & Byte count in 15 minutes sample period		\\\hline
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\linewidth]{figures/boxplot_monthly_avg_demand_downlink.pdf}
-  \caption{\red{Traffic demand of an average subscriber in the \control{} and 
-\treatment{} groups from Oct -- Dec, 2014.}\label{fig:traffic-load}}
+\includegraphics[width=0.55\linewidth]{figures/boxplot_monthly_avg_demand_downlink.pdf}
+  \caption{\red{Distribution of average demand for across subscribers in the \control{} and 
+\treatment{} groups from October through December 2014.}\label{fig:traffic-load}}
 \end{figure}
 \subsection{Data}
 
 Our raw dataset consists of network usage byte counters reported every 15
-minutes from October 1, 2014 to December 29, 2014 from about 20k
+minutes from October 1, 2014 to December 29, 2014 from about 20,000
 Comcast residential broadband gateways in Salt Lake City, Utah. Each
 dataset contains the following fields: Device ID, the 15-minute time interval,
 service class, service direction, anonymized IP address, and the bytes
@@ -76,13 +76,13 @@ access bandwidth had been increased for the three months of our analysis.}
 \green{Our initial analysis of the data
 from more than 20,573 households} showed that not all gateways were
 reporting their traffic counters every 15 minutes over the whole three-month
-period: \green{32\% of the \treatment{} dataset, and 72\% of the \control{} dataset
-gateway devices were responsive for less than 80\% of the time throughout the measurement period}.
-For the analysis in \autoref{sec:analysis}, we present our results based on the
+period: \green{32\% of the \treatment{} dataset and 72\% of the \control{} dataset
+gateway devices were responsive less than 80\% of the time throughout the measurement period}.
+For the analysis in Section~\ref{sec:analysis}, we present results based on the
 accepted group of subscribers that contributed to the three-month dataset
-more that 80\% during their lifetime. \red{\textbf{Our final sanitized dataset consists of
+more than 80\% during their lifetime. \red{\textrm{Our ultimate dataset consists of
 4,845 subscribers in the \control{} dataset and 1,519 subscribers in the
-\treatment{} dataset.}\sgfoot{bold line as reviewers are confused about final numbers}}
+\treatment{} dataset.}}
 
 \begin{table*}[t]
 \centering
@@ -104,11 +104,11 @@ during non-prime-time. We normalize traffic to 1000 subscribers for comparison.}
 subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
 \end{table*}
 
-Figure \ref{fig:traffic-load} \sgfoot{improve captions?}
-shows the downlink traffic demand per
+Figure \ref{fig:traffic-load} 
+shows the downstream traffic demand per
 subscriber (bytes per 15-minute sample period) for the month of October 
-for both groups. The observed demand is diurnal, and reaches a peak daily
-in the evening hours. Table \ref{tab:data-stats} compares the total demand
+for both groups. The observed demand is diurnal and reaches a peak every day
+in the evening. Table~\ref{tab:data-stats} compares the total demand
 for subscribers in the \control{} and \treatment{} datasets, scaled to a
 thousand households. The downlink 95th percentile traffic demand 
 over an hour is 234.5~GB for the lower tier control group, and 244.42~GB

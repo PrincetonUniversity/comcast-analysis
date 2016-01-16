@@ -39,7 +39,7 @@ and days of the week.  Figure~\ref{fig:traffic-demand-timeseries} shows
 the average downlink traffic demand across subscribers for a week, for
 both the treatment and control groups. We observe that subscriber
 behavior differs significantly on weekdays and weekends.  The average
-per subscriber demand over a weekday is 35.6 MB, and the 95th percentile
+per-subscriber demand over a weekday is 35.6 MB, and the 95th percentile
 peak demand is 61.12 MB for subscribers in the treatment group
 (Table~\ref{tab:traffic-demand-description}).  Over a weekend, the
 average demand is 40.1 MB, and the 95th percentile demand is 64.3 MB for
@@ -60,17 +60,20 @@ subscriber demand.
 \centering
 \begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/cdf_peak_demand-overall.pdf}
-               \caption{\label{fig:CDF-data-rate-perc95}}
+               \caption{Peak (95\%) traffic demand per subscriber.\label{fig:CDF-data-rate-perc95}}
 \end{subfigure}
 \begin{subfigure}[b]{.49\linewidth}
 % \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall.pdf}	% 5 percentile
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-overall_01.pdf}		% 1 percentile
-               \caption{\label{fig:diff-peak-overall}}
+               \caption{Change in overall peak (95\%) demand per subscriber.\label{fig:diff-peak-overall}}
 \end{subfigure}
 %
 \end{minipage}
 \caption{95th percentile traffic demand (bytes per 15 minutes) per
-  subscriber for the control and treatment groups over the three-month measurement period: (\protect\subref{fig:CDF-data-rate-perc95}) Peak (95\%) traffic demand per subscriber; (\protect\subref{fig:diff-peak-overall}) Change in overall peak (95\%) demand per subscriber. Subscribers were considered at every 5\% in each group. y-axis units are bytes transferred in the peak 15-minute interval, in MB. \label{fig:traffic-demand-overall}}
+  subscriber for the control and treatment groups over the three-month
+  measurement period. Subscribers were considered at every 5\% in each
+  group. The y-axis units are bytes transferred in the peak 15-minute
+  interval, in MB. \label{fig:traffic-demand-overall}} 
 \end{figure}
 
 % Figure \ref{CDF-data-rate} shows the data rate for each measurement period and every subscriber.
@@ -92,8 +95,9 @@ fact, we observed that the more moderate (median) subscribers actually seemed
 to exhibit larger differences in traffic demand: The median peak demand
 was 66.7 MB for the lower service tier, and 98.4 MB for the higher
 tier.  \red{This result indicates that the more moderate subscribers who
-received a service-tier upgrade significantly altered their peak
-demand.}\sgfoot{Not sure if this needs change or not}
+received a service-tier upgrade exhibit signifigicantly higher peak
+demand than comparable users in the control group.}
+
 We also observed a significant difference in the mean peak
 demand was present in the 50\% of subscribers in the control group
 with the lowest traffic demand when compared to the same set of
@@ -111,11 +115,10 @@ user (50\% on the x-axis) increased their peak demand by about 25\% in
 response to the service tier upgrade.  Comparing the 70\% subscribers of
 both groups with the least demand, we see that peak demand in the
 treatment group is higher than the peak demand in the control group,
-\red{indicating that in fact even moderate users increase their demand as a
+\red{indicating that in fact even moderate users may increase their demand as a
 result of the service-tier increase, even though they are not using the
 full capacity in either case.}
-\sgfoot{Not sure if this needs change. It makes sense as a take-away message.}
- When we combine this analysis with that in
+When we combine this analysis with that in
 Figure~\ref{fig:CDF-data-rate-perc95}, we find that these subscribers
 who respond with increased usage have a peak demand less than 200~MB.
 \green{Naturally, the small number of users with the highest demand (closer to
@@ -158,43 +161,38 @@ who respond with increased usage have a peak demand less than 200~MB.
 \centering
 \begin{subfigure}[b]{.49\linewidth}
  \includegraphics[width=\linewidth]{figures/cdf_peak_demand-daily.pdf}
-                \caption{\label{fig:CDF-data-rate-daily-perc95}}
+                \caption{Daily peak (95\%) traffic demand per subscriber.\label{fig:CDF-data-rate-daily-perc95}}
  \end{subfigure}
 \begin{subfigure}[b]{.49\linewidth}
 \includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall_01.pdf}		%1 percentile
 %\includegraphics[width=\linewidth]{figures/diff_perc95_bytes_subsc-daily-overall.pdf}		%5 percentile
-                \caption{\label{fig:diff-peak-daily}} 
+                \caption{Change in daily peak (95\%) demand per subscriber.\label{fig:diff-peak-daily}} 
 \end{subfigure}
 %
 \end{minipage}
   \caption{\green{95th percentile traffic demand (bytes per 15 minutes) per day
-  per subscriber for the control and treatment groups: (\protect\subref{fig:CDF-data-rate-daily-perc95}) Daily peak (95\%) traffic demand per subscriber; (\protect\subref{fig:diff-peak-daily}) Change in daily peak (95\%) demand per subscriber. Subscribers were considered at every 5\% in each group. y-axis units are bytes transferred in the peak 15-minute interval, in MB.\label{fig:traffic-demand-daily}}}
+  per subscriber for the control and treatment groups. Subscribers were considered at every 5\% in each group. y-axis units are bytes transferred in the peak 15-minute interval, in MB.\label{fig:traffic-demand-daily}}}
 \end{figure}
 
 
 \red{Further investigation revealed that users with moderate peak traffic
 demands not only exhibit a large difference in their traffic demands in aggregate, but also
-on a daily basis.} \origfoot{Further investigation revealed that users with moderate peak traffic
-demands not only increase their traffic demands in aggregate, but also
 on a daily basis.}  Figure~\ref{fig:traffic-demand-daily} shows that
 when subscribers on the lower tier had a daily peak demand under 600~MB,
 70\% of subscribers in the treatment group had 15-minute demands that
 were 5--20~MB higher.  The ratio of the differences in demand across
 percentiles also shows that the \red{40\% of subscribers with lowest peak
 demands in the treatment group demonstrate more than
-double the daily peak traffic demand of the control group.}
-\origfoot{40\% of subscribers with lowest peak
-demands in the control group more than
-double their daily peak traffic demand in response to service-tier upgrades}
+double the daily peak traffic demand of comparable users in the control group.}
 
-\red{One possible explanation for why moderate users increase their usage
+\red{One possible explanation for why moderate users might increase their usage
 in response to a service-tier upgrade is that the higher service tier
 not only affords more capacity, but also a better user experience
-(\eg, faster downloads).}\sgfoot{Don't this needs change in current context.}
+(\eg, faster downloads).}
 \red{Thus, even though users may not be
 exhausting the capacity of the higher service tier, they nonetheless
 seem to respond to the service tier upgrade by using the Internet more
-than they had before the service-tier upgrade.} \sgfoot{How to fix this one?}
+than they had before the service-tier upgrade.} 
 
 %
 %\if 0

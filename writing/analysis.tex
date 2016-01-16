@@ -19,7 +19,6 @@ demand}}{\text{mean of daily traffic demand}}\)	\\\hline
 \label{tab:eval-criteria}
 \end{table}
 
-\paragraph{Metrics}
 Table~\ref{tab:eval-criteria} shows the metrics that we use to evaluate
 how user demand responds to service-tier upgrades. The \emph{traffic
   demand} for a subscriber is defined as the total bytes transferred, in
@@ -27,7 +26,7 @@ upstream or downstream, during a single sample measurement (15 minutes).
 We use traffic demand to calculate the total demand per hour, and the
 average and 95th percentile peak demand over a day. To compare the total
 traffic of the control and treatment groups, we scale to a thousand
-subscribers wherever applicable (Table~\ref{tab:data-stats}).  We
+subscribers wherever applicable. We
 define \emph{prime time} as 8:00 p.m. to 12:00 a.m., when Internet usage
 tends to be highest.  Indeed, we
 observed that the total daily traffic consistently falls within 90th percentile
