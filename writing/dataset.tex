@@ -89,19 +89,19 @@ more than 80\% during their lifetime. \red{\textrm{Our ultimate dataset consists
 \begin{tabular}{| c | cccc | c |}
 \hline
 \multicolumn{1}{| c |}{} & \multicolumn{4}{ c |}{Hourly traffic per 1,000 subscribers (GB)} & \multicolumn{1}{ c |}{per subscriber}\\ 
-Dataset 		& Total GBytes & 95\% Traffic & PT & Non-PT		& Daily Demand (GB) \\ \hline
-control DW		& \num{2.67e+5} & 234.5  & 205.1  & 108.5		& 2.97 \\
-treatment DW	& \num{2.95e+5} & 244.42  & 209.5  & 122.3   	& 3.30 \\\specialrule{0.005em}{0em}{0em} 
-control UP 	& \num{2.98e+4} & 21.39  & 18.942  & 12.80  	& 0.33 \\
-treatment UP 	& \num{4.27e+4} & 31.48   & 22.81   & 19.02 	& 0.48 \\\hline                                
+Dataset 		& Total & 95\% Traffic & PT & Non-PT		& Daily Demand (GB) \\ \hline
+control down		& \num{2.67e+5} & 234.5  & 205.1  & 108.5		& 2.97 \\
+treatment down	& \num{2.95e+5} & 244.42  & 209.5  & 122.3   	& 3.30 \\\specialrule{0.005em}{0em}{0em} 
+control up 	& \num{2.98e+4} & 21.39  & 18.942  & 12.80  	& 0.33 \\
+treatment up 	& \num{4.27e+4} & 31.48   & 22.81   & 19.02 	& 0.48 \\\hline                                
 \end{tabular}
 \caption{Overview of the \control{} \green{(4,845 subscribers)} and \treatment{} 
-(1,519 subscribers) datasets for upstream (UP) 
-and downstream (DW) traffic. The 95  percentile traffic is the peak of
-total demand.\green{ PT traffic is the average 
+(1,519 subscribers) datasets for upstream 
+and downstream  traffic. The 95  percentile traffic is the peak of
+total demand. \green{ PT traffic is the average 
 traffic demand per hour during prime-time hours. Non-PT traffic is calculated 
-during non-prime-time. We normalize traffic to 1000 subscribers for comparison.} The daily demand is the average traffic demand per 
-subscriber over a single day. All values are in Giga Bytes (GB).\label{tab:data-stats}}
+during non-prime-time. We normalize traffic to 1,000 subscribers for comparison.} The daily demand is the average traffic demand per 
+subscriber over a single day. All values are in gigabytes (GB).\label{tab:data-stats}}
 \end{table*}
 
 Figure \ref{fig:traffic-load} 
